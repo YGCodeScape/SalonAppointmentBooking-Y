@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poetsen+One&display=swap" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
+
+<title>APEX Salons</title>
+      <!-- Global CSS -->
+    <link rel="stylesheet" href="../FRONTED/CSS/Base/main.css"/>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">
+    <span class="logo-text" id="logo-text">APEX salons</span>
+  </div>
+
+  <nav class="nav-links">
+    <div class="nav-link active"><a href="./index.html" class="nav-a active-nav"><i class=" nav-i ri-home-4-line"></i>Home</a></div>
+    <div class="nav-link"><a href="./html/services.html" class="nav-a"><i class=" nav-i ri-scissors-fill"></i>Services</a></div>
+    <div class="nav-link"><a href="./html/packages.html" class="nav-a"><i class=" nav-i ri-gift-2-line"></i>Packages</a></div>
+    <div class="nav-link"><a href="./html/myAppointment.html" class="nav-a"><i class=" nav-i ri-calendar-line"></i>Appointments</a></div>
+    <div class="nav-link"><a href="./html/contactUs.html" class="nav-a"><i class=" nav-i ri-contacts-book-2-line"></i>Contact Us</a></div>
+  </nav>
+
+  <div class="nav-right">
+    <div class="search-box">
+      <i class="ri-search-2-line"></i>
+      <input type="text" placeholder="search services or packages">
+    </div>
+    <button class="nav-btns nav-btn-log" id="nav-log-btn"> <a class="nav-btn-a" href="./html/login.html">Login In</a></button>
+    <button class="nav-btns nav-btn-sign" id="nav-signup-btn"> <a class="nav-btn-a" href="./html/signup.html">Sign Up</a></button>
+    <div class="nav-profile-div" id="nav-profile-div">
+       <i class="ri-user-line profile-i"></i>
+      <div class="hover-profile-box">
+        <button class="land-edit-pro-btn"><a href="./html/profileInfo.html">Edit profile <i class="ri-edit-circle-fill"></i></a></button>
+       <button class="land-logout-btn" onclick="logout()"> log Out <i class="ri-logout-circle-r-line"></i></button>
+    </div>
+    </div>
+  </div>
+  
+</header>
+
+<!-- Hero Section -->
+<section class="land-hero-sec" id="landing-sec">
+  <div class="land-hero-left">
+    <div class="land-hero-left-content">
+       <h1>Book Your Salon<br/>Appointments with Ease</h1>
+       <p class="sub">Track Your Appointments on one click</p>
+
+       <button class="land-CTA-btn"><a href="#">Book Appointment Now</a></button>
+    </div>
+  </div>
+
+  <div class="land-hero-right">
+    <div class="land-hero-overlay">
+      <h2>Your beauty,<br>our passing</h2>
+      <p>
+        Conveniently schedule and manage your salon visits anytime.
+        Keep tabs on your past and upcoming visits with ease.
+      </p>
+    </div>
+  </div>
+
+</section>
+
+<!-- Mobile quick menu -->
+<section class="mobile-menu">
+  <div class="menu-item active active-nav">
+    <a href="./index.html "><i class=" mobile-menu-i ri-home-4-line"></i></a>
+  </div>
+  <div class="menu-item">
+    <a href="./html/services.html"><i class=" mobile-menu-i ri-scissors-fill"></i></a>
+  </div>
+  <div class="menu-item">
+    <a href="./html/packages.html"><i class=" mobile-menu-i ri-gift-2-line"></i></a>
+  </div>
+  <div class="menu-item">
+    <a href="./html/myAppointment.html"><i class=" mobile-menu-i ri-calendar-line"></i></a>
+  </div>
+  <div class="menu-item">
+    <a href="./html/contactUs.html"><i class=" mobile-menu-i ri-contacts-book-2-line"></i></a>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="hero-display-section">
+  <h2>Our Services</h2>
+  <p class="hero-display-section-sub">Popular Treatments</p>
+
+  <div class="hero-display-card-row" id="servicesContainer">
+    <div class="hero-display-service-card">
+      <span class="price">₹220</span>
+      <img class="service-img" loading="lazy" src="./Assets/images/Hair cut service 1.jpg">
+      <div class="display-card-content">
+        <h4>Hair Cut</h4>
+        <small><i class="ri-time-line"></i> 30 min</small>
+      </div>
+      <button class="round-add-btn"><i class="ri-add-fill"></i></button>
+    </div>
+
+    <div class="hero-display-service-card">
+      <span class="price">₹250</span>
+      <img class="service-img" loading="lazy"  src="./Assets/images/hairSpa servicce 2.jpeg">
+      <div class="display-card-content">
+         <h4>Hair Spa</h4>
+         <small><i class="ri-time-line"></i> 40 min</small>
+      </div>
+      <button class="round-add-btn"><i class="ri-add-fill"></i></button>
+    </div>
+
+    <div class="hero-display-service-card">
+      <span class="price">₹500</span>
+      <img class="service-img" loading="lazy"  src="./Assets/images/facial service 3.jpeg">
+      <div class="display-card-content">
+        <h4>Face Facial</h4>
+        <small><i class="ri-time-line"></i> 60 min</small>
+      </div>
+      <button class="round-add-btn"><i class="ri-add-fill"></i></button>
+    </div>
+  </div>
+
+  <div class="seeall-btn-div">
+    <button class="seeall-btn"><a href="./html/services.html">See all services <i class="ri-arrow-right-long-line"></i></a></button>
+  </div>
+</section>
+
+<!-- Packages -->
+<section class="hero-display-section">
+  <h2>Our Packages</h2>
+  <p class="hero-display-section-sub">Popular Treatments</p>
+
+  <div class="hero-display-card-row" id="packagesContainer">
+    <div class="hero-display-package-card">
+      <span class="price">₹6999</span>
+      <span class="active-badge">Active</span>
+      <img loading="lazy" src="./Assets/images/wedding package.avif">
+       <div class="display-card-content">
+         <h4>Wedding Package</h4>
+         <small><i class="ri-time-line"></i> valid till 5 feb</small>
+        </div>
+    </div>
+
+    <div class="hero-display-package-card">
+      <span class="price">₹3999</span>
+      <span class="active-badge">Active</span>
+      <img  loading="lazy" src="./Assets/images/weekend makeover package.jpeg">
+       <div class="display-card-content">
+         <h4>Weekend makeover</h4>
+         <small><i class="ri-time-line"></i> valid till 5 feb</small>
+        </div>
+    </div>
+
+    <div class="hero-display-package-card">
+      <span class="price">₹2000</span>
+      <span class="active-badge">Active</span>
+      <img loading="lazy"  src="./Assets/images/refresh&relaxing package.jpeg">
+       <div class="display-card-content">
+         <h4>Relax & Refresh Package</h4>
+         <small><i class="ri-time-line"></i> valid till 5 feb</small>
+        </div>
+    </div>
+  </div>
+
+    <div class="seeall-btn-div">
+      <button class="seeall-btn"><a href="./html/packages.html">See all Packages <i class="ri-arrow-right-long-line"></i></a></button>
+    </div>
+</section>
+
+<!-- Inside our salon -->
+<section class="hero-display-section">
+  <h2>inside our salon</h2>
+<div class="gallery">
+  <div class="gallery-item">
+    <figure>
+      <img loading="lazy"  src="./Assets/images/salon-img1.jpeg" alt="Landscape">
+    </figure>
+  </div>
+  <div class="gallery-item">
+    <figure>
+      <img loading="lazy"  src="./Assets/images/salon img2.avif" alt="Landscape">
+    </figure>
+  </div>
+  <div class="gallery-item">
+    <figure>
+      <img loading="lazy"  src="./Assets/images/salon img3.jpeg" alt="Landscape">
+    </figure>
+  </div>
+  <div class="gallery-item">
+    <figure>
+      <img loading="lazy"  src="./Assets/images/salon img4.jpeg" alt="Landscape">
+    </figure>
+  </div>
+  <div class="gallery-item">
+    <figure>
+      <img  loading="lazy" src="./Assets/images/salon img5.jpeg" alt="Landscape">
+    </figure>
+  </div>
+  <div class="gallery-item">
+    <figure>
+      <img loading="lazy" src="./Assets/images/salon img6.jpeg" alt="Landscape">
+    </figure>
+  </div>
+</div>
+</section>
+<!-- why choose us -->
+<section class="hero-display-section">
+  <h2>Why choose us?</h2>
+  <div class="why-us">
+     <div class="reason-div">
+       <img loading="lazy"  src="./Assets/images/booking.png" alt="">
+      <h3>Easy Booking</h3>
+     </div>
+     <div class="reason-div">
+        <img loading="lazy" src="./Assets/images/experts.png" alt="">
+      <h3>Expert Stylist</h3>
+     </div>
+     <div class="reason-div">
+       <img loading="lazy"  src="./Assets/images/service.png" alt="">
+      <h3>Quality Service</h3>
+     </div>
+  </div>
+</section>
+
+<footer class="index-footer">
+  <div class="footer-content">
+    <div class="footer-column logo-section">
+      <span class="logo-text" id="logo-text">APEX salons</span>
+      <p>Book premium salon services at home or visit us. Professional care, anytime, anywhere.</p>
+      <div class="social-links">
+        <a href="#"><i class="ri-instagram-line"></i></a>
+        <a href="#"><i class="ri-facebook-line"></i></a>
+        <a href="#"><i class="ri-whatsapp-line"></i></a>
+      </div>
+    </div>
+    <div class="footer-column quick-links">
+      <h5>Quick Links</h5>
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./html/services.html">Services</a></li>
+        <li><a href="./html/packages.html">Packages</a></li>
+        <li><a href="./html/myAppointment.html">My Appointments</a></li>
+      </ul>
+    </div>
+    <div class="footer-column services-links">
+      <h5>Popular Services</h5>
+      <ul>
+        <li><a href="#">Hair Cut</a></li>
+        <li><a href="#">Hair Color</a></li>
+        <li><a href="#">Facial</a></li>
+        <li><a href="#">Manicure</a></li>
+      </ul>
+    </div>
+    <div class="footer-column contact-section">
+      <h5>Contact Us</h5>
+      <p><i class="ri-map-pin-line"></i> Mumbai, Maharashtra</p>
+      <p><i class="ri-phone-line"></i> +91 98765 43210</p>
+      <p><i class="ri-mail-line"></i> book@apexsalons.com</p>
+      <p><i class="ri-time-line"></i> Mon-Sun: 9AM - 9PM</p>
+      <a href="./html/myAppointment.html" class="footer-book-btn">Book Now</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 Apex Salons. All rights reserved | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+  </div>
+</footer>
+
+<script src="./Js/Core/config.js"></script>
+<script src="./Js/index.js"></script>
+</body>
+</html>

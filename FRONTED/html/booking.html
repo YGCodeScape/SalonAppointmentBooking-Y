@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APEX Salons</title>
+
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poetsen+One&display=swap" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
+
+  <!-- Global CSS -->
+   <link rel="stylesheet" href="../CSS/Base/main.css"> 
+</head>
+<body>
+
+  <!-- Page Title -->
+  <div class="page-title">
+    <button class="back-btn"><i class="ri-arrow-left-s-line"></i></button>
+    <h1>Book Appointment</h1>
+  </div>
+
+<div class="bookingPage-sections">
+  <!-- Select Staff -->
+  <div class="select-staff-section">
+    <div class="staff-label">Select staff</div>
+    <div class="staff-card" id="staffList">
+      <!-- staff list -->
+    </div>
+  </div>
+  <!-- select date -->
+  <div class="select-date-section">
+    <div class="date-label">Select Date</div>
+    <div class="month-nav">
+      <span class="month-name" id="monthLabel">Feb 2026</span>
+    </div>
+    <div class="days-row" id="daysRow">
+      <!-- <div class="day-cell"><div class="day-name">Sun</div><div class="day-num">1</div></div>
+      <div class="day-cell"><div class="day-name">Mon</div><div class="day-num">2</div></div>
+      <div class="day-cell active"><div class="day-name">Tue</div><div class="day-num">3</div></div>
+      <div class="day-cell"><div class="day-name">Wed</div><div class="day-num">4</div></div>
+      <div class="day-cell"><div class="day-name">Thu</div><div class="day-num">5</div></div>
+      <div class="day-cell"><div class="day-name">Fri</div><div class="day-num">6</div></div>
+      <div class="day-cell"><div class="day-name">Sat</div><div class="day-num">7</div></div> -->
+    </div>
+  </div>
+  <!-- select time -->
+  <div class="select-time-section">
+    <div class="time-display">
+      <div class="time-label">Select Time</div>
+      <div class="time-badge">10:30 AM</div>
+    </div>
+    <div class="clock-wrap">
+      <canvas id="clockCanvas" width="120" height="120"></canvas>
+      <div class="am-pm-toggle">
+        <button class="am-pm-btn active" id="amBtn">AM</button>
+        <button class="am-pm-btn" id="pmBtn">PM</button>
+      </div>
+    </div>
+  </div>
+  <div class="book-bottom-section">
+      <!-- Summary -->
+      <div class="summary-row">
+        <span id="summaryDate"></span>
+        <span id="summaryTime"></span>
+      </div>
+
+      <!-- Book Button -->
+      <button class="book-btn" id="bookBtn">
+        Book Appointment
+        <div class="arrow"><i class="ri-arrow-right-s-line"></i></div>
+      </button>
+   </div>
+</div> 
+
+<!-- Success Modal -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal-sheet">
+    <h3>Booking Request Submitted!</h3>
+    <p class="modal-title">Your appointment request is currently Pending Staff Approval.</p>
+
+    <div class="services-row">
+      <p class="s-label"><span>2</span>services added</p>
+      <div class="s-value"><span>hair cut,</span> <span>hair spa</span> </div>
+    </div>
+
+    <div class="price-card">
+      <div class="price-row">
+        <span class="pr-label">Subtotal</span>
+        <span class="pr-value">₹370</span>
+      </div>
+      <div class="price-row-tax">
+        <span class="tax-label">Tax</span>
+        <span class="tax-value">₹18.50</span>
+      </div>
+      <hr class="price-divider">
+      <div class="price-row total">
+        <span class="total-label">Total</span>
+        <span class="total-value">₹388</span>
+      </div>
+    </div>
+
+    <p class="payment-note">payment method cash!</p>
+    <div class="services-row">
+      <span class="s-label">Selected Staff</span>
+      <span class="s-value" id="modalStaff">Not selected</span>
+    </div>
+    <div class="confirm-row">
+      <span class="c-date" id="modalDate"></span>
+      <span class="c-time" id="modalTime"></span>
+    </div>
+
+    <a href="#"><button class="back-home-btn" id="backHomeBtn">Back to home <i class="ri-arrow-right-s-line arrow"></i></button></a>
+  </div>
+</div>
+</div>
+
+
+<script src="../Js/Core/config.js"></script>
+<script src="../Js/pages/booking.js"></script>
+</body>
+</html>

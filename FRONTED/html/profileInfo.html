@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poetsen+One&display=swap" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
+
+<title>APEX Salons</title>
+      <!-- Global CSS -->
+    <link rel="stylesheet" href="../CSS/Base/main.css">
+</head>
+<body>
+    <div class="user-profile-info-section">
+      <div class="profile-container">
+          <h2 class="profile-page-title">set Your profile now</h2>
+          <p class="profile-page-subtitle">To enhance Your Experience.</p>
+
+          <div class="profile-top">
+                <div class="profile-page-avatar">
+                  <img src="../Assets/images/user.png" alt="">
+                </div>
+             <!-- these two will come from signup data later -->
+             <div class="profile-name" id="profileNameDisplay">user name</div>
+             <div class="profile-number" id="profileNumberDisplay" >0000000000</div>
+          </div>
+
+          <form class="user-profile-form">
+              <!-- Name (from signup – editable) -->
+               <div class="user-profile-form-group">
+                  <label>User Name</label>
+                  <div class="input-wrapper">
+                     <input type="text" placeholder="user Name" value="user name" id="profileNameInput">
+                     <i class="ri-pencil-fill edit-icon"></i>
+                  </div>
+               </div>
+
+               <div class="user-profile-form-group">
+                  <label>Email</label>
+                  <div class="input-wrapper">
+                     <input type="email" placeholder="user email" value="useremail@gmail.com" id="profileEmailInput" >
+                     <i class="ri-pencil-fill edit-icon"></i>
+                  </div>
+               </div>
+
+               <!-- extra info -->
+                <div class="user-profile-form-group">
+                   <label>Gender</label>
+                   <div class="gender-box-wrapper" id="genderBoxWrapper">
+                         <div class="gender-box" data-value="male">Male</div>
+                         <div class="gender-box" data-value="female">Female</div>
+                   </div>
+                   <small class="gender-note" id="genderNote"></small>
+                </div>
+
+               <div class="user-profile-form-group">
+                  <label>Age</label>
+                  <div class="input-wrapper">
+                     <input type="number" placeholder="user age" min="8" id="profileNumberInput">
+                     <i class="ri-pencil-fill edit-icon"></i>
+                  </div>
+               </div>
+
+               <div class="user-profile-form-group">
+                  <label>Date of Birth</label>
+                  <div class="input-wrapper">
+                     <input type="date" id="profileDOBInput">
+                  </div>
+               </div>
+
+               <div class="user-profile-form-group">
+                  <label>anniversary Date</label>
+                  <div class="input-wrapper">
+                     <input type="date" id="profileAnniInput">
+                  </div>
+               </div>
+               <button type="button" class="save-btn" id="profileSaveBtn">Save Changes</button>
+
+               <!-- used  only when user comes here after signup -->
+               <a href="./login.html" class="skip-profile-info" id="profileSkipBtn">skip now</a>
+
+          </form>
+      </div>
+    </div>
+
+
+  <!-- load configuration first so API_BASE_URL is defined -->
+  <script src="../Js/Core/config.js"></script>
+  <script src="../Js/pages/profileInfo.js"></script>
+</body>
+</html>

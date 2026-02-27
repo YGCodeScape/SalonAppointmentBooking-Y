@@ -1,0 +1,17 @@
+/* ENTRY POINT FOR ALL CSS FILES */
+
+/* THEM */
+@import url('./them.css');
+
+/* INDEX */
+@import url('../index.css');
+@import url('../Base/common.css');
+
+/* PAGES */
+@import url('../Pages/Signup.css');
+@import url('../Pages/Login.css');
+@import url('../Pages/profileInfo.css');
+@import url('../Pages/Services.css');
+@import url('../Pages/packages.css');
+@import url('../Pages/Booking.css');
+/* COMPONENTS */

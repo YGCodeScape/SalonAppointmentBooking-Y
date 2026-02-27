@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poetsen+One&display=swap" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
+
+  <!-- Global CSS -->
+   <link rel="stylesheet" href="../CSS/Base/main.css"> 
+    <title>APEX Salons</title>
+</head>
+<body>
+  <header class="navbar">
+  <div class="logo">
+    <span class="logo-text" id="logo-text">APEX salons</span>
+  </div>
+
+  <nav class="nav-links">
+    <div class="nav-link"><a href="../index.html" class="nav-a"><i class=" nav-i ri-home-4-line"></i>Home</a></div>
+    <div class="nav-link active"><a href="./services.html" class="nav-a"><i class=" nav-i ri-scissors-fill"></i>Services</a></div>
+    <div class="nav-link"><a href="./packages.html" class="nav-a"><i class=" nav-i ri-gift-2-line"></i>Packages</a></div>
+    <div class="nav-link"><a href="./myAppointment.html" class="nav-a"><i class=" nav-i ri-calendar-line"></i>Appointments</a></div>
+    <div class="nav-link"><a href="./contactUs.html" class="nav-a"><i class=" nav-i ri-contacts-book-2-line"></i>Contact Us</a></div>
+  </nav>
+
+  <div class="nav-right">
+    <div class="search-box">
+      <i class="ri-search-2-line"></i>
+      <input type="text" placeholder="search services or packages">
+    </div>
+    <button class="nav-btns nav-btn-log" id="nav-log-btn"> <a class="nav-btn-a" href="./login.html">Login In</a></button>
+    <button class="nav-btns nav-btn-sign" id="nav-signup-btn"> <a class="nav-btn-a" href="./signup.html">Sign Up</a></button>
+    <div class="nav-profile-div" id="nav-profile-div">
+       <i class="ri-user-line profile-i"></i>
+      <div class="hover-profile-box">
+        <button class="land-edit-pro-btn"><a href="./profileInfo.html">Edit profile <i class="ri-edit-circle-fill"></i></a></button>
+       <button class="land-logout-btn" onclick="logout()"> log Out <i class="ri-logout-circle-r-line"></i></button>
+    </div>
+    </div>
+  </div>
+  </header>
+  <!-- Mobile quick menu -->
+<section class="mobile-menu" id="mobile-menu-full-page">
+  <div class="menu-item">
+    <a href="../index.html "><i class=" mobile-menu-i ri-home-4-line"></i></a>
+  </div>
+  <div class="menu-item active active-nav">
+    <a href="./services.html"><i class=" mobile-menu-i ri-scissors-fill"></i></a>
+  </div>
+  <div class="menu-item">
+    <a href="./packages.html"><i class=" mobile-menu-i ri-gift-2-line"></i></a>
+  </div>
+  <div class="menu-item">
+    <a href="./myAppointment.html"><i class=" mobile-menu-i ri-calendar-line"></i></a>
+  </div>
+  <div class="menu-item">
+    <a href="./contactUs.html"><i class=" mobile-menu-i ri-contacts-book-2-line"></i></a>
+  </div>
+</section>
+
+ <div class="servicesPage-container">
+     <div class="servicesPage-left">
+         <section class="services-page-top-inputs">
+             <div class="servicesPage-inputs-one">
+                <div class="service-cart-icon">
+                    <h2>our services</h2>
+                    <i class="ri-shopping-cart-2-line"></i>
+                </div>
+                 <div class="servicesPage-search-box">
+                   <i class="ri-search-2-line"></i>
+                   <input type="text" placeholder="search services.." id="service-search">
+                 </div>
+             </div>
+             <div class="servicesPage-categories">
+                 <button data-category= "all"   class="services-category-btn active-category">all</button>
+                 <button data-category= "hair"  class="services-category-btn">hair</button>
+                 <button data-category= "nails" class="services-category-btn">nails</button>
+                 <button data-category= "face"  class="services-category-btn">face</button>
+                 <button data-category= "skin"  class="services-category-btn">skin</button>
+             </div>
+         </section>
+         
+         <!-- Services cards -->
+         <section class="services-display-section">
+           <div class="servicePage-service-card-row" id="servicesContainer">
+             <div class="servicePage-service-card"  data-category= "hair" data-id="1" data-name="Hair Cut" data-price="220" data-duration="30">
+                  <h4 class="servicePage-service-name" >Hair Cut</h4>
+                  <img class="servicePage-service-img" loading="lazy" src="../Assets/images/Hair cut service 1.jpg">
+                  <div class="service-card-content">
+                     <span class="service-disc">precision haircut tailored to your face shape</span>
+                       <small><i class="ri-time-line"></i> 30 min</small>
+                       <span class="service-price">₹220</span>
+                       <button class="service-add-btn"><i class="ri-add-fill"></i></button>
+                  </div>
+             </div>
+
+             <div class="servicePage-service-card" data-category= "hair" data-id="2" data-name="Hair spa" data-price="250" data-duration="40">
+                 <h4 class="servicePage-service-name" >Hair Spa</h4>
+                 <img class="servicePage-service-img" loading="lazy"  src="../Assets/images/hairSpa servicce 2.jpeg">
+                 <div class="service-card-content">
+                    <span class="service-disc">the best and calm hair spa.</span>
+                      <small><i class="ri-time-line"></i> 40 min</small>
+                      <span class="service-price">₹250</span>
+                     <button class="service-add-btn "><i class="ri-add-fill"></i></button>
+                 </div>
+             </div>
+             <div class="servicePage-service-card" data-category= "face" data-id="3" data-name="face facial" data-price="500" data-duration="60">
+                 <h4 class="servicePage-service-name" >Face Facial</h4>
+                 <img class="servicePage-service-img" loading="lazy"  src="../Assets/images/facial service 3.jpeg">
+                 <div class="service-card-content">
+                   <span class="service-disc">best facial for you.</span>
+                     <small><i class="ri-time-line"></i> 60 min</small>
+                     <span class="service-price">₹500</span>
+                     <button class="service-add-btn"><i class="ri-add-fill"></i></button>
+                 </div>
+             </div>
+             <div class="servicePage-service-card" data-category= "nails" data-id="4" data-name="pedicure" data-price="450" data-duration="40">
+                  <h4 class="servicePage-service-name" >pedicure</h4>
+                  <img class="servicePage-service-img" loading="lazy" src="https://images.pexels.com/photos/34930101/pexels-photo-34930101.jpeg">
+                  <div class="service-card-content">
+                     <span class="service-disc">smooth and clean pedicure treatment</span>
+                       <small><i class="ri-time-line"></i> 40 min</small>
+                       <span class="service-price">₹450</span>
+                       <button class="service-add-btn"><i class="ri-add-fill"></i></button>
+                  </div>
+             </div>
+             <div class="servicePage-service-card" data-category= "nails"  data-id="5" data-name="manicure" data-price="450" data-duration="40">
+                  <h4 class="servicePage-service-name" >manicure</h4>
+                  <img class="servicePage-service-img" loading="lazy" src="https://images.pexels.com/photos/7755178/pexels-photo-7755178.jpeg">
+                  <div class="service-card-content">
+                     <span class="service-disc">smooth and clean manicure treatment</span>
+                       <small><i class="ri-time-line"></i> 40 min</small>
+                       <span class="service-price">₹500</span>
+                       <button class="service-add-btn"><i class="ri-add-fill"></i></button>
+                  </div>
+             </div>
+           </div>
+          </section>
+     </div>
+
+     <div class="servicesPage-right-cart">
+       <div class="mobile-cart-preview ">
+           <div class="mobile-cart-content">
+              <div class="cart-left-sec">
+                <!-- cart services render -->
+               </div>
+               <div class="cart-right-sec">
+                  <span class="cart-total-amount">₹0</span>
+                  <a href="./cart.html"><button class="view-cart-btn">view Cart</button></a>
+               </div>
+           </div>
+       </div>
+
+       <div class="desktop-cart-preview">
+            <p class="cart-overlay-text">add services to cart, to book your appointment</p>
+           <div class="desktop-cart-top">
+            <!-- cart services render -->
+          </div>
+           <div class="desktop-cart-bottom">
+               <div class="sub-total-sec">
+                   <div class="sub-total-left">
+                       <h4>Subtotal</h4>
+                       <p>tax(5%GST)</p>
+                   </div>
+                   <div class="sub-total-right">
+                     <h4 class="sub-total-amount">₹0</h4>
+                     <span class="tax-amount">₹0</span>
+                   </div>
+               </div><hr>
+               <div class="cart-total-sec">
+                   <h3>total</h3>
+                   <h4 class="final-total-amount">₹0</h4>
+               </div>
+           </div>
+           <a href="./booking.html"><button class="select-staffDate-btn">Select Staff & Date, Time <i class="ri-arrow-right-s-line"></i></button></a>
+       </div>
+     </div>
+ </div>
+
+ <script src="../Js/pages/services.js"></script>
+
+</body>
+</html>
