@@ -96,13 +96,6 @@
     background: white;
     border-radius: 50%;
   }
-  .chevron-row {
-    display: flex; 
-    justify-content: center;
-    padding: 10px 0 4px;
-    color: var(--highLight);
-    font-size: var(--font-size-md);
-  }
 
 /* date selection */
 .select-date-section {
@@ -357,7 +350,7 @@
   flex-wrap: wrap;
 }
 .model-services-span { 
-  font-size: var(--font-size-md); 
+  font-size: var(--font-size-sm); 
   color: var(--highLight);
 }
 .border-box {

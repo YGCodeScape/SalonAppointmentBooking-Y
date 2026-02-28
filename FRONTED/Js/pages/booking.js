@@ -148,12 +148,13 @@ document.getElementById('bookBtn').addEventListener('click', function() {
     document.getElementById('modalTime').textContent = document.getElementById('summaryTime').textContent;
 
     document.querySelector(".counter-ser").textContent = bookingData.items.length;
+    document.querySelector(".serviceOrPackage").textContent = bookingData.type + " added";
+
     // Get selected staff name
     var staffName = bookingData.staff;
     document.getElementById('modalStaff').textContent = staffName ? staffName : 'Not selected';
     document.getElementById('modalServices').innerHTML =  
     bookingData.items.map(item => `<span class="model-services-span">${item.name}</span>`).join(',');
-
     document.getElementById('modTotalValue').textContent = bookingData.totalAmount;
 
     document.getElementById('successModal').classList.add('show');
@@ -166,7 +167,7 @@ document.getElementById('bookBtn').addEventListener('click', function() {
     document.getElementById('successModal').classList.remove('show');
     document.body.style.overflow = '';
     document.querySelector('.bookingPage-sections').style.pointerEvents = 'all';
-    window.location.href = '../index.html';
+    // window.location.href = '../index.html';
   });
 
 
