@@ -341,63 +341,42 @@
   align-items: center;
   margin-bottom: var(--margin-lg);
 }
-.services-row .s-label { 
+.services-row .s-label {
   width: 50%;
   font-weight: 500;
   font-size: var(--font-size-lg); 
-  color: var(--primary-color); 
+  color: var(--primary-color);
+  display: flex;
+  gap: 4px;
 }
-.services-row .s-value  {
+.model-services  {
   width: 50%;
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   flex-wrap: wrap;
 }
-.services-row .s-value span { 
+.model-services-span { 
   font-size: var(--font-size-md); 
-  color: var(--highLight); 
+  color: var(--highLight);
 }
-
-.price-card { 
+.border-box {
   border: 1.5px solid var(--primary-color); 
   border-radius: var(--border-radius-xl); 
   padding: var(--padding-md); 
+  margin-bottom: var(--margin-sm);
+}
+.price-card { 
   margin-bottom: var(--margin-sm); 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.price-row,
-.price-row-tax { 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  margin-bottom: var(--margin-sm); 
-}
-.price-row .pr-label { 
-  font-size: var(--font-size-md); 
-  font-weight: 500; 
-  color: var(--primary-color); 
-}
-.price-row .pr-value { 
-  font-size: var(--font-size-md); 
-  font-weight: 600; 
-  color: var(--primary-color);
-}
-.price-row-tax .tax-label,
-.price-row-tax .tax-value { 
-  color: var(--highLight);
-  font-weight: 400;
-  font-size: 14px; 
-}
-.price-divider {
-  border: none; 
-  border-top: 1px solid var(--highLight); 
-  margin: 12px 0; 
-}
-.price-row.total .pr-label { 
+.total-label {
   font-weight: 700; 
   font-size: var(--font-size-md); 
 }
-.price-row.total .pr-value { 
+.total-value { 
   font-weight: 700; 
   font-size: var(--font-size-md);
 }

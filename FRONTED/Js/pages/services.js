@@ -1,6 +1,6 @@
-document.addEventListener("DOMContentLoaded", function () {
-    fetchServices();
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//     fetchServices();
+// });
 
 //  Get elements
 const searchInput = document.getElementById("service-search");
@@ -144,6 +144,18 @@ function renderCart() {
         mobileCartLeft.appendChild(nameSpan);
     });
 
+ selectStaffBtn.addEventListener("click", function () {
+
+    if (cart.length === 0) {
+        alert("Please add at least one service.");
+        return;
+     }
+
+   localStorage.setItem("bookingSource", "services");
+   localStorage.setItem("bookingItems", JSON.stringify(cart));
+
+   window.location.href = "booking.html";
+});
     // ---------- CALCULATIONS ----------
 
     const taxAmount = (subTotal * TAX_PERCENT) / 100;

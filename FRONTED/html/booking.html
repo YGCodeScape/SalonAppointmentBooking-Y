@@ -37,13 +37,7 @@
       <span class="month-name" id="monthLabel">Feb 2026</span>
     </div>
     <div class="days-row" id="daysRow">
-      <!-- <div class="day-cell"><div class="day-name">Sun</div><div class="day-num">1</div></div>
-      <div class="day-cell"><div class="day-name">Mon</div><div class="day-num">2</div></div>
-      <div class="day-cell active"><div class="day-name">Tue</div><div class="day-num">3</div></div>
-      <div class="day-cell"><div class="day-name">Wed</div><div class="day-num">4</div></div>
-      <div class="day-cell"><div class="day-name">Thu</div><div class="day-num">5</div></div>
-      <div class="day-cell"><div class="day-name">Fri</div><div class="day-num">6</div></div>
-      <div class="day-cell"><div class="day-name">Sat</div><div class="day-num">7</div></div> -->
+       <!-- date will render here only current 7 -->
     </div>
   </div>
   <!-- select time -->
@@ -81,26 +75,18 @@
     <h3>Booking Request Submitted!</h3>
     <p class="modal-title">Your appointment request is currently Pending Staff Approval.</p>
 
-    <div class="services-row">
-      <p class="s-label"><span>2</span>services added</p>
-      <div class="s-value"><span>hair cut,</span> <span>hair spa</span> </div>
-    </div>
-
-    <div class="price-card">
-      <div class="price-row">
-        <span class="pr-label">Subtotal</span>
-        <span class="pr-value">₹370</span>
+  <div class= "border-box">
+     <div class="services-row">
+      <p class="s-label"><span class="counter-ser"></span>services added</p>
+      <div class="model-services" id="modalServices"> 
+         <!--selected services--> 
       </div>
-      <div class="price-row-tax">
-        <span class="tax-label">Tax</span>
-        <span class="tax-value">₹18.50</span>
-      </div>
-      <hr class="price-divider">
-      <div class="price-row total">
+     </div>
+     <div class="price-card">
         <span class="total-label">Total</span>
-        <span class="total-value">₹388</span>
-      </div>
-    </div>
+        <span class="total-value" id="modTotalValue">₹0</span>
+     </div>
+  </div>
 
     <p class="payment-note">payment method cash!</p>
     <div class="services-row">
