@@ -144,19 +144,46 @@ var staffList = [
 
  /* ── Book Appointment button ── */
 document.getElementById('bookBtn').addEventListener('click', function() {
+
+   if (this.disabled) return;
+
+   // Get existing appointments
+    let existingAppointments =  JSON.parse(localStorage.getItem("appointments")) || [];
+
+   // Create final booking object
+   const finalBooking = {
+     id: Date.now(), // unique id
+     items: bookingData.items,
+     staff: bookingData.staff,
+     date: bookingData.date,
+     time: bookingData.time,
+     totalAmount: bookingData.totalAmount,
+     status: "pending",
+     createdAt: new Date().toISOString()
+   };
+    // Push into array
+    existingAppointments.push(finalBooking);
+    // Save back
+    localStorage.setItem(
+      "appointments",
+      JSON.stringify(existingAppointments)
+    );
+  
+    //add selected data on success model
     document.getElementById('modalDate').textContent = document.getElementById('summaryDate').textContent;
     document.getElementById('modalTime').textContent = document.getElementById('summaryTime').textContent;
 
     document.querySelector(".counter-ser").textContent = bookingData.items.length;
     document.querySelector(".serviceOrPackage").textContent = bookingData.type + " added";
 
-    // Get selected staff name
     var staffName = bookingData.staff;
     document.getElementById('modalStaff').textContent = staffName ? staffName : 'Not selected';
+
     document.getElementById('modalServices').innerHTML =  
     bookingData.items.map(item => `<span class="model-services-span">${item.name}</span>`).join(',');
     document.getElementById('modTotalValue').textContent = bookingData.totalAmount;
 
+    // open booking success model
     document.getElementById('successModal').classList.add('show');
     document.body.style.overflow = 'hidden';
     document.querySelector('.bookingPage-sections').style.pointerEvents = 'none';
@@ -164,31 +191,33 @@ document.getElementById('bookBtn').addEventListener('click', function() {
 
  /* ── Close modal ── */
   document.getElementById('backHomeBtn').addEventListener('click', function() {
+    // Clean temporary booking data
+      localStorage.removeItem("bookingSource");
+      localStorage.removeItem("bookingItems");
     document.getElementById('successModal').classList.remove('show');
     document.body.style.overflow = '';
     document.querySelector('.bookingPage-sections').style.pointerEvents = 'all';
-    // window.location.href = '../index.html';
+    window.location.href = '../index.html';
   });
 
 
-const backBtn = document.querySelector(".back-btn");
-backBtn.addEventListener("click", function() {
-
-  const source = localStorage.getItem("bookingSource");
-  if (source === "services") {
-    window.location.href = "services.html";
-    localStorage.removeItem("bookingSource");
-    localStorage.removeItem("bookingItems");
-  } 
-  else if (source === "packages") {
-    window.location.href = "packages.html";
-        localStorage.removeItem("bookingSource");
-    localStorage.removeItem("bookingItems");
-  } 
-  else {
-    window.history.back();
-  }
-});
+     const backBtn = document.querySelector(".back-btn");
+     backBtn.addEventListener("click", function() {
+     const source = localStorage.getItem("bookingSource");
+        if (source === "services") {
+           window.location.href = "services.html";
+           localStorage.removeItem("bookingSource");
+           localStorage.removeItem("bookingItems");
+        } 
+        else if (source === "packages") {
+           window.location.href = "packages.html";
+           localStorage.removeItem("bookingSource");
+           localStorage.removeItem("bookingItems");
+         } 
+        else {
+           window.history.back();
+        }
+      });
 
 
 // ── Canvas Clock ──────────────────────────────────────────────
