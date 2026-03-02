@@ -408,28 +408,6 @@
   font-weight: 300;
 }
 
-.round-add-btn{
-  position:absolute;
-  right: 17px;
-  bottom: 14px;
-  background:var(--secondary-color);
-  border: none;
-  outline: none;
-  width: 52px;
-  height: 52px;
-  border-radius:50%;
-  font-size:22px;
-  cursor:pointer;
-  transition: all 0.3s ease;
-}
-.round-add-btn:hover {
-  transform: translateY(-9px);
-  box-shadow: 0 4px 10px rgba(201, 53, 107, 0.712);
-}
-.round-add-btn i {
-  color: var(--color-white);
-}
-
 .seeall-btn-div{
   margin-top:30px;
   display: flex;

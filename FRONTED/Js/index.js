@@ -1,10 +1,10 @@
-const BASE_URL = "http://localhost:5000/api";
-// INIT
 // ===============================
 document.addEventListener("DOMContentLoaded", () => {
     checkAuth();
     // loadLandingData();
 });
+const HeroServiceCart = document.querySelectorAll(".hero-display-service-card");
+const HeroPackageCart = document.querySelectorAll(".hero-display-package-card");
 
 // ===============================
 // AUTH CHECK
@@ -146,16 +146,6 @@ async function fetchPackages() {
 }
 
 // ===============================
-// PROFILE MENU (Simple)
-// ===============================
-// function showProfileMenu() {
-//     const confirmLogout = confirm("Do you want to logout?");
-//     if (confirmLogout) {
-//         logout();
-//     }
-// }
-
-// ===============================
 // LOGOUT
 // ===============================
 function logout() {
@@ -173,3 +163,14 @@ function redirectToLogin() {
         window.location.href = "./html/login.html";
     }
 }
+
+HeroServiceCart.forEach(card => {
+    card.addEventListener("click", () => {
+        window.location.href = "./html/services.html";
+    });
+})
+HeroPackageCart.forEach(card => {
+    card.addEventListener("click", () => {
+        window.location.href = "./html/packages.html";
+    });
+})

@@ -21,21 +21,16 @@
     align-items: center;
     justify-content: space-between;
 }
-.service-cart-icon {
+.service-cart-label {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: var(--margin-sm);
 }
-.service-cart-icon h2 {
+.service-cart-label h2 {
     font-size: var(--font-size-xl);
-    line-height: 0;
-}
-.service-cart-icon i {
-    font-size: var(--font-size-2xl);
-    font-weight: 500;
-    display: none;
+    line-height: 2;
 }
 .servicesPage-search-box {
   width: 100%;
@@ -89,7 +84,7 @@
 }
 .servicePage-service-card {
   width: 100%;
-  height: 220px;
+  height: 250px;
   position:relative;
   border-radius: var(--border-radius-3xl);
   overflow: hidden;
@@ -212,7 +207,6 @@
 }
 .mini-service-name {
   font-size: var(--font-size-sm);
-  margin-top: var(--margin-sm);
 }
 .mini-service-price {
   font-size: var(--font-size-md);
@@ -395,7 +389,7 @@
     width: 60%;
     display: flex;
     flex-wrap: wrap;
-    gap: var(--gutter-sm);
+    gap: 6px;
     align-content: flex-start;
   }
   .desktop-cart-preview {
@@ -403,5 +397,20 @@
   }
   .cart-overlay-text  {
     display: none;
+  }
+  .select-staffDate-btnMobile {
+  width: 180px;
+  font-size: 12px;
+  background: transparent;
+  border: 2px solid var(--secondary-color);
+  color: var(--secondary-color);
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  font-family: var(--primary-font);
+  border-radius: var(--border-radius-lg);
+  text-align: center;
+  margin-top: var(--margin-md);
+  cursor: pointer;
+  display: none;
   }
 }
