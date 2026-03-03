@@ -15,6 +15,132 @@
 <title>APEX Salons</title>
 </head>
 <body>
-    <h1>contact Us page</h1>
+  <header class="navbar">
+  <div class="logo">
+    <span class="logo-text" id="logo-text">APEX salons</span>
+  </div>
+
+  <nav class="nav-links">
+    <div class="nav-link"><a href="../index.html" class="nav-a"><i class=" nav-i ri-home-4-line"></i>Home</a></div>
+    <div class="nav-link"><a href="./services.html" class="nav-a"><i class=" nav-i ri-scissors-fill"></i>Services</a></div>
+    <div class="nav-link"><a href="./packages.html" class="nav-a"><i class=" nav-i ri-gift-2-line"></i>Packages</a></div>
+    <div class="nav-link"><a href="./myAppointment.html" class="nav-a"><i class=" nav-i ri-calendar-line"></i>Appointments</a></div>
+    <div class="nav-link active"><a href="./contactUs.html" class="nav-a"><i class=" nav-i ri-contacts-book-2-line"></i>Contact Us</a></div>
+  </nav>
+
+  <div class="nav-right">
+    <div class="search-box">
+      <i class="ri-search-2-line"></i>
+      <input type="text" placeholder="search services or packages">
+    </div>
+    <button class="nav-btns nav-btn-log" id="nav-log-btn"> <a class="nav-btn-a" href="./login.html">Login In</a></button>
+    <button class="nav-btns nav-btn-sign" id="nav-signup-btn"> <a class="nav-btn-a" href="./signup.html">Sign Up</a></button>
+    <div class="nav-profile-div" id="nav-profile-div">
+       <i class="ri-user-line profile-i"></i>
+      <div class="hover-profile-box">
+        <button class="land-edit-pro-btn"><a href="./profileInfo.html">Edit profile <i class="ri-edit-circle-fill"></i></a></button>
+       <button class="land-logout-btn" onclick="logout()"> log Out <i class="ri-logout-circle-r-line"></i></button>
+    </div>
+    </div>
+  </div>
+  </header>
+  <!-- Mobile quick menu -->
+<section class="mobile-menu" id="mobile-menu-full-page">
+  <div class="menu-item">
+    <a href="../index.html "><i class=" mobile-menu-i ri-home-4-line"></i></a>
+  </div>
+  <div class="menu-item">
+    <a href="./services.html"><i class=" mobile-menu-i ri-scissors-fill"></i></a>
+  </div>
+  <div class="menu-item">
+    <a href="./packages.html"><i class=" mobile-menu-i ri-gift-2-line"></i></a>
+  </div>
+  <div class="menu-item">
+    <a href="./myAppointment.html"><i class=" mobile-menu-i ri-calendar-line"></i></a>
+  </div>
+  <div class="menu-item active active-nav">
+    <a href="./contactUs.html"><i class=" mobile-menu-i ri-contacts-book-2-line"></i></a>
+  </div>
+</section>  
+
+<!-- ══ PAGE ══ -->
+<div class="page">
+  <h1 class="page-title">Contact Us</h1>
+
+  <!-- Address Card -->
+  <div class="card">
+    <div class="address-header">
+      <div class="icon-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <div class="address-text">
+        <h2>Our Address</h2>
+        <p>Shop Number G 10 Shiv Shankar,<br>Plot No.1, Sector 7, Airoli, Navi Mumbai,<br>Maharashtra 400708</p>
+      </div>
+      <div class="social-row">
+        <div class="social-btn ig" title="Instagram">
+            <a href="#" class="facebook"><i class="ri-facebook-circle-fill"></i></a>
+        </div>
+        <div class="social-btn fb" title="Facebook">
+           <a href="#" class="instagram"><i class="ri-instagram-fill"></i></a>
+        </div>
+        <div class="social-btn tw" title="Twitter">
+          <a href="#" class="x"><i class="ri-twitter-x-line"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map -->
+    <div class="map-container">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.3152823060777!2d72.99871531490176!3d19.153490487029547!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c0e2e63f22bb%3A0xa5c6e5a0c5e5b5e5!2sShiv%20Shankar%2C%20Sector%207%2C%20Airoli%2C%20Navi%20Mumbai%2C%20Maharashtra%20400708!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="APEX Salons location">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- Call & Email -->
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="icon-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.16h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      </div>
+      <h3>Call Us</h3>
+      <p>+91 0887997278<br>+91 9897867453</p>
+      <a href="tel:+910887997278" class="btn">Call Now</a>
+    </div>
+
+    <div class="contact-card">
+      <div class="icon-circle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <h3>Email Us</h3>
+      <p>apexsalonsinfo@gmail.com</p>
+      <a href="mailto:apexsalonsinfo@gmail.com" class="btn">Send Email</a>
+    </div>
+  </div>
+
+  <!-- Feedback -->
+  <div class="card feedback-card">
+    <h3>How would you rate your experience?</h3>
+
+    <div class="stars" id="stars">
+      <span class="star" data-i="1">★</span>
+      <span class="star" data-i="2">★</span>
+      <span class="star" data-i="3">★</span>
+      <span class="star" data-i="4">★</span>
+      <span class="star" data-i="5">★</span>
+    </div>
+
+    <textarea class="comment-box" placeholder="write your comments…"></textarea>
+
+    <button class="submit-btn" onclick="submitFeedback()">Submit Feedback</button>
+  </div>
+</div>
+
+<script src="../Js/pages/contactUs.js"></script>
 </body>
 </html>
