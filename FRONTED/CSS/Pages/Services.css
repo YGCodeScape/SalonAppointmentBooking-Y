@@ -40,7 +40,7 @@
   gap:var(--gutter-md);
   padding-left: var(--padding-md);
   border-radius:8px;
-  border: 2px solid  #29272775;
+  border: 2px solid  #494848ab;
 }
 .servicesPage-search-box input {
     width: 100%;
@@ -48,6 +48,7 @@
     border: none;
     outline: none;
     border-radius: 8px;
+    background: transparent;
 }
 .servicesPage-categories {
     width: 100%;
