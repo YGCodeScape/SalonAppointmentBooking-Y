@@ -1,38 +1,37 @@
-   /* ── PAGE ── */
-    .page {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 40px 20px 60px;
-    }
-    a {
-      color: var(--primary-color);
-    }
+/* ── PAGE ── */
+.contact-page {
+  margin-top: 60px;
+  padding: 40px 20px 60px;
+}
+a {
+   color: var(--primary-color);
+}
+.contactUs-title {
+  font-family: var(--primary-font);
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  margin-bottom: 28px;
+  color: var(--primary-color);
+}
 
-    .page-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 28px;
-      color: var(--dark);
-    }
-
-    /* ── CARD ── */
-    .card {
+/* ── CARD ── */
+    .address-Card {
       background: #fff;
-      border-radius: var(----border-radius-sm);
+      border-radius: var(--border-radius-3xl);
       box-shadow: var(--box-shadow);
       padding: 28px;
       margin-bottom: 20px;
+      animation: fadeUp .45s ease both;
     }
 
     /* ── ADDRESS ── */
     .address-header {
       display: flex;
       align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 20px;
+      gap: var(--gutter-md);
+      margin-bottom: var(--margin-md);
     }
-    .icon-circle {
+    .location-mark {
       width: 52px; 
       height: 52px; 
       border-radius: 50%;
@@ -42,15 +41,14 @@
       justify-content: center;
       flex-shrink: 0;
     }
-    .icon-circle svg { 
-        width: 26px; 
-        height: 26px;
+    .location-mark i { 
+      color: #fff;
+      font-size: var(--font-size-2xl);
     }
 
     .address-text h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      margin-bottom: 6px;
+      font-size: var(--font-size-xl);
+      margin-bottom: var(--margin-sm);
     }
     .address-text p {
       font-size: .9rem;
@@ -60,21 +58,17 @@
 
     .social-row {
       display: flex;
+      align-items: center;
       gap: 10px;
       margin-left: auto;
       flex-shrink: 0;
     }
-    .social-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex; 
-      align-items: center; 
-      justify-content: center;
+    .social-row a {
+      font-size: 30px;
       cursor: pointer;
       transition: transform .2s;
     }
-    .social-btn:hover { 
+    .social-row a:hover { 
         transform: scale(1.12); 
     }
     /* ── MAP ── */
@@ -96,51 +90,69 @@
     }
 
     .contact-card {
+      height: 30vh;
       background: #fff;
-      border-radius: var(--border-radius-sm);
+      border-radius: var(--border-radius-3xl);
       box-shadow: var(--box-shadow);
-      padding: 24px 20px;
       display: flex;
-      flex-direction: column;
       align-items: center;
+      align-content: flex-start;
       text-align: center;
-      gap: 10px;
+      justify-content: space-evenly;
+      animation: fadeUp .45s ease both;
     }
+.contact-cart-info {
+  width: 60%;
+}
+.contact-cart-title {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.contact-cart-title i {
+  font-size: 30px;
+}
 
     .contact-card h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.15rem;
+      font-family: var(--primary-font);
+      font-size: var(--font-size-2xl);
     }
     .contact-card p {
-      font-size: .85rem;
+      font-size: var(--font-size-md);
       color: #555;
       line-height: 1.6;
     }
-    .btn {
+    .contact-btn {
       margin-top: 6px;
       background: var(--primary-color);
       color: #fff;
       border: none;
-      border-radius: 50px;
+      border-radius: var(--border-radius-xl);
       padding: 11px 28px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: .88rem;
+      font-family: var(--primary-font);
+      font-size: var(--font-size-md);
       font-weight: 600;
       cursor: pointer;
       transition: background .2s, transform .15s;
       text-decoration: none;
       display: inline-block;
     }
-    .btn:hover { 
+    .contact-btn:hover { 
         background: var(--secondary-color); 
         transform: translateY(-1px);
      }
 
     /* ── FEEDBACK ── */
+    .feedback-card {
+      animation: fadeUp .45s ease both;
+      padding: 30px;
+    }
     .feedback-card h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
-      margin-bottom: 16px;
+      font-family: var(--primary-font);
+      font-size: var(--font-size-md);
+      margin-bottom: var(--margin-md);
     }
 
     .stars {
@@ -154,18 +166,6 @@
       color: var(--secondary-color);
       transition: transform .15s, color .15s;
       line-height: 1;
-    }
-    .star:hover,
-    .star.filled { 
-        color: var(--secondary-color); 
-    }
-    .star:not(.filled) { 
-        color: transparent; 
-        -webkit-text-stroke: 2px var(--secondary-color);
-     }
-    .star:hover ~ .star { 
-        color: transparent; 
-        -webkit-text-stroke: 2px var(--secondary-color); 
     }
 
     .comment-box {
@@ -207,21 +207,52 @@
          transform: translateY(-2px); 
     }
 
-    /* ── MOBILE ── */
-    @media (max-width: 600px) {
-
-      .page { padding: 24px 14px 50px; }
-      .page-title { font-size: 1.5rem; }
-      .card { padding: 20px 16px; }
-      .contact-grid { grid-template-columns: 1fr; }
-      .map-container { height: 200px; }
-    }
+/* ---------------- RESPONSIVE MEDIA QUERY ---------------- */
+/* mobile screen */
+@media (max-width:768px){ 
+  .contact-page {
+    margin-top: 0;
+    padding: 0 10px;
+  }
+  .address-Card {
+    padding: 15px 15px;
+  }
+  .contact-grid {
+     grid-template-columns: 1fr; 
+  }
+  .location-mark  {
+    width: 40px;
+    height: 40px;
+  }
+  .address-text p {
+    font-size: 10px;
+  }
+  .social-row a {
+    font-size: 20px;
+  }
+  .map-container { 
+    height: 150px;
+  }
+  .contact-card {
+    height: 20vh;
+  }
+  .contact-card h3 {
+    font-size: var(--font-size-lg);
+  }
+  .contact-cart-title i {
+  font-size: 25px;
+}
+.contact-card p {
+  font-size: var(--font-size-sm);
+}
+}
 
     /* fade-in */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(18px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+    
     .card, .contact-card, .feedback-card {
       animation: fadeUp .45s ease both;
     }

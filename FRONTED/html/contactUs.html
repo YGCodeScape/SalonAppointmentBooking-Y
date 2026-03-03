@@ -64,32 +64,23 @@
 </section>  
 
 <!-- ══ PAGE ══ -->
-<div class="page">
-  <h1 class="page-title">Contact Us</h1>
+<div class="contact-page">
+  <h1 class="contactUs-title">Contact Us</h1>
 
   <!-- Address Card -->
-  <div class="card">
+  <div class="address-Card">
     <div class="address-header">
-      <div class="icon-circle">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      </div>
-      <div class="address-text">
-        <h2>Our Address</h2>
-        <p>Shop Number G 10 Shiv Shankar,<br>Plot No.1, Sector 7, Airoli, Navi Mumbai,<br>Maharashtra 400708</p>
-      </div>
-      <div class="social-row">
-        <div class="social-btn ig" title="Instagram">
-            <a href="#" class="facebook"><i class="ri-facebook-circle-fill"></i></a>
-        </div>
-        <div class="social-btn fb" title="Facebook">
+       <div class="location-mark"><i class="ri-map-pin-line"></i></div>
+       <div class="address-text">
+         <h2>Our Address</h2>
+         <p>Shop Number G 10 Shiv Shankar,<br>Plot No.1, Sector 7, Airoli, Navi Mumbai,<br>Maharashtra 400708</p>
+       </div>
+       <div class="social-row">
+           <a href="#" class="facebook"><i class="ri-facebook-circle-fill"></i></a>
            <a href="#" class="instagram"><i class="ri-instagram-fill"></i></a>
-        </div>
-        <div class="social-btn tw" title="Twitter">
-          <a href="#" class="x"><i class="ri-twitter-x-line"></i></a>
-        </div>
-      </div>
+           <a href="#" class="x"><i class="ri-twitter-x-line"></i></a>
+       </div>
     </div>
-
     <!-- Map -->
     <div class="map-container">
       <iframe
@@ -105,38 +96,41 @@
   <!-- Call & Email -->
   <div class="contact-grid">
     <div class="contact-card">
-      <div class="icon-circle">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.16h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      <div class="contact-cart-title">
+        <i class="ri-phone-fill"></i>
+        <h3>Call Us</h3>
       </div>
-      <h3>Call Us</h3>
-      <p>+91 0887997278<br>+91 9897867453</p>
-      <a href="tel:+910887997278" class="btn">Call Now</a>
+      <div class="contact-cart-info">
+        <p>+91 0887997278<br>+91 9897867453</p>
+        <a href="tel:+910887997278" class="contact-btn">Call Now</a>
+      </div>
     </div>
 
     <div class="contact-card">
-      <div class="icon-circle">
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <div class="contact-cart-title">
+         <i class="ri-mail-fill"></i>
+         <h3>Email Us</h3>
       </div>
-      <h3>Email Us</h3>
-      <p>apexsalonsinfo@gmail.com</p>
-      <a href="mailto:apexsalonsinfo@gmail.com" class="btn">Send Email</a>
+      <div class="contact-cart-info">
+        <p>apexsalonsinfo@gmail.com</p>
+        <a href="mailto:apexsalonsinfo@gmail.com" class="contact-btn">Send Email</a>
+      </div>
     </div>
   </div>
 
   <!-- Feedback -->
-  <div class="card feedback-card">
+  <div class="feedback-card">
     <h3>How would you rate your experience?</h3>
 
     <div class="stars" id="stars">
-      <span class="star" data-i="1">★</span>
-      <span class="star" data-i="2">★</span>
-      <span class="star" data-i="3">★</span>
-      <span class="star" data-i="4">★</span>
-      <span class="star" data-i="5">★</span>
+      <span class="star" data-i="1"><i class="ri-star-line"></i></span>
+      <span class="star" data-i="2"><i class="ri-star-line"></i></span>
+      <span class="star" data-i="3"><i class="ri-star-line"></i></span>
+      <span class="star" data-i="4"><i class="ri-star-line"></i></span>
+      <span class="star" data-i="5"><i class="ri-star-line"></i></span>
     </div>
 
     <textarea class="comment-box" placeholder="write your comments…"></textarea>
-
     <button class="submit-btn" onclick="submitFeedback()">Submit Feedback</button>
   </div>
 </div>
