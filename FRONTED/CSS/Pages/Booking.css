@@ -421,8 +421,8 @@
 
 .services-row { 
   display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px; 
 }
 .services-row .s-label { 
@@ -432,7 +432,7 @@
 }
 .services-row .s-value { 
   font-size: 13px; 
-  color: var(--text-light); 
+  color: var(--text-light);
 }
 
 /* ---------------- RESPONSIVE MEDIA QUERY ---------------- */

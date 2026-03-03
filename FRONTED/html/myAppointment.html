@@ -15,6 +15,72 @@
     <title>APEX Salons</title>
 </head>
 <body>
+  <header class="navbar">
+  <div class="logo">
+    <span class="logo-text" id="logo-text">APEX salons</span>
+  </div>
+
+  <nav class="nav-links">
+    <div class="nav-link"><a href="../index.html" class="nav-a"><i class=" nav-i ri-home-4-line"></i>Home</a></div>
+    <div class="nav-link"><a href="./services.html" class="nav-a"><i class=" nav-i ri-scissors-fill"></i>Services</a></div>
+    <div class="nav-link"><a href="./packages.html" class="nav-a"><i class=" nav-i ri-gift-2-line"></i>Packages</a></div>
+    <div class="nav-link active"><a href="./myAppointment.html" class="nav-a"><i class=" nav-i ri-calendar-line"></i>Appointments</a></div>
+    <div class="nav-link"><a href="./contactUs.html" class="nav-a"><i class=" nav-i ri-contacts-book-2-line"></i>Contact Us</a></div>
+  </nav>
+
+  <div class="nav-right">
+    <div class="search-box">
+      <i class="ri-search-2-line"></i>
+      <input type="text" placeholder="search services or packages">
+    </div>
+    <button class="nav-btns nav-btn-log" id="nav-log-btn"> <a class="nav-btn-a" href="./login.html">Login In</a></button>
+    <button class="nav-btns nav-btn-sign" id="nav-signup-btn"> <a class="nav-btn-a" href="./signup.html">Sign Up</a></button>
+    <div class="nav-profile-div" id="nav-profile-div">
+       <i class="ri-user-line profile-i"></i>
+      <div class="hover-profile-box">
+        <button class="land-edit-pro-btn"><a href="./profileInfo.html">Edit profile <i class="ri-edit-circle-fill"></i></a></button>
+       <button class="land-logout-btn" onclick="logout()"> log Out <i class="ri-logout-circle-r-line"></i></button>
+    </div>
+    </div>
+  </div>
+  </header>
+  <!-- Mobile quick menu -->
+<section class="mobile-menu" id="mobile-menu-full-page">
+  <div class="menu-item">
+    <a href="../index.html "><i class=" mobile-menu-i ri-home-4-line"></i></a>
+  </div>
+  <div class="menu-item">
+    <a href="./services.html"><i class=" mobile-menu-i ri-scissors-fill"></i></a>
+  </div>
+  <div class="menu-item">
+    <a href="./packages.html"><i class=" mobile-menu-i ri-gift-2-line"></i></a>
+  </div>
+  <div class="menu-item active active-nav">
+    <a href="./myAppointment.html"><i class=" mobile-menu-i ri-calendar-line"></i></a>
+  </div>
+  <div class="menu-item">
+    <a href="./contactUs.html"><i class=" mobile-menu-i ri-contacts-book-2-line"></i></a>
+  </div>
+</section>
+
+<!-- CONTENT -->
+  <div class="myAppointmentsPage">
+    <h1 class="page-title">My Appointments</h1>
+
+    <div class="ChangeAppointment">
+      <button class="UpPast-btn active" onclick="switchTab(this,'upcoming')">Upcoming</button>
+      <button class="UpPast-btn" onclick="switchTab(this,'past')">Past</button>
+    </div>
+
+  <div class="AppointmentsCards" id="upcoming">
+       <!--appointments are render dynamically here -->
+  </div>
+
+    <!-- Past (hidden by default) -->
+    <div class="AppointmentsCards" id="past">
+    </div>
+
+  </div>
 
     
   <script src="../Js/Core/config.js"></script>
