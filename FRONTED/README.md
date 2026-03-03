@@ -1,1 +1,5 @@
-new line 
+live link : https://apexsalons.netlify.app/
+
+note: this is testing repo of APEX Salons website, which is under development. The website is being developed. The website is designed to be responsive and user-friendly. is being developed to provide a platform for customers to book appointments, view services, and contact the salon. 
+The website is also being developed to provide a platform for the salon to manage appointments, services, and customer information. all rights reserved to APEX Salons. 
+ the website is currently under development and is not yet live. The website is being developed by a team of developers and designers who are working hard to create a great user experience for customers and salon staff. The website will be launched soon, and we are excited to share it with the world!
