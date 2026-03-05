@@ -133,6 +133,7 @@
     font-size: var(--font-size-md);
     font-weight: 400;
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 .skip-profile-info:hover {
     opacity: 0.5;
@@ -168,15 +169,6 @@
     pointer-events:none;
     opacity:0.6;
 }
-
-.gender-note{
-    display:block;
-    margin-top:6px;
-    font-size:12px;
-    color:#888;
-}
-
-
 
 /* desktop and large screens */
 @media (min-width: 1200px) {

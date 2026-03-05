@@ -109,7 +109,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         emailInput.value = user.email || "";
         dobInput.value = user.date_of_birth || "";
         cityInput.value = user.address || "";
-        // preferencesInput.value = user.preferences || "",
         anniversaryInput.value = user.anniversary_date || "";
 
         displayName.innerText = user.name || "";
