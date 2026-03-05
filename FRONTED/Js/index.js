@@ -1,6 +1,3 @@
-// ===============================
-// GLOBAL STATE
-// ===============================
 let salonId = 1;
 
 // ===============================
@@ -64,7 +61,11 @@ async function fetchServices() {
 
     try {
 
-        const data = await apiGet(`/services?salon_id=${salonId}`);
+        const res = await fetch(
+            `${API_BASE_URL}/services?salon_id=${salonId}`
+        );
+
+        const data = await res.json();
 
         if (data.status !== "success") return;
 
@@ -82,8 +83,7 @@ async function fetchServices() {
 // ===============================
 function renderServices(services) {
 
-    const container =
-        document.getElementById("servicesContainer");
+    const container = document.getElementById("servicesContainer");
 
     if (!container) return;
 
@@ -92,31 +92,19 @@ function renderServices(services) {
     const html = services.map(service => `
 
         <div class="hero-display-service-card">
-
             <span class="price">₹${service.price}</span>
-
             <img
                 class="service-img"
                 src="${service.image_url}"
                 alt="${service.service_name}"
             >
-
             <div class="display-card-content">
                 <h4>${service.service_name}</h4>
-
                 <small>
                     <i class="ri-time-line"></i>
                     ${service.duration} min
                 </small>
             </div>
-
-            <button
-                class="round-add-btn"
-                onclick="redirectToLogin()"
-            >
-                <i class="ri-add-fill"></i>
-            </button>
-
         </div>
 
     `).join("");
@@ -130,11 +118,9 @@ function renderServices(services) {
 async function fetchPackages() {
 
     try {
-
         const res = await fetch(
             `${API_BASE_URL}/packages?salon_id=${salonId}`
         );
-
         const data = await res.json();
 
         if (data.status !== "success") return;
@@ -163,26 +149,20 @@ function renderPackages(packages) {
     const html = packages.map(pkg => `
 
         <div class="hero-display-package-card">
-
             <span class="price">
                 ₹${pkg.total_price}
             </span>
-
+            <span class="active-badge">Active</span>
             <img
                 src="${pkg.image_url}"
                 alt="${pkg.package_name}"
             >
-
             <div class="display-card-content">
-
                 <h4>${pkg.package_name}</h4>
-
                 <small>
                     Valid ${pkg.validity_days} days
                 </small>
-
             </div>
-
         </div>
 
     `).join("");

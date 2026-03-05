@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // fetchServices();
     checkAuth();
+    fetchServices();
 });
 // ===============================
 // AUTH CHECK
