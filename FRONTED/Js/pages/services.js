@@ -1,6 +1,29 @@
-// document.addEventListener("DOMContentLoaded", function () {
-//     fetchServices();
-// });
+document.addEventListener("DOMContentLoaded", function () {
+    // fetchServices();
+    checkAuth();
+});
+// ===============================
+// AUTH CHECK
+// ===============================
+function checkAuth() {
+
+    const accessToken = localStorage.getItem("access_token");
+
+    const loginBtn = document.getElementById("nav-log-btn");
+    const signupBtn = document.getElementById("nav-signup-btn");
+    const profileDiv = document.getElementById("nav-profile-div");
+
+    if (accessToken) {
+        loginBtn.style.display = "none";
+        signupBtn.style.display = "none";
+        profileDiv.style.display = "flex";
+
+    } else {
+        loginBtn.style.display = "inline-block";
+        signupBtn.style.display = "inline-block";
+        profileDiv.style.display = "none";
+    }
+}
 
 //  Get elements
 const searchInput = document.getElementById("service-search");

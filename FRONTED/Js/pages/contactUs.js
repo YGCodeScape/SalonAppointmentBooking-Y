@@ -1,9 +1,32 @@
+document.addEventListener("DOMContentLoaded", () => {
+    checkAuth();
+});
+// ===============================
+// AUTH CHECK
+// ===============================
+function checkAuth() {
+
+    const accessToken = localStorage.getItem("access_token");
+
+    const loginBtn = document.getElementById("nav-log-btn");
+    const signupBtn = document.getElementById("nav-signup-btn");
+    const profileDiv = document.getElementById("nav-profile-div");
+
+    if (accessToken) {
+        loginBtn.style.display = "none";
+        signupBtn.style.display = "none";
+        profileDiv.style.display = "flex";
+
+    } else {
+        loginBtn.style.display = "inline-block";
+        signupBtn.style.display = "inline-block";
+        profileDiv.style.display = "none";
+    }
+}
+
 // ══════════════════════════════════════════════
 //  contactUs.js  —  APEX Salons
 // ══════════════════════════════════════════════
-
-// ── CONFIG ──────────────────────────────────────
-const API_BASE = 'https://api.apexsalons.com'; // change to your real base URL
 
 // ── STATE ───────────────────────────────────────
 let selectedRating = 0;
