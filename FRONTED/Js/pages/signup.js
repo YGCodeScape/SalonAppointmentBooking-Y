@@ -58,12 +58,20 @@ form.addEventListener("submit", async function (e) {
   if (!isValid) return;
 
   // Prepare data
-  const userData = { full_name, mobile, email, password };
+  const userData = {
+  name: full_name,
+  phone: mobile,
+  email: email,
+  password: password,
+  salon_id: 1
+};
 
   try {
-    const response = await fetch(`${API_BASE_URL}/register.php`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const response = await fetch(`${API_BASE_URL}/customers/register`, {
+     method: "POST",
+      headers: { 
+       "Content-Type": "application/json" 
+      },
       body: JSON.stringify(userData)
     });
 
@@ -73,18 +81,11 @@ form.addEventListener("submit", async function (e) {
     console.log("Register Response:", data);
 
     if (data.status === "success") {
-      // Store temporary signup user
-      localStorage.setItem("signupUser", JSON.stringify(data.user));
 
-      // Store JWT token for immediate profile updates
-      if (data.token) {
-        localStorage.setItem("jwtToken", data.token);
-      }
-
-      alert("Registration successful! Please complete your profile.");
+      alert("Registration successful! login in now");
 
       form.reset();
-      window.location.href = "../html/profileInfo.html";
+      window.location.href = "../html/login.html";
 
     } else {
       alert(data.message || "Registration failed.");

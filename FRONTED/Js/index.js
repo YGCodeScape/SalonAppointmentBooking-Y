@@ -1,7 +1,9 @@
 // ===============================
 document.addEventListener("DOMContentLoaded", () => {
     checkAuth();
-    // loadLandingData();
+ // loadLandingData();
+//    fetchServices();
+//    fetchPackages();
 });
 const HeroServiceCart = document.querySelectorAll(".hero-display-service-card");
 const HeroPackageCart = document.querySelectorAll(".hero-display-package-card");
@@ -10,17 +12,16 @@ const HeroPackageCart = document.querySelectorAll(".hero-display-package-card");
 // AUTH CHECK
 // ===============================
 function checkAuth() {
-    const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("currentUser"));
+
+    const accessToken = localStorage.getItem("access_token");
 
     const loginBtn = document.getElementById("nav-log-btn");
     const signupBtn = document.getElementById("nav-signup-btn");
     const profileDiv = document.getElementById("nav-profile-div");
 
-    if (token && user) {
+    if (accessToken) {
         loginBtn.style.display = "none";
         signupBtn.style.display = "none";
-
         profileDiv.style.display = "flex";
 
     } else {
@@ -33,68 +34,51 @@ function checkAuth() {
 // ===============================
 // LOAD ALL LANDING DATA
 // ===============================
-async function loadLandingData() {
-    try {
-        await Promise.all([
-            fetchSalonInfo(),
-            fetchServices(),
-            fetchPackages(),
-            fetchGallery()
-        ]);
-    } catch (error) {
-        console.error("Landing load error:", error);
-    }
-}
+// async function loadLandingData() {
 
-// ===============================
-// FETCH SALON INFO
-// ===============================
-async function fetchSalonInfo() {
-    try {
-        const res = await fetch(`${BASE_URL}/salon`);
-        const result = await res.json();
+//     try {
+//         await Promise.all([
+//             fetchServices(),
+//             fetchPackages()
+//         ]);
+//     } catch (error) {
+//         console.error("Landing load error:", error);
+//     }
+// }
 
-        if (!result.success) return;
-
-        const salon = result.data;
-
-        // Update logo text
-        document.querySelector(".logo-text").textContent = salon.name;
-
-        // Update page title
-        document.title = salon.name;
-
-    } catch (error) {
-        console.error("Salon fetch error:", error);
-    }
-}
 
 // ===============================
 // FETCH SERVICES
 // ===============================
 async function fetchServices() {
     try {
-        const res = await fetch(`${BASE_URL}/services`);
-        const result = await res.json();
+      const res = await fetch(`${API_BASE_URL}/services`);
 
-        if (!result.success) return;
+      const result = await res.json();
 
-        const services = result.data;
+        if (result.status !== "success") return;
+
+        const services = result.data.items;
+
         const container = document.getElementById("servicesContainer");
         container.innerHTML = "";
 
-        services.slice(0, 3).forEach(service => {
+        services.slice(0,3).forEach(service => {
             const card = `
                 <div class="hero-display-service-card">
                     <span class="price">₹${service.price}</span>
-                    <img class="service-img" src="${service.image_url}" alt="${service.name}">
+                    <img class="service-img"
+                    src="${service.image_url}"
+                    alt="${service.service_name}">
                     <div class="display-card-content">
-                        <h4>${service.name}</h4>
+                        <h4>${service.service_name}</h4>
                         <small>
-                            <i class="ri-time-line"></i> ${service.duration} min
+                            <i class="ri-time-line"></i>
+                            ${service.duration} min
                         </small>
                     </div>
-                    <button class="round-add-btn" onclick="redirectToLogin()">
+                    <button class="round-add-btn"
+                    onclick="redirectToLogin()">
                         <i class="ri-add-fill"></i>
                     </button>
                 </div>
@@ -105,6 +89,7 @@ async function fetchServices() {
     } catch (error) {
         console.error("Services fetch error:", error);
     }
+
 }
 
 // ===============================
@@ -112,45 +97,65 @@ async function fetchServices() {
 // ===============================
 async function fetchPackages() {
     try {
-        const res = await fetch(`${BASE_URL}/packages`);
+        const res = await fetch(`${API_BASE_URL}/packages`);
         const result = await res.json();
+        if (result.status !== "success") return;
+         const packages = result.data.items;
+         const container = document.getElementById("packagesContainer");
 
-        if (!result.success) return;
-
-        const packages = result.data;
-        const container = document.getElementById("packagesContainer");
         container.innerHTML = "";
 
-        packages.slice(0, 3).forEach(pkg => {
+        packages.slice(0,3).forEach(pkg => {
             const card = `
                 <div class="hero-display-package-card">
-                    <span class="price">₹${pkg.price}</span>
-                    <span class="active-badge">
-                        ${pkg.is_active ? "Active" : ""}
+                    <span class="price">
+                        ₹${pkg.total_price}
                     </span>
-                    <img src="${pkg.image_url}" alt="${pkg.name}">
+                    <img src="${pkg.image_url}"
+                    alt="${pkg.package_name}">
                     <div class="display-card-content">
-                        <h4>${pkg.name}</h4>
+                        <h4>${pkg.package_name}</h4>
                         <small>
-                            <i class="ri-time-line"></i> ${pkg.duration} min
+                            Valid ${pkg.validity_days} days
                         </small>
                     </div>
                 </div>
             `;
+
             container.innerHTML += card;
         });
 
     } catch (error) {
         console.error("Packages fetch error:", error);
     }
+
 }
 
 // ===============================
 // LOGOUT
 // ===============================
-function logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("currentUser");
+async function logout() {
+    const refreshToken =
+        localStorage.getItem("refresh_token");
+    try {
+        await fetch(`${API_BASE_URL}/auth/logout`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                refresh_token: refreshToken
+            })
+        });
+
+    } catch (error) {
+        console.error("Logout error:", error);
+    }
+
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+
     window.location.reload();
 }
 
@@ -158,7 +163,7 @@ function logout() {
 // REDIRECT IF NOT LOGGED
 // ===============================
 function redirectToLogin() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     if (!token) {
         window.location.href = "./html/login.html";
     }
