@@ -95,7 +95,7 @@ function renderServices(services) {
             <span class="price">₹${service.price}</span>
             <img
                 class="service-img"
-                src="${service.image_url}"
+                src="${IMAGE_BASE + service.image_url}"
                 alt="${service.service_name}"
             >
             <div class="display-card-content">
@@ -154,7 +154,7 @@ function renderPackages(packages) {
             </span>
             <span class="active-badge">Active</span>
             <img
-                src="${pkg.image_url}"
+                src="${IMAGE_BASE + pkg.image_url}"
                 alt="${pkg.package_name}"
             >
             <div class="display-card-content">
