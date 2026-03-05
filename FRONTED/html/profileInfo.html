@@ -58,9 +58,9 @@
                 </div>
 
                <div class="user-profile-form-group">
-                  <label>Age</label>
+                  <label>City </label>
                   <div class="input-wrapper">
-                     <input type="number" placeholder="user age" min="8" id="profileNumberInput">
+                     <input type="text" placeholder="user City" value="user city" id="profileCityInput">
                      <i class="ri-pencil-fill edit-icon"></i>
                   </div>
                </div>
@@ -69,6 +69,7 @@
                   <label>Date of Birth</label>
                   <div class="input-wrapper">
                      <input type="date" id="profileDOBInput">
+                     <i class="ri-pencil-fill edit-icon"></i>
                   </div>
                </div>
 
@@ -76,13 +77,29 @@
                   <label>anniversary Date</label>
                   <div class="input-wrapper">
                      <input type="date" id="profileAnniInput">
+                     <i class="ri-pencil-fill edit-icon"></i>
                   </div>
                </div>
+
+               <div class="user-profile-form-group">
+                  <label>age</label>
+                  <div class="input-wrapper">
+                     <input type="number" id="profileAgeInput" min="6" max="90" placeholder = "age" readonly>
+                  </div>
+               </div>
+
+               <div class="user-profile-form-group">
+                  <label>Preferences</label>
+                  <div class="input-wrapper">
+                     <input type="text" id="profilePreferencesInput" placeholder ="add some preferences">
+                     <i class="ri-pencil-fill edit-icon"></i>
+                  </div>
+               </div>
+
                <button type="button" class="save-btn" id="profileSaveBtn">Save Changes</button>
 
                <!-- used  only when user comes here after signup -->
-               <a href="./login.html" class="skip-profile-info" id="profileSkipBtn">skip now</a>
-
+               <span class="skip-profile-info" id="profileSkipBtn">skip now</span>
           </form>
       </div>
     </div>

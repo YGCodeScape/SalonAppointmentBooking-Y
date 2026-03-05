@@ -137,7 +137,7 @@
 .skip-profile-info:hover {
     opacity: 0.5;
 }
-/* ---------------------------- */
+/* -------------gender section--------------- */
 .gender-box-wrapper{
     display:flex;
     gap:12px;
@@ -159,8 +159,8 @@
 }
 
 .gender-box.active{
-    border-color:#e81f4f;
-    color:#e81f4f;
+    color:#fff;
+    background-color: #e81f4f;
     font-weight:600;
 }
 

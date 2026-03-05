@@ -1,19 +1,20 @@
-document.addEventListener("DOMContentLoaded", async function () {
+// ===============================
+// PROFILE INFO PAGE
+// ===============================
+
+document.addEventListener("DOMContentLoaded", async () => {
 
     if (typeof API_BASE_URL === "undefined") {
-        console.error("API_BASE_URL is not defined!");
+        console.error("API_BASE_URL not found");
         return;
     }
 
-    // ===============================
-    // STORAGE DATA
-    // ===============================
+    const token = localStorage.getItem("access_token");
 
-    const signupUser = JSON.parse(localStorage.getItem("signupUser"));
-    const token = localStorage.getItem("jwtToken");
-
-    const isSignupMode = !!signupUser;
-    const isEditMode = !isSignupMode && !!token;
+    if (!token) {
+        window.location.href = "./login.html";
+        return;
+    }
 
     // ===============================
     // ELEMENTS
@@ -21,76 +22,126 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const nameInput = document.getElementById("profileNameInput");
     const emailInput = document.getElementById("profileEmailInput");
-    const ageInput = document.getElementById("profileNumberInput");
+    const phoneDisplay = document.getElementById("profileNumberDisplay");
+    const cityInput = document.getElementById("profileCityInput");
     const dobInput = document.getElementById("profileDOBInput");
     const anniversaryInput = document.getElementById("profileAnniInput");
+
     const displayName = document.getElementById("profileNameDisplay");
-    const displayNumber = document.getElementById("profileNumberDisplay");
 
     const genderBoxes = document.querySelectorAll(".gender-box");
+    const genderWrapper = document.getElementById("genderBoxWrapper");
+
+    const ageInput = document.getElementById("profileAgeInput");
+    const preferencesInput = document.getElementById("profilePreferencesInput");
+
     const saveBtn = document.getElementById("profileSaveBtn");
-    const skipBtn = document.getElementById("profileSkipBtn");
+
+    // calculate age based on dob string (YYYY-MM-DD)
+    function calculateAge(dob) {
+        if (!dob) return "";
+        const birth = new Date(dob);
+        if (isNaN(birth)) return "";
+        const now = new Date();
+        let age = now.getFullYear() - birth.getFullYear();
+        const m = now.getMonth() - birth.getMonth();
+        if (m < 0 || (m === 0 && now.getDate() < birth.getDate())) {
+            age--;
+        }
+        return age;
+    }
 
     let selectedGender = null;
     let genderLocked = false;
+    let customerId = null;
 
     // ===============================
-    // AUTO FILL (SIGNUP MODE)
+    // GET CURRENT USER
     // ===============================
 
-    if (isSignupMode) {
-        nameInput.value = signupUser.full_name || "";
-        emailInput.value = signupUser.email || "";
-        displayName.innerText = signupUser.full_name || "";
-        displayNumber.innerText = signupUser.mobile || "";
+    try {
+
+        const meRes = await fetch(`${API_BASE_URL}/auth/me`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        const meData = await meRes.json();
+
+        if (meData.status !== "success") {
+            throw new Error("Auth failed");
+        }
+
+        customerId = meData.data.customer_id;
+
+    } catch (error) {
+
+        console.error("Auth error:", error);
+        localStorage.removeItem("access_token");
+        window.location.href = "./login.html";
+        return;
+
     }
 
     // ===============================
-    // AUTO FETCH (EDIT MODE)
+    // FETCH CUSTOMER PROFILE
     // ===============================
 
-    if (isEditMode) {
-        try {
-            const response = await fetch(`${API_BASE_URL}/getProfile.php`, {
-                method: "GET",
+    try {
+
+        const profileRes = await fetch(
+            `${API_BASE_URL}/customers/view/${customerId}`,
+            {
                 headers: {
-                    "Authorization": "Bearer " + token
-                }
-            });
-
-            const data = await response.json();
-
-            if (data.status === "success") {
-
-                const user = data.user;
-
-                nameInput.value = user.full_name || "";
-                emailInput.value = user.email || "";
-                ageInput.value = user.age || "";
-                dobInput.value = user.dob || "";
-                anniversaryInput.value = user.anniversary || "";
-
-                displayName.innerText = user.full_name || "";
-                displayNumber.innerText = user.mobile || "";
-
-                // Lock gender if already set
-                if (user.gender) {
-                    selectedGender = user.gender;
-                    genderLocked = true;
-
-                    genderBoxes.forEach(box => {
-                        if (box.dataset.value === user.gender) {
-                            box.classList.add("active");
-                        }
-                        box.style.pointerEvents = "none";
-                        box.style.opacity = "0.6";
-                    });
+                    "Authorization": `Bearer ${token}`
                 }
             }
+        );
 
-        } catch (err) {
-            console.error("Profile fetch error:", err);
+        const profileData = await profileRes.json();
+
+        if (profileData.status !== "success") return;
+
+        const user = profileData.data;
+
+        nameInput.value = user.name || "";
+        emailInput.value = user.email || "";
+        dobInput.value = user.date_of_birth || "";
+        cityInput.value = user.address || "";
+        // preferencesInput.value = user.preferences || "",
+        anniversaryInput.value = user.anniversary_date || "";
+
+        displayName.innerText = user.name || "";
+        phoneDisplay.innerText = user.phone || "";
+
+        // calculate and display age from DOB (frontend only)
+        if (ageInput) {
+            ageInput.value = calculateAge(user.date_of_birth);
         }
+
+        // populate preferences from backend
+        if (preferencesInput) {
+            preferencesInput.value = user.preferences || "";
+        }
+
+        if (user.gender && user.gender !== "") {
+            genderLocked = true;
+            selectedGender = user.gender;
+
+            // lock the whole wrapper using css class instead of inline styles
+            if (genderWrapper) {
+                genderWrapper.classList.add("locked");
+            }
+
+            genderBoxes.forEach(box => {
+                if (box.dataset.value === user.gender) {
+                    box.classList.add("active");
+                }
+            });
+        }
+    } catch (error) {
+        console.error("Profile fetch error:", error);
     }
 
     // ===============================
@@ -98,91 +149,90 @@ document.addEventListener("DOMContentLoaded", async function () {
     // ===============================
 
     genderBoxes.forEach(box => {
+
         box.addEventListener("click", () => {
             if (genderLocked) return;
-
             genderBoxes.forEach(b => b.classList.remove("active"));
             box.classList.add("active");
             selectedGender = box.dataset.value;
         });
     });
 
+    // recalc age when DOB changes
+    if (dobInput) {
+        dobInput.addEventListener("change", () => {
+            if (ageInput) {
+                ageInput.value = calculateAge(dobInput.value);
+            }
+        });
+    }
+
     // ===============================
-    // SAVE PROFILE
+    // UPDATE PROFILE
     // ===============================
 
-    saveBtn.addEventListener("click", async function () {
+    saveBtn.addEventListener("click", async () => {
 
         const profileData = {
+
+            name: nameInput.value.trim(),
             email: emailInput.value.trim(),
-            full_name: nameInput.value.trim(),
-            gender: selectedGender,
-            age: ageInput.value ? parseInt(ageInput.value) : null,
-            dob: dobInput.value || null,
-            anniversary: anniversaryInput.value || null
+            address: cityInput.value.trim(),
+            date_of_birth: dobInput.value || null,
+            anniversary_date: anniversaryInput.value || null
+
         };
 
-        if (!profileData.full_name || !profileData.email) {
-            alert("Name and Email are required");
-            return;
+        if (selectedGender) {
+            profileData.gender = selectedGender;
+        }
+
+        // include preferences field for storage
+        if (preferencesInput) {
+            profileData.preferences = preferencesInput.value.trim();
         }
 
         try {
-            const response = await fetch(`${API_BASE_URL}/updateProfile.php`, {
-                method: "POST",
+
+            const res = await fetch(`${API_BASE_URL}/customers/me`, {
+
+                method: "PATCH",
+
                 headers: {
                     "Content-Type": "application/json",
-                    ...(isSignupMode || isEditMode ? { "Authorization": "Bearer " + token } : {})
+                    "Authorization": `Bearer ${token}`
                 },
+
                 body: JSON.stringify(profileData)
+
             });
 
-            const data = await response.json();
+            const result = await res.json();
 
-            if (data.status === "success") {
+            if (result.status === "success") {
 
-                // Save latest user locally
-                localStorage.setItem("currentUser", JSON.stringify(data.user));
+                alert("Profile updated successfully");
 
-                // ===============================
-                // SIGNUP FLOW → LOGIN
-                // ===============================
-                if (isSignupMode) {
-                    localStorage.removeItem("signupUser");
-                    window.location.href = "../html/login.html";
-                    return;
-                }
-
-                // ===============================
-                // EDIT FLOW → INDEX
-                // ===============================
-                if (isEditMode) {
-                    window.location.href = "../index.html";
-                    return;
-                }
+                window.location.href = "../index.html";
 
             } else {
-                alert(data.message || "Update failed");
+
+                alert(result.message || "Update failed");
+
             }
 
         } catch (error) {
-            console.error("Profile Update Error:", error);
-            alert("Something went wrong.");
+            console.error("Update error:", error);
+            alert("Something went wrong");
         }
     });
 
-    // ===============================
-    // SKIP BUTTON
-    // ===============================
-
-    skipBtn.addEventListener("click", function (e) {
-        e.preventDefault();
-
-        if (isSignupMode) {
-            window.location.href = "../html/login.html";
-        } else {
+    document.getElementById("profileSkipBtn").addEventListener("click", () => {
+        if(token) {
             window.location.href = "../index.html";
         }
-    });
-
+        else {
+           window.location.href = "./html/login.html";
+        }
+    })
 });
