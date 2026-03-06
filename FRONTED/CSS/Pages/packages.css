@@ -86,8 +86,8 @@
 .package-title {
     max-width: 220px;
     font-size: var(--font-size-xl);
-    font-weight: 400;
-    font-family: var(--secondary-font);
+    font-weight: 800;
+    font-family: var(--primary-font);
     color: var(--primary-color);
     letter-spacing: 1px;
     padding-left: var(--padding-md);
@@ -126,14 +126,18 @@
     align-items: flex-end;
 }
 .offer-tag {
-    width: 50px;
-    height: 40px;
+    font-size: var(--font-size-2xl);
+    font-family: "Molle", cursive;
+    font-weight: 400;
     margin-left: 50px;
     margin-bottom: 10px;
+    color: var(--secondary-color);
+    line-height: 1;
 }
 .package-price {
-    font-size: var(--font-size-2xl);
-    font-weight: 600;
+    font-size: var(--font-size-xl);
+    font-family: var(--secondary-font);
+    font-weight: 400;
     position: absolute;
     bottom: 28%;
     right: 2%;
@@ -161,7 +165,7 @@
     position: absolute;
     top: 0;
     right: -100%;
-    width: 65%;
+    width: 70%;
     height: 100%;
     background: white;
     padding: var(--padding-md);
@@ -212,6 +216,9 @@
     color: var(--primary-color);
     border-radius: 8px;
     cursor: pointer;
+}
+.package-description{
+    font-size: var(--font-size-sm);
 }
 
 /* ---------------- RESPONSIVE MEDIA QUERY ---------------- */

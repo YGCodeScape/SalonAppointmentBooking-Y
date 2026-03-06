@@ -1,166 +1,248 @@
-document.addEventListener("DOMContentLoaded", () => {
+// ===============================
+// CONFIG
+// ===============================
+const salonId = 1;
+
+// ===============================
+// STATE
+// ===============================
+let packagesData = [];
+let DOM = {};
+const token = localStorage.getItem("access_token");
+// ===============================
+// INIT
+// ===============================
+document.addEventListener("DOMContentLoaded", initApp);
+
+function initApp() {
+    cacheDOM();
     checkAuth();
-});
+    attachEvents();
+    fetchPackages();
+}
+
+// ===============================
+// CACHE DOM
+// ===============================
+function cacheDOM() {
+
+    DOM.loginBtn = document.getElementById("nav-log-btn");
+    DOM.signupBtn = document.getElementById("nav-signup-btn");
+    DOM.profileDiv = document.getElementById("nav-profile-div");
+
+    DOM.searchInput = document.getElementById("package-search");
+    DOM.packagesContainer = document.querySelector(".packages-container");
+
+}
+
 // ===============================
 // AUTH CHECK
 // ===============================
 function checkAuth() {
 
-    const accessToken = localStorage.getItem("access_token");
 
-    const loginBtn = document.getElementById("nav-log-btn");
-    const signupBtn = document.getElementById("nav-signup-btn");
-    const profileDiv = document.getElementById("nav-profile-div");
-
-    if (accessToken) {
-        loginBtn.style.display = "none";
-        signupBtn.style.display = "none";
-        profileDiv.style.display = "flex";
-
+    if (token) {
+        DOM.loginBtn.style.display = "none";
+        DOM.signupBtn.style.display = "none";
+        DOM.profileDiv.style.display = "flex";
     } else {
-        loginBtn.style.display = "inline-block";
-        signupBtn.style.display = "inline-block";
-        profileDiv.style.display = "none";
+        DOM.loginBtn.style.display = "inline-block";
+        DOM.signupBtn.style.display = "inline-block";
+        DOM.profileDiv.style.display = "none";
+    }
+
+}
+
+// ===============================
+// FETCH PACKAGES
+// ===============================
+async function fetchPackages() {
+
+    try {
+
+        const res = await fetch( `${API_BASE_URL}/packages?salon_id=${salonId}`);
+
+        if (!res.ok) throw new Error("Packages API failed");
+
+        const data = await res.json();
+
+        if (data.status !== "success") return;
+
+        packagesData = data.data.items;
+
+        renderPackages(packagesData);
+
+    } catch (error) {
+        console.error("Packages fetch error:", error);
     }
 }
 
+// ===============================
+// RENDER PACKAGES
+// ===============================
+function renderPackages(packages) {
 
-//  Get elements
-const searchInput = document.getElementById("package-search");
-const packageCart = document.querySelectorAll(".package-card");
-const bookBtns = document.querySelectorAll(".package-book-btn")
+    if (!DOM.packagesContainer) return;
 
+    if (packages.length === 0) {
+        DOM.packagesContainer.innerHTML = "<p>No packages available</p>";
+        return;
+    }
 
-function openDetails(el){
-    const pack = el.closest('.package-card');
-    pack.classList.add('show-details');
+    const html = packages.map(pkg => `
+
+        <div class="package-card"
+            data-id="${pkg.package_id}"
+            data-name="${pkg.package_name}"
+            data-price="${pkg.total_price}"
+        >
+            <div class="package-image">
+                <img 
+                    src="${IMAGE_BASE + pkg.image_url}"
+                    alt="${pkg.package_name}"
+                >
+            </div>
+            <div class="package-content">
+                <div class="package-top">
+                    <h3 class="package-title">${pkg.package_name}</h3>
+                    <div class="view-details">
+                        <span>view details</span>
+                        <i class="ri-information-line"></i>
+                    </div>
+                </div>
+
+                <ul class="package-services">
+                    ${pkg.services
+                        ? pkg.services
+                              .split(",")
+                              .filter(s => s.trim())
+                              .map(s => `<li><i class="ri-check-fill"></i>${s.trim()}</li>`)
+                              .join("")
+                        : ""}
+                </ul>
+
+                <div class="package-bottom">
+                    <div class="package-price">₹${pkg.total_price}</div>
+                    <div class="offer-tag">${pkg.discount}%off</div>
+                    <button class="package-book-btn">
+                        Book Appointment
+                    </button>
+                </div>
+
+                <div class="details-panel">
+                    <h4>Package Details</h4>
+                    <p class="package-description">
+                        ${pkg.description || "Premium salon package"}
+                    </p>
+                    <ul>
+                       <li>Non-refundable</li>
+                       <li>Not transferable</li>
+                       <li>Prior appointment required</li>
+                    </ul>
+                    <p class="validity">
+                        Valid for ${pkg.validity_days} days
+                    </p>
+
+                    <button class="close-btn">
+                        Close
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    `).join("");
+
+    DOM.packagesContainer.innerHTML = html;
+
 }
 
-function closeDetails(el){
-    const pack = el.closest('.package-card');
-    pack.classList.remove('show-details');
+// ===============================
+// GLOBAL EVENTS
+// ===============================
+function attachEvents() {
+
+    // SEARCH
+    DOM.searchInput.addEventListener("input", handleSearch);
+
+    // PACKAGE ACTIONS
+    document.addEventListener("click", handlePackageActions);
+
 }
 
-//  Add event listener on search
-searchInput.addEventListener("input", function () {
-    const searchValue = searchInput.value.toLowerCase();
+// ===============================
+// SEARCH PACKAGES
+// ===============================
+function handleSearch() {
 
-    packageCart.forEach(pCard => {
-        const packageName = pCard.querySelector(".package-title").textContent.toLowerCase();
+    const value = DOM.searchInput.value.toLowerCase();
 
-        if (packageName.includes(searchValue)) {
-            pCard.style.display = "flex";
-        } else {
-            pCard.style.display = "none";
-        }
+    const cards = document.querySelectorAll(".package-card");
+
+    cards.forEach(card => {
+
+        const name = card
+            .querySelector(".package-title")
+            .textContent
+            .toLowerCase();
+
+        card.style.display =
+            name.includes(value) ? "flex" : "none";
+
     });
-});
 
+}
 
-bookBtns.forEach((btn) => {
-  btn.addEventListener("click", function () {
-    // Get package data from HTML using data attributes
-    const packageCard = btn.closest(".package-card");
+// ===============================
+// PACKAGE ACTION HANDLER
+// ===============================
+function handlePackageActions(e) {
 
-    const selectedPackage = {
-      id: packageCard.dataset.id,
-      name: packageCard.dataset.name,
-      price: packageCard.dataset.price,
-    };
+    // OPEN DETAILS
+    if (e.target.closest(".view-details")) {
 
-    console.log(selectedPackage.id)
-    localStorage.setItem("bookingSource", "packages");
+        const card =
+            e.target.closest(".package-card");
 
-    // store as ARRAY (important)
-    localStorage.setItem("bookingItems", JSON.stringify([selectedPackage]));
+        card.classList.add("show-details");
 
-    window.location.href = "booking.html";
-  });
+    }
 
-});
+    // CLOSE DETAILS
+    if (e.target.classList.contains("close-btn")) {
 
-// document.addEventListener("DOMContentLoaded", () => {
+        const card =
+            e.target.closest(".package-card");
 
-//     const container = document.querySelector(".packages-container");
+        card.classList.remove("show-details");
 
-//     let allPackages = [];
+    }
 
-//     // ================= FETCH PACKAGES =================
-//     async function fetchPackages() {
-//         try {
+    // BOOK PACKAGE
+    if (e.target.classList.contains("package-book-btn")) {
 
-//             const response = await fetch(`${API_BASE_URL}/packages`);
-//             const data = await response.json();
+      if(token) {
+          const card = e.target.closest(".package-card");
 
-//             allPackages = data;
-//             renderPackages(allPackages);
+         const selectedPackage = {
+             id: card.dataset.id,
+             name: card.dataset.name,
+             price: card.dataset.price
+         };
 
-//         } catch (error) {
-//             console.error("Error fetching packages:", error);
-//         }
-//     }
+         localStorage.setItem(
+             "bookingSource",
+             "packages"
+         );
 
-//     // ================= RENDER PACKAGES =================
-//     function renderPackages(packages) {
-
-//         container.innerHTML = "";
-
-//         if (packages.length === 0) {
-//             container.innerHTML = "<p>No packages found.</p>";
-//             return;
-//         }
-
-//         packages.forEach(pkg => {
-
-//             const card = document.createElement("div");
-//             card.classList.add("package-card");
-
-//             card.innerHTML = `
-//                 <div class="package-image">
-//                     <img src="../Assets/images/${pkg.image}" alt="${pkg.name}">
-//                 </div>
-
-//                 <div class="package-content">
-//                     <div class="package-top">
-//                         <h3 class="package-title">${pkg.name}</h3>
-//                         <div class="view-details">
-//                             <span>view details</span> 
-//                             <i class="ri-information-line"></i>
-//                         </div>
-//                     </div>
-
-//                     <ul class="package-services">
-//                         ${pkg.services.map(service => `
-//                             <li><i class="ri-check-fill"></i> ${service}</li>
-//                         `).join("")}
-//                     </ul>
-
-//                     <div class="package-bottom">
-//                         <div class="package-price">₹${pkg.price}</div>
-//                         <div class="offer-tag">
-//                             <img src="../Assets/images/${pkg.offerImage}" alt="offer">
-//                         </div>
-//                         <button class="package-book-btn" data-id="${pkg.id}">
-//                             Book an Appointment
-//                         </button>
-//                     </div>
-
-//                     <div class="details-panel">
-//                         <h4>Terms & Conditions</h4>
-//                         <ul>
-//                             ${pkg.terms.map(term => `<li>${term}</li>`).join("")}
-//                         </ul>
-//                         <p class="validity">
-//                             Valid till ${formatDate(pkg.validity)}
-//                         </p>
-//                         <button class="close-btn">Close</button>
-//                     </div>
-//                 </div>
-//             `;
-
-//             container.appendChild(card);
-//         });
-//     }
-//     // Initial Load
-//     fetchPackages();
-// });
+         localStorage.setItem(
+             "bookingItems",
+             JSON.stringify([selectedPackage])
+         );
+         window.location.href = "booking.html";
+      }
+      else {
+        alert("login first to book an appointment.")
+      }
+    }
+}
