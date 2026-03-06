@@ -61,8 +61,7 @@ async function fetchServices() {
 
     try {
 
-        const res = await fetch(
-            `${API_BASE_URL}/services?salon_id=${salonId}`
+        const res = await fetch( `${API_BASE_URL}/services?salon_id=${salonId}`
         );
 
         const data = await res.json();
