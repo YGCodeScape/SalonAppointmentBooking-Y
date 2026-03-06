@@ -159,6 +159,9 @@
   cursor:pointer;
   transition: all 0.3s ease;
 }
+.service-add-btn i {
+  pointer-events: none;
+}
 .service-added-highLight {
   background: var(--secondary-color);
   color: var(--color-white);
