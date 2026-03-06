@@ -70,9 +70,7 @@ function checkAuth() {
 // FETCH SERVICES
 // ===============================
 async function fetchServices() {
-
     try {
-
         const res = await fetch(
             `${API_BASE_URL}/services?salon_id=${salonId}`
         );
@@ -90,9 +88,7 @@ async function fetchServices() {
     } catch (error) {
 
         console.error("Services fetch error:", error);
-
     }
-
 }
 
 // ===============================
