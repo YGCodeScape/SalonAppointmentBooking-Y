@@ -21,6 +21,13 @@ function initApp() {
     fetchPackages();
 }
 
+/* ── Scroll: darken navbar ── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+
 // ===============================
 // CACHE DOM
 // ===============================

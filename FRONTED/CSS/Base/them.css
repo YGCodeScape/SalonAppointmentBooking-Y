@@ -11,6 +11,7 @@
   --color-accent: #c9356b;
   --color-accent2: #e8829a;
   --red: #E8254D;
+  --nav-bg: rgba(8, 4, 12, 0.72);
 
   /*TEXT COLORS*/
   --text-light: #676565;
@@ -27,6 +28,7 @@
   /*FONT FAMILY*/
   --primary-font: "Plus Jakarta Sans", sans-serif;
   --secondary-font: "Poetsen One", sans-serif;
+  --font-display: 'Italiana', serif;
 
   /* FONT SIZE */
   --font-size-sm: 0.875rem;

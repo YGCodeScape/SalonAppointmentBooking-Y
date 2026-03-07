@@ -46,6 +46,11 @@ function cacheDOM() {
     DOM.mobileCartTotal = document.querySelector(".cart-total-amount");
 
 }
+/* ── Scroll: darken navbar ── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
 
 // ===============================
 // AUTH CHECK

@@ -17,35 +17,75 @@
 <title>Elite Beauty Salon</title>
 </head>
 <body>
-  <header class="navbar">
-  <div class="logo">
-    <span class="logo-text" id="logo-text">Elite Beauty Salon</span>
-  </div>
+<header class="navbar" id="navbar">
 
-  <nav class="nav-links">
-    <div class="nav-link"><a href="../index.html" class="nav-a"><i class=" nav-i ri-home-4-line"></i>Home</a></div>
-    <div class="nav-link"><a href="./services.html" class="nav-a"><i class=" nav-i ri-scissors-fill"></i>Services</a></div>
-    <div class="nav-link"><a href="./packages.html" class="nav-a"><i class=" nav-i ri-gift-2-line"></i>Packages</a></div>
-    <div class="nav-link"><a href="./myAppointment.html" class="nav-a"><i class=" nav-i ri-calendar-line"></i>Appointments</a></div>
-    <div class="nav-link active"><a href="./contactUs.html" class="nav-a"><i class=" nav-i ri-contacts-book-2-line"></i>Contact Us</a></div>
+  <!-- LOGO -->
+  <a class="logo" href="./index.html">
+    <span class="logo-text" id="logo-text">Elite <span>Beauty</span></span>
+  </a>
+
+  <!-- DESKTOP NAV LINKS -->
+  <nav class="nav-links" aria-label="Primary navigation">
+    <div class="nav-link">
+      <a href="../index.html" class="nav-a">
+        <i class="nav-i ri-home-4-line"></i>Home
+      </a>
+    </div>
+    <div class="nav-link">
+      <a href="./html/services.html" class="nav-a">
+        <i class="nav-i ri-scissors-fill"></i>Services
+      </a>
+    </div>
+    <div class="nav-link">
+      <a href="./html/packages.html" class="nav-a">
+        <i class="nav-i ri-gift-2-line"></i>Packages
+      </a>
+    </div>
+    <div class="nav-link">
+      <a href="./html/myAppointment.html" class="nav-a active-nav">
+        <i class="nav-i ri-calendar-line"></i>Appointments
+      </a>
+    </div>
+    <div class="nav-link">
+      <a href="./html/contactUs.html" class="nav-a">
+        <i class="nav-i ri-contacts-book-2-line"></i>Contact Us
+      </a>
+    </div>
   </nav>
 
+  <!-- DESKTOP RIGHT -->
   <div class="nav-right">
     <div class="search-box">
       <i class="ri-search-2-line"></i>
-      <input type="text" placeholder="search services or packages">
+      <input type="text" placeholder="Search services…" aria-label="Search"/>
     </div>
-    <button class="nav-btns nav-btn-log" id="nav-log-btn"> <a class="nav-btn-a" href="./login.html">Login In</a></button>
-    <button class="nav-btns nav-btn-sign" id="nav-signup-btn"> <a class="nav-btn-a" href="./signup.html">Sign Up</a></button>
+
+    <button class="nav-btns nav-btn-log" id="nav-log-btn">
+      <a class="nav-btn-a" href="./html/login.html">Log In</a>
+    </button>
+    <button class="nav-btns nav-btn-sign" id="nav-signup-btn">
+      <a class="nav-btn-a" href="./html/signup.html">Sign Up</a>
+    </button>
+
+    <!-- Profile (shown when logged in) -->
     <div class="nav-profile-div" id="nav-profile-div">
-       <i class="ri-user-line profile-i"></i>
+      <div class="profile-trigger" id="profileTrigger">
+        <div class="profile-avatar"><i class="ri-user-line"></i></div>
+        <span class="profile-name">My Profile</span>
+        <i class="ri-arrow-down-s-line profile-chevron"></i>
+      </div>
       <div class="hover-profile-box">
-        <button class="land-edit-pro-btn"><a href="./profileInfo.html">Edit profile <i class="ri-edit-circle-fill"></i></a></button>
-       <button class="land-logout-btn" onclick="logout()"> log Out <i class="ri-logout-circle-r-line"></i></button>
-    </div>
+        <button class="land-edit-pro-btn">
+          <a href="./html/profileInfo.html">Edit Profile <i class="ri-edit-circle-fill"></i></a>
+        </button>
+        <button class="land-logout-btn" onclick="logout()">
+          Log Out <i class="ri-logout-circle-r-line"></i>
+        </button>
+      </div>
     </div>
   </div>
-  </header>
+</header>
+
   <!-- Mobile quick menu -->
 <section class="mobile-menu" id="mobile-menu-full-page">
   <div class="menu-item">
