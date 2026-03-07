@@ -1,7 +1,6 @@
 // ===============================
 // LOGIN.JS (API Integrated)
 // ===============================
-
 document.addEventListener("DOMContentLoaded", function () {
 
   if (typeof API_BASE_URL === "undefined") {
@@ -60,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-const mobile = mobileInput.value.trim();
+    const mobile = mobileInput.value.trim();
     const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
 
@@ -115,7 +114,10 @@ const mobile = mobileInput.value.trim();
       console.error("Login error:", error);
       alert("Server error");
     }
-
   });
-
 });
+  // Toggle password visibility
+function togglePassword(id) {
+  const input = document.getElementById(id);
+  input.type = input.type === "password" ? "text" : "password";
+}

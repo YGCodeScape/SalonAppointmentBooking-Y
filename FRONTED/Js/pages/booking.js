@@ -6,6 +6,7 @@ const bookingData = {
     type: null,
     items: [],
     staff: null,
+    staff_name: null,
     date: null,
     time: null,
     totalAmount: 0,
@@ -130,11 +131,8 @@ function renderStaff(staffList = []) {
 
             div.querySelector(".radio").classList.add("selected");
 
-            bookingData.staff = {
-                id: staff.staff_id,
-                name: staff.name
-            };
-
+            bookingData.staff = staff.staff_id;
+            bookingData.staff_name = staff.name;
         });
         DOM.staffList.appendChild(div);
     });
@@ -219,25 +217,18 @@ function updateSummaryDate(date){
 // ===============================
 // AM PM BUTTON
 // ===============================
-
 function attachEvents(){
 
-    document
-    .querySelectorAll(".am-pm-btn")
-    .forEach(btn=>{
+    document.querySelectorAll(".am-pm-btn").forEach(btn=>{
 
         btn.addEventListener("click",()=>{
-
             document
             .querySelectorAll(".am-pm-btn")
             .forEach(b=>b.classList.remove("active"));
 
             btn.classList.add("active");
-
             updateTimeBadge();
-
         });
-
     });
 
     DOM.bookBtn.addEventListener("click", handleBooking);
@@ -249,55 +240,108 @@ function attachEvents(){
     document
     .querySelector(".back-btn")
     .addEventListener("click", handleBack);
-
 }
 
+// ===============================
+// FORMAT DATA AND TIME FOR API BACKEND
+// ===============================
+function formatDateForAPI(date){
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2,'0');
+    const day = String(d.getDate()).padStart(2,'0');
+
+    return `${year}-${month}-${day}`;
+}
+function formatTimeForAPI(time){
+    const [timePart, modifier] = time.split(" ");
+    let [hours, minutes] = timePart.split(":");
+    hours = parseInt(hours);
+
+    if(modifier === "PM" && hours !== 12){
+        hours += 12;
+    }
+    if(modifier === "AM" && hours === 12){
+        hours = 0;
+    }
+
+    return `${String(hours).padStart(2,"0")}:${minutes}:00`;
+}
 
 // ===============================
 // FINAL BOOKING
 // ===============================
 
-function handleBooking(){
+async function handleBooking(){
 
     if(!bookingData.staff){
         alert("Please select staff");
         return;
     }
+    try{
+        const token = localStorage.getItem("access_token");
 
-    const appointments =
-        JSON.parse(localStorage.getItem("appointments")) || [];
+        let services = [];
+        let packages = [];
 
-    const finalBooking = {
+        if(bookingData.type === "services"){
 
-        id: Date.now(),
+            services = bookingData.items.map(item => ({
+                service_id: item.id,
+                staff_id: bookingData.staff,
+                price: item.price
+            }));
 
-        items: bookingData.items,
+        }
 
-        staff: bookingData.staff,
+        if(bookingData.type === "packages"){
 
-        date: bookingData.date,
+            packages = bookingData.items.map(item => ({
+                package_id: item.id,
+                staff_id: bookingData.staff,
+                price: item.price
+            }));
 
-        time: bookingData.time,
+        }
 
-        totalAmount: bookingData.totalAmount,
+        const payload = {
+            appointment_date: formatDateForAPI(bookingData.date),
+            start_time: formatTimeForAPI(bookingData.time),
+            estimated_duration: 60,
 
-        status:"pending",
+            services: services,
+            packages: packages
+        };
 
-        createdAt:new Date().toISOString()
+        console.log("Sending payload:", payload);
 
-    };
+        const res = await fetch(`${API_BASE_URL}/appointments`,{
 
-    appointments.push(finalBooking);
+            method:"POST",
 
-    localStorage.setItem(
-        "appointments",
-        JSON.stringify(appointments)
-    );
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${token}`
+            },
 
-    populateSuccessModal();
+            body: JSON.stringify(payload)
 
-    DOM.successModal.classList.add("show");
+        });
 
+        const data = await res.json();
+
+        if(data.status !== "success"){
+            alert(data.message);
+            return;
+        }
+
+        populateSuccessModal();
+        DOM.successModal.classList.add("show");
+    }
+    catch(err){
+        console.error("Booking error:",err);
+        alert("Something went wrong");
+    }
 }
 
 
@@ -320,7 +364,7 @@ function populateSuccessModal(){
         .textContent = bookingData.type + " added";
 
     document.getElementById("modalStaff")
-        .textContent = bookingData.staff;
+        .textContent = bookingData.staff_name;
 
     document.getElementById("modalServices")
         .innerHTML =

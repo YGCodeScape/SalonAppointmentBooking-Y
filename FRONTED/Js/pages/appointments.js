@@ -1,12 +1,16 @@
 document.addEventListener("DOMContentLoaded", function () {
-  checkAuth();
-  loadAppointments();
+
+    checkAuth();
+    fetchAppointments();
 
 });
+
+
 // ===============================
 // AUTH CHECK
 // ===============================
-function checkAuth() {
+
+function checkAuth(){
 
     const accessToken = localStorage.getItem("access_token");
 
@@ -14,203 +18,195 @@ function checkAuth() {
     const signupBtn = document.getElementById("nav-signup-btn");
     const profileDiv = document.getElementById("nav-profile-div");
 
-    if (accessToken) {
-        loginBtn.style.display = "none";
-        signupBtn.style.display = "none";
-        profileDiv.style.display = "flex";
+    if(accessToken){
 
-    } else {
-        loginBtn.style.display = "inline-block";
-        signupBtn.style.display = "inline-block";
-        profileDiv.style.display = "none";
+        loginBtn.style.display="none";
+        signupBtn.style.display="none";
+        profileDiv.style.display="flex";
+
+    }else{
+        window.location.href="../login.html";
     }
 }
-/* -------------------------------
-   MAIN LOAD FUNCTION
---------------------------------*/
-function loadAppointments() {
 
-  const appointments = JSON.parse(localStorage.getItem("appointments")) || [];
+// ===============================
+// FETCH APPOINTMENTS
+// ===============================
 
-  const upcomingContainer = document.getElementById("upcoming");
-  const pastContainer = document.getElementById("past");
+async function fetchAppointments(){
 
-  upcomingContainer.innerHTML = "";
-  pastContainer.innerHTML = "";
+    try{
+        const token = localStorage.getItem("access_token");
+        
+        const res = await fetch(`${API_BASE_URL}/appointments`,{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        });
 
-  if (appointments.length === 0) {
-    upcomingContainer.innerHTML = "<p>No appointments found.</p>";
-    return;
-  }
+        const data = await res.json();
+        if(data.status !== "success"){
+            return;
+        }
+        renderAppointments(data.data.items);
 
-  const now = new Date();
-
-  appointments.forEach((appointment, index) => {
-
-    const appointmentDateObj = new Date(appointment.date);
-    const isPast = appointmentDateObj < now;
-
-    const formattedDate = formatDate(appointmentDateObj);
-
-    const statusConfig = getStatusConfig(appointment.status);
-
-    const icon = getIconByItems(appointment.items);
-
-    let itemsList = appointment.items.map(item => item.name).join(", ");
-
-    const card = document.createElement("div");
-    card.classList.add("AppointmentCard");
-
-    card.innerHTML = `
-      <div class="AppointmentCard-body">
-        <div class="AppointmentCard-header">
-          <span class="AppointmentCard-title">${itemsList}</span>
-          <span class="badge" style="
-              background:${statusConfig.bg};
-              color:${statusConfig.color};
-          ">${statusConfig.text}</span>
-        </div>
-
-        <div class="AppointmentCard-datetime">
-          <span class="appointment-date">${formattedDate}</span>
-          <span class="dot">•</span>
-          <span class="appointment-time">${appointment.time}</span>
-        </div>
-
-        <div class="AppointmentCard-stylist">
-          Stylist : <strong>${appointment.staff}</strong>
-        </div>
-
-        <div class="AppointmentCard-location">
-          Apex Salons, Sector 7, Airoli, Navi Mumbai.
-        </div>
-
-        <div class="AppointmentCard-footer">
-          <button class="btn-update" data-index="${index}">Update</button>
-          <span class="AppointmentCard-icon">${icon}</span>
-        </div>
-      </div>
-    `;
-
-    if (isPast) {
-      pastContainer.appendChild(card);
-    } else {
-      upcomingContainer.appendChild(card);
+    }catch(err){
+        console.error("Appointment fetch error:",err);
     }
-  });
-
-  attachUpdateListeners();
 }
 
 
-/* -------------------------------
-   FORMAT DATE
---------------------------------*/
-function formatDate(dateObj) {
-  const options = { month: "short", weekday: "short", day: "numeric" };
-  return dateObj.toLocaleDateString("en-IN", options);
-}
+// ===============================
+// RENDER APPOINTMENTS
+// ===============================
 
+function renderAppointments(appointments=[]){
 
-/* -------------------------------
-   STATUS STYLE CONFIG
---------------------------------*/
-function getStatusConfig(status) {
+    const upcomingContainer=document.getElementById("upcoming");
+    const pastContainer=document.getElementById("past");
 
-  switch (status) {
+    upcomingContainer.innerHTML="";
+    pastContainer.innerHTML="";
 
-    case "pending":
-      return {
-        text: "PENDING",
-        bg: "#FFF4E5",
-        color: "#FF9800"
-      };
+    if(appointments.length===0){
 
-    case "accepted":
-      return {
-        text: "CONFIRMED",
-        bg: "#E8F5E9",
-        color: "#2E7D32"
-      };
+        upcomingContainer.innerHTML="<p>No appointments found.</p>";
+        return;
 
-    case "rejected":
-      return {
-        text: "REJECTED",
-        bg: "#FDECEA",
-        color: "#C62828"
-      };
+    }
 
-    case "completed":
-      return {
-        text: "COMPLETED",
-        bg: "#E3F2FD",
-        color: "#1565C0"
-      };
+    const now=new Date();
 
-    default:
-      return {
-        text: status.toUpperCase(),
-        bg: "#eee",
-        color: "#333"
-      };
-  }
-}
+    appointments.forEach(appt=>{
 
+        const appointmentDateObj=new Date(appt.appointment_date);
 
-/* -------------------------------
-   ICON BASED ON ITEM TYPE
---------------------------------*/
-function getIconByItems(items) {
+        const isPast=appointmentDateObj<now;
 
-//   if (!items || items.length === 0) return "✂️";
+        const formattedDate=formatDate(appointmentDateObj);
 
-  if (items.length === 1 && items[0].type === "package") {
-    return "🎁";
-  }
+        const statusConfig=getStatusConfig(appt.status);
 
-  return "✂️";
-}
+        const itemsList=appt.items
+            ? appt.items.map(i=>i.name).join(", ")
+            : "Service";
 
+        const card=document.createElement("div");
 
-/* -------------------------------
-   UPDATE BUTTON DELETE LOGIC
---------------------------------*/
-function attachUpdateListeners() {
+        card.classList.add("AppointmentCard");
 
-  const updateButtons = document.querySelectorAll(".btn-update");
+        card.innerHTML=`
+        <div class="AppointmentCard-body">
 
-  updateButtons.forEach(btn => {
+            <div class="AppointmentCard-header">
+                <span class="AppointmentCard-title">${itemsList}</span>
 
-    btn.addEventListener("click", function () {
+                <span class="badge"
+                style="background:${statusConfig.bg};color:${statusConfig.color};">
+                ${statusConfig.text}
+                </span>
+            </div>
 
-      const index = this.getAttribute("data-index");
+            <div class="AppointmentCard-datetime">
+                <span class="appointment-date">${formattedDate}</span>
+                <span class="dot">•</span>
+                <span class="appointment-time">${appt.appointment_time}</span>
+            </div>
 
-      let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
+            <div class="AppointmentCard-stylist">
+                Stylist : <strong>${appt.staff_name || "Staff"}</strong>
+            </div>
 
-      appointments.splice(index, 1);
+            <div class="AppointmentCard-location">
+                Apex Salons, Sector 7, Airoli, Navi Mumbai
+            </div>
 
-      localStorage.setItem("appointments", JSON.stringify(appointments));
+        </div>
+        `;
 
-      // Redirect to home for re booking
-      window.location.href = "../index.html";
+        if(isPast){
+            pastContainer.appendChild(card);
+        }else{
+            upcomingContainer.appendChild(card);
+        }
     });
-  });
 }
 
+// ===============================
+// FORMAT DATE
+// ===============================
 
-/* -------------------------------
-   TAB SWITCH LOGIC (IMPROVED)
---------------------------------*/
-function switchTab(btn, tab) {
+function formatDate(dateObj){
 
-  const buttons = document.querySelectorAll(".UpPast-btn");
+    const options={
+        month:"short",
+        weekday:"short",
+        day:"numeric"
+    };
+    return dateObj.toLocaleDateString("en-IN",options);
+}
 
-  buttons.forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
+// ===============================
+// STATUS CONFIG
+// ===============================
 
-  document.getElementById("upcoming").style.display =
-    tab === "upcoming" ? "flex" : "none";
+function getStatusConfig(status){
 
-  document.getElementById("past").style.display =
-    tab === "past" ? "flex" : "none";
+    switch(status){
+
+        case "PENDING":
+            return{
+                text:"PENDING",
+                bg:"#FFF4E5",
+                color:"#FF9800"
+            };
+
+        case "CONFIRMED":
+            return{
+                text:"CONFIRMED",
+                bg:"#E8F5E9",
+                color:"#2E7D32"
+            };
+
+        case "REJECTED":
+            return{
+                text:"REJECTED",
+                bg:"#FDECEA",
+                color:"#C62828"
+            };
+
+        case "COMPLETED":
+            return{
+                text:"COMPLETED",
+                bg:"#E3F2FD",
+                color:"#1565C0"
+            };
+
+        default:
+            return{
+                text:status,
+                bg:"#eee",
+                color:"#333"
+            };
+    }
+}
+
+// ===============================
+// TAB SWITCH
+// ===============================
+
+function switchTab(btn,tab){
+
+    const buttons=document.querySelectorAll(".UpPast-btn");
+
+    buttons.forEach(b=>b.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    document.getElementById("upcoming").style.display=
+        tab==="upcoming"?"flex":"none";
+
+    document.getElementById("past").style.display=
+        tab==="past"?"flex":"none";
+
 }
