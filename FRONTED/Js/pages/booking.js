@@ -60,23 +60,21 @@ function loadBookingItems(){
 
     const source = localStorage.getItem("bookingSource");
 
-    const items = JSON.parse(
-        localStorage.getItem("bookingItems")
-    ) || [];
-
+    const items = JSON.parse(localStorage.getItem("bookingItems")) || [];
+    
     bookingData.type = source;
     bookingData.items = items;
-
-    let total = 0;
-
-    items.forEach(item => {
-        total += Number(item.price || 0);
-    });
-
-    bookingData.totalAmount = total;
-
-    document.getElementById("summaryItem").textContent = source;
-    document.getElementById("summaryItems").textContent = items.map(i=>i.name).join(", ");
+        
+        let total = 0;
+        
+        items.forEach(item => {
+            total += Number(item.price || 0);
+        });
+        
+        bookingData.totalAmount = total;
+        
+        document.getElementById("summaryItem").textContent = source;
+        document.getElementById("summaryItems").textContent = items.map(i=>i.name).join(", ");
 }
 
 //================================
@@ -279,6 +277,19 @@ async function handleBooking(){
         showWarning("Please select a staff member");
         return;
     }
+    const token = localStorage.getItem("access_token");
+    if(!token){
+        showWarning("Please login to book appointment");
+        setTimeout(()=>{
+            window.location.href = "./login.html";
+        },1500);
+
+        return;
+    }
+    const confirm = await confirmBookingSummary();
+
+    if(!confirm.isConfirmed) return;
+
     try{
         const token = localStorage.getItem("access_token");
 
@@ -314,8 +325,7 @@ async function handleBooking(){
             packages: packages
         };
 
-        console.log("Sending payload:", payload);
-
+        showLoading("Booking appointment...");
         const res = await fetch(`${API_BASE_URL}/appointments`,{
 
             method:"POST",
@@ -330,9 +340,10 @@ async function handleBooking(){
         });
 
         const data = await res.json();
+        swal.close();
 
         if(data.status !== "success"){
-            alert(data.message);
+            showError(data.message || "Booking failed");
             return;
         }
 
@@ -340,11 +351,44 @@ async function handleBooking(){
         DOM.successModal.classList.add("show");
     }
     catch(err){
-        console.error("Booking error:",err);
-        alert("Something went wrong");
+       console.error("Booking error:",err);
+       showError("Something went wrong while booking");
     }
 }
 
+async function confirmBookingSummary(){
+
+    const servicesList = bookingData.items
+        .map(item => `<li>${item.name}</li>`)
+        .join("");
+
+    const html = `
+        <div class="confirm-appointment">
+            <p><strong>Staff:</strong> ${bookingData.staff_name}</p>
+            <p><strong>Date:</strong> ${DOM.summaryDate.textContent}</p>
+            <p><strong>Time:</strong> ${bookingData.time}</p>
+
+            <p style="margin-top:10px"><strong>Items:</strong></p>
+            <ul style="padding-left:20px">${servicesList}</ul>
+
+            <p style="margin-top:10px">
+                <strong>Total:</strong> ₹${bookingData.totalAmount}
+            </p>
+        </div>
+    `;
+
+    return Swal.fire({
+        title: "Confirm Appointment",
+        html: html,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Confirm Booking",
+        cancelButtonText: "Edit Booking",
+        confirmButtonColor: "#C0274A",
+        width: 420
+    });
+
+}
 
 // ===============================
 // SUCCESS MODAL DATA

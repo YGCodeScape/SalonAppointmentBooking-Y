@@ -326,14 +326,6 @@
 .modal-overlay.show .modal-sheet { 
   transform: translateY(0);
 }
-
-.modal-title { 
-  text-align: center; 
-  font-size: var(--font-size-md); 
-  color: var(--text-light); 
-  margin-bottom: var(--margin-lg); 
-}
-
 .services-row { 
   width: 100%;
   display: flex; 
@@ -440,6 +432,12 @@
 .services-row .s-value { 
   font-size: 13px; 
   color: var(--text-light);
+}
+.confirm-appointment {
+  text-align: left;
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius-3xl);
+  padding: 20px;
 }
 
 /* ---------------- RESPONSIVE MEDIA QUERY ---------------- */

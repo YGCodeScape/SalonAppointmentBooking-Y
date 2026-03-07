@@ -191,3 +191,54 @@ function resetFeedbackForm() {
   highlightStars(0);
   document.querySelector('.comment-box').value = '';
 }
+
+async function logout() {
+
+    const confirm = await confirmAction(
+        "Logout?",
+        "You will be logged out of your account.",
+        "Yes, Logout"
+    );
+
+    if (!confirm.isConfirmed) return;
+
+    const refreshToken =
+        localStorage.getItem("refresh_token");
+
+    try {
+
+        showLoading("Logging out...");
+
+        await fetch(`${API_BASE_URL}/auth/logout`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                refresh_token: refreshToken
+            })
+        });
+
+        Swal.close();
+
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+
+        await showSuccess("Logged out successfully");
+
+        window.location.reload();
+
+    } catch (error) {
+
+        Swal.close();
+
+        console.warn("Logout API failed");
+
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+
+        await showSuccess("Logged out");
+
+        window.location.reload();
+    }
+}
