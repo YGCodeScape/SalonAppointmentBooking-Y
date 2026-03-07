@@ -116,7 +116,7 @@ function renderServices(services) {
             <img src="${IMAGE_BASE}${service.image_url}" alt="${service.service_name}" />
             <div class="service-card-content">
                  <span class="service-disc">${service.description}</span>
-                 <small><i class="ri-time-line"></i> ${service.duration} min</small>
+                 <small class = "service-duration"><i class="ri-time-line"></i> ${service.duration} min</small>
                  <span class="service-price">₹${service.price}</span>
                  <button class="service-add-btn"><i class="ri-add-fill"></i></button>
             </div>
@@ -276,11 +276,11 @@ function renderCart() {
         mini.className = "mini-serviceCard";
 
         mini.innerHTML = `
-            <h4>${service.name}</h4>
-            <small>
+            <h4 class="mini-service-name">${service.name}</h4>
+            <small class="mini-service-duration">
                 <i class="ri-time-line"></i>
                 ${service.duration} min
-            </small>
+            </small class="mini-service-price">
             <span>₹${service.price}</span>
         `;
 

@@ -29,7 +29,7 @@ function landingPageSlider() {
     const total    = slides.length;
     let current    = 0;
     let timer      = null;
-    const INTERVAL = 3000;
+    const INTERVAL = 5000;
 
     /* Build dots */
     const dots = Array.from({ length: total }, (_, i) => {

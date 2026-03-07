@@ -12,6 +12,17 @@
   --color-accent2: #e8829a;
   --red: #E8254D;
   --nav-bg: rgba(8, 4, 12, 0.72);
+  --nav-blur: blur(22px) saturate(1.5);
+
+  --sp-accent-glow:  rgba(201, 53, 107, 0.22);
+  --sp-bg:           #0d080ff3;
+  --sp-surface:      rgba(255,255,255,0.04);
+  --sp-border:       rgba(255,255,255,0.09);
+  --sp-border-hover: rgba(201, 53, 107, 0.45);
+  --sp-text:         #f5f0f2;
+  --sp-text-muted:   rgba(245,240,242,0.5);
+  --sp-radius-card:  14px;
+  --sp-transition:   0.3s cubic-bezier(0.22,1,0.36,1);
 
   /*TEXT COLORS*/
   --text-light: #676565;
@@ -44,7 +55,7 @@
   --border-radius-md: 0.25rem;
   --border-radius-lg: 0.3rem;
   --border-radius-xl: 0.4rem;
-  --border-radius-2xl: 0.5rem;
+  --border-radius-2xl: 0.8rem;
   --border-radius-3xl: 1rem;
   --border-rounded: 50%;
   

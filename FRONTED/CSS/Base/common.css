@@ -17,6 +17,7 @@ body {
   height: 100%;
   font-family: var(--primary-font);
   color: var(--text-dark);
+   background: #fff;
 }
 
 img {
