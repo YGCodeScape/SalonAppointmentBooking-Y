@@ -46,29 +46,54 @@
   </div>
   
 </header>
-
-<!-- Hero Section -->
+<!-- landing hero section -->
 <section class="land-hero-sec" id="landing-sec">
-  <div class="land-hero-left">
-    <div class="land-hero-left-content">
-       <h1>Book Your Salon<br/>Appointments with Ease</h1>
-       <p class="sub">Track Your Appointments on one click</p>
 
-       <button class="land-CTA-btn"><a href="./html/services.html">Book Appointment Now</a></button>
+  <!-- Full-bleed image slider -->
+  <div class="slider-track" id="sliderTrack">
+    <div class="slide active"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+  </div>
+
+  <!-- Vertical divider (desktop only) -->
+  <div class="hero-divider"></div>
+
+  <!-- Slide counter -->
+  <div class="slider-dots" id="sliderDots" role="tablist" aria-label="Slide navigation"></div>
+
+  <!-- Counter number -->
+  <div class="slide-counter" aria-hidden="true">
+    <span class="current" id="counterCurrent">01</span>
+    <span class="sep">/</span>
+    <span id="counterTotal">04</span>
+  </div>
+
+  <!-- LEFT: headline + CTA -->
+  <div class="land-hero-left">
+    <div class="land-hero-left-content animate-in" id="heroContent">
+      <div class="slide-label animate-item">Beauty &amp; Wellness</div>
+      <h1 class="animate-item">Book Your Salon<br/>Appointments with Ease</h1>
+      <p class="sub animate-item">Track your past &amp; upcoming visits on one click</p>
+      <a href="./html/services.html" class="land-CTA-btn animate-item">
+        Book Appointment Now
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
     </div>
   </div>
 
+  <!-- RIGHT: glass card overlay -->
   <div class="land-hero-right">
     <div class="land-hero-overlay">
-      <h2>Your beauty,<br>our passing</h2>
+      <h2>Your beauty,<br>our passion</h2>
       <p>
         Conveniently schedule and manage your salon visits anytime.
-        Keep tabs on your past and upcoming visits with ease.
+        Keep tabs on your past and upcoming appointments with ease.
       </p>
     </div>
   </div>
-
-</section>
+  </section>
 
 <!-- Mobile quick menu -->
 <section class="mobile-menu">

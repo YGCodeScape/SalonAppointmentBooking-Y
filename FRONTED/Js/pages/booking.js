@@ -220,13 +220,13 @@ function attachEvents(){
 
     document.querySelectorAll(".am-pm-btn").forEach(btn=>{
 
-        btn.addEventListener("click",()=>{
-            document
-            .querySelectorAll(".am-pm-btn")
-            .forEach(b=>b.classList.remove("active"));
+    btn.addEventListener("click",()=>{
+         document.querySelectorAll(".am-pm-btn").forEach(b=>b.classList.remove("active"));
+         btn.classList.add("active");
 
-            btn.classList.add("active");
-            updateTimeBadge();
+         enforceBusinessHours();
+         drawClock();
+         updateTimeBadge();
         });
     });
 
@@ -346,7 +346,7 @@ async function handleBooking(){
             showError(data.message || "Booking failed");
             return;
         }
-
+        swal.close();
         populateSuccessModal();
         DOM.successModal.classList.add("show");
     }
@@ -466,6 +466,22 @@ function handleBack(){
 // ===============================
 // CLOCK
 // ===============================
+let lastTimeWarning = 0;
+function showTimeWarning(message){
+    const now = Date.now();
+    // prevent spam alerts (2 sec cool down)
+    if(now - lastTimeWarning < 2000) return;
+    lastTimeWarning = now;
+    Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "warning",
+        title: message,
+        showConfirmButton: false,
+        timer: 2000
+    });
+}
+
   const canvas = document.getElementById('clockCanvas');
   const ctx = canvas.getContext('2d');
   const cx = canvas.width / 2;
@@ -566,9 +582,10 @@ function handleBack(){
     const norm  = (angle + 2 * Math.PI) % (2 * Math.PI); // 0–2π
 
     if (dragging === 'minute') {
-      minutes = Math.round((norm / (20 * Math.PI)) * 60)*15 % 60;
+       minutes = Math.round((norm / (2 * Math.PI)) * 60 / 15) * 15 % 60;
     } else {
       hours = Math.round((norm / (2 * Math.PI)) * 12) % 12 || 12;
+      enforceBusinessHours();
     }
     drawClock();
     updateTimeBadge();
@@ -580,9 +597,32 @@ function handleBack(){
     onDrag(e);
   }, { passive: false });
    window.addEventListener('mouseup', () => dragging = null);
-    window.addEventListener('touchend', () => dragging = null);  
+    window.addEventListener('touchend', () => dragging = null); 
 
+// =========================================
+function enforceBusinessHours(){
+    const ampm =
+        document.querySelector(".am-pm-btn.active").textContent;
+    // AM Mode → only 10 and 11 allowed
+    if(ampm === "AM"){
+        if(hours < 10){
+            hours = 10;
+            showTimeWarning("Salon opens at 10:00 AM");
+        }
+        if(hours > 11){
+           hours = 11;
+        }
+    }
 
+    // PM Mode → allow 12 → 10 only
+    if(ampm === "PM"){
+        if(hours === 11){
+            hours = 10;
+            showTimeWarning("Last booking time is 10:45 PM");
+        }
+    }
+}
+//===============================
 function updateTimeBadge(){
     const ampm = document.querySelector(".am-pm-btn.active").textContent;
 
@@ -595,4 +635,3 @@ function updateTimeBadge(){
     document.querySelector(".time-badge").textContent = bookingData.time;
     document.getElementById("summaryTime").textContent = bookingData.time;
 }
-//---------------------------------------

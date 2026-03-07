@@ -7,19 +7,22 @@
   --wordMark: #FF4BED;
   --danger: red;
   --dark-red: #700319; 
-
-  --instagram : radial-gradient(circle at 30% 110%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
-    --red: #E8254D;
+  --color-light: rgba(255,255,255,0.75);
+  --color-accent: #c9356b;
+  --color-accent2: #e8829a;
+  --red: #E8254D;
 
   /*TEXT COLORS*/
   --text-light: #676565;
   --color-white: #ffff;
   --highLight: #acaaaa;
   --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.151);
-
+  
   /*BG RADIAL*/
   --linear-gradient: linear-gradient(to right,rgba(0,0,0,0.4),rgba(0,0,0,0.1));
   --bg-radial: radial-gradient(circle,rgb(252, 43, 88) 0%, rgba(192, 29, 63, 1) 100%, rgba(225, 62, 96, 1) 100%);
+  --bg-radial2: radial-gradient(135deg, #c9356b 0%, #8b1a43 100%);
+  --transition-slide: 900ms cubic-bezier(0.77, 0, 0.175, 1);
 
   /*FONT FAMILY*/
   --primary-font: "Plus Jakarta Sans", sans-serif;
@@ -49,6 +52,7 @@
   --padding-lg: 1.5rem;
   --padding-xl: 2rem;
   --padding-2xl: 3rem;
+  --padding-landing: clamp(2rem, 6vw, 5rem);
 
   /* MARGIN */
   --margin-sm: 0.5rem;

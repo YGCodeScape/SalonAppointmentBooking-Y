@@ -50,7 +50,7 @@ async function fetchAppointments(){
 
         const token = localStorage.getItem("access_token");
 
-        const res = await fetch(`${API_BASE_URL}/appointments`,{
+        const res = await fetch(`${API_BASE_URL}/customers/me/appointments`,{
             headers:{
                 "Authorization":`Bearer ${token}`
             }
