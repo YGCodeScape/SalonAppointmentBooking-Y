@@ -28,10 +28,15 @@ function checkAuth() {
         DOM.loginBtn.style.display = "none";
         DOM.signupBtn.style.display = "none";
         DOM.profileDiv.style.display = "flex";
+        
     } else {
         DOM.loginBtn.style.display = "inline-block";
         DOM.signupBtn.style.display = "inline-block";
         DOM.profileDiv.style.display = "none";
+        showWarning("Please login to check your appointment");
+           setTimeout(()=>{
+           window.location.href = "./login.html";
+          },3500);
      }
  }
 
@@ -224,60 +229,69 @@ function renderAppointments(appointments=[]){
 // CANCEL BUTTON
 //=====================================
 
-function attachCancelEvents(){
+function attachCancelEvents() {
 
-    const buttons=document.querySelectorAll(".cancel-btn");
+    const buttons = document.querySelectorAll(".cancel-appointment-btn");
 
-    buttons.forEach(btn=>{
+    buttons.forEach(btn => {
 
-        btn.addEventListener("click",async function(){
+        btn.addEventListener("click", async function () {
 
-            const appointmentId=this.dataset.id;
+            const appointmentId = this.dataset.id;
 
-            const confirmCancel=
-            confirm("Cancel this appointment?");
+            const result = await confirmAction(
+                "Cancel Appointment?",
+                "Your slot will be released for other customers.",
+                "Yes, Cancel it"
+            );
 
-            if(!confirmCancel) return;
+            if (!result.isConfirmed) return;
 
-            try{
+            try {
 
-                const token=
-                localStorage.getItem("access_token");
+                const token = localStorage.getItem("access_token");
 
-                const res=await fetch(
-                `${API_BASE_URL}/appointments/${appointmentId}/cancel`,
-                {
-                    method:"PATCH",
-                    headers:{
-                        "Content-Type":"application/json",
-                        "Authorization":`Bearer ${token}`
-                    },
-                    body:JSON.stringify({
-                        cancellation_reason:"Cancelled by customer"
-                    })
-                });
+                showLoading("Cancelling appointment...");
 
-                const data=await res.json();
+                const res = await fetch(
+                    `${API_BASE_URL}/appointments/${appointmentId}/cancel`,
+                    {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            cancellation_reason: "Cancelled by customer"
+                        })
+                    }
+                );
 
-                if(data.status==="success"){
+                const data = await res.json();
 
-                    alert("Appointment cancelled");
+                Swal.close();
+
+                if (data.status === "success") {
+
+                    await showSuccess("Your appointment has been cancelled.");
 
                     fetchAppointments();
-
+                } else {
+                    showError(data.message || "Cancellation failed.");
                 }
 
-            }
-            catch(err){
+            } catch (err) {
 
-                console.error("Cancel error:",err);
+                Swal.close();
 
+                console.error("Cancel error:", err);
+
+                showError("Something went wrong while cancelling.");
             }
 
         });
 
     });
-
 }
 
 //=====================================
@@ -386,4 +400,55 @@ function switchTab(btn,tab){
     document.getElementById("past").style.display=
         tab==="past"?"flex":"none";
 
+}
+
+async function logout() {
+
+    const confirm = await confirmAction(
+        "Logout?",
+        "You will be logged out of your account.",
+        "Yes, Logout"
+    );
+
+    if (!confirm.isConfirmed) return;
+
+    const refreshToken =
+        localStorage.getItem("refresh_token");
+
+    try {
+
+        showLoading("Logging out...");
+
+        await fetch(`${API_BASE_URL}/auth/logout`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                refresh_token: refreshToken
+            })
+        });
+
+        Swal.close();
+
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+
+        await showSuccess("Logged out successfully");
+
+        window.location.reload();
+
+    } catch (error) {
+
+        Swal.close();
+
+        console.warn("Logout API failed");
+
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+
+        await showSuccess("Logged out");
+
+        window.location.reload();
+    }
 }

@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // require password plus either mobile or email
     if ((!mobile && !email) || !password) {
-      alert("Please provide mobile or email and a password");
+      showError("Please provide email or mobile number and password.");
       return;
     }
 
@@ -102,17 +102,16 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("access_token", accessToken);
         localStorage.setItem("refresh_token", refreshToken);
 
-        alert("Login successful");
-
+        await showSuccess("Login successful");
         window.location.href = "../index.html";
 
       } else {
-        alert(data.message || "Login failed");
+        showError(data.message || "Login failed");
       }
 
     } catch (error) {
       console.error("Login error:", error);
-      alert("Server error");
+      showError("Server error. Please try again.");
     }
   });
 });

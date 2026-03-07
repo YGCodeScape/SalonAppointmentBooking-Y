@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initStarRating();
     resetFeedbackForm();
     fetchCompletedAppointments();
+    showAlert();
 });
 
 let selectedRating = 0;
@@ -135,7 +136,11 @@ async function submitFeedback(){
             alert(data.message);
             return;
         }
-        alert("Thank you for your feedback!");
+        Swal.fire({
+           title: "feedback sended successfully!",
+             icon: "success",
+             draggable: true 
+         });
         resetFeedbackForm();
     }
     catch(err){

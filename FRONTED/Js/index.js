@@ -41,6 +41,7 @@ async function loadLandingData() {
     try {
         if (!salonId) {
             console.error("Salon not found");
+            showError("Salon configuration missing.");
             return;
         }
 
@@ -51,6 +52,7 @@ async function loadLandingData() {
 
     } catch (error) {
         console.error("Landing load error:", error);
+        showError("Failed to load homepage data.");
     }
 }
 
@@ -71,9 +73,8 @@ async function fetchServices() {
         renderServices(data.data.items.slice(0, 3));
 
     } catch (error) {
-
         console.error("Services fetch error:", error);
-
+        showError("Unable to load services right now.");
     }
 }
 
@@ -127,9 +128,8 @@ async function fetchPackages() {
         renderPackages(data.data.items.slice(0, 3));
 
     } catch (error) {
-
         console.error("Packages fetch error:", error);
-
+         showError("Unable to load packages right now.");
     }
 }
 
@@ -174,10 +174,20 @@ function renderPackages(packages) {
 // ===============================
 async function logout() {
 
+    const confirm = await confirmAction(
+        "Logout?",
+        "You will be logged out of your account.",
+        "Yes, Logout"
+    );
+
+    if (!confirm.isConfirmed) return;
+
     const refreshToken =
         localStorage.getItem("refresh_token");
 
     try {
+
+        showLoading("Logging out...");
 
         await fetch(`${API_BASE_URL}/auth/logout`, {
             method: "POST",
@@ -189,14 +199,28 @@ async function logout() {
             })
         });
 
+        Swal.close();
+
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+
+        await showSuccess("Logged out successfully");
+
+        window.location.reload();
+
     } catch (error) {
+
+        Swal.close();
+
         console.warn("Logout API failed");
+
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+
+        await showSuccess("Logged out");
+
+        window.location.reload();
     }
-
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-
-    window.location.reload();
 }
 
 // ===============================
@@ -208,7 +232,11 @@ function redirectToLogin() {
         localStorage.getItem("access_token");
 
     if (!token) {
-        window.location.href = "./html/login.html";
+        
+       showWarning("Please login first");
+       setTimeout(() => {
+         window.location.href = "./html/login.html";
+        },  1500);
     }
 
 }

@@ -33,7 +33,6 @@ function initApp() {
     updateTimeBadge();
 }
 
-
 // ===============================
 // CACHE DOM
 // ===============================
@@ -277,7 +276,7 @@ function formatTimeForAPI(time){
 async function handleBooking(){
 
     if(!bookingData.staff){
-        alert("Please select staff");
+        showWarning("Please select a staff member");
         return;
     }
     try{
