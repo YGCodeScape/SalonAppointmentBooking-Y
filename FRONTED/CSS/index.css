@@ -15,7 +15,7 @@
 
 .logo-text{
   color: var(--wordMark);
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl);
   font-family: var(--Italiana-font);
   font-weight:700;
   word-spacing: 2;
