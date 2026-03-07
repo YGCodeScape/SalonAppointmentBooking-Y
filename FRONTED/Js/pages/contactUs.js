@@ -83,7 +83,7 @@ function populateAppointmentSelect(appointments){
         option.value = appt.appointment_id;
 
         option.textContent =
-            `Appointment ${appt.appointment_id} - ${date}`;
+            `Appointment - ${date}`;
 
         select.appendChild(option);
 
