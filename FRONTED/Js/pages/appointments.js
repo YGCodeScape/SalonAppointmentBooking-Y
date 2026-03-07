@@ -1,23 +1,39 @@
 document.addEventListener("DOMContentLoaded", initPage);
 
 function initPage(){
+    cacheDOM();
     checkAuth();
     fetchAppointments();
+}
+let DOM = {};
+const token = localStorage.getItem("access_token");
+// ===============================
+// CACHE DOM
+// ===============================
+function cacheDOM() {
+
+    DOM.loginBtn = document.getElementById("nav-log-btn");
+    DOM.signupBtn = document.getElementById("nav-signup-btn");
+    DOM.profileDiv = document.getElementById("nav-profile-div");
+
+    DOM.searchInput = document.getElementById("package-search");
+    DOM.packagesContainer = document.querySelector(".packages-container");
 }
 
 //=====================================
 // AUTH CHECK
 //=====================================
-
-function checkAuth(){
-
-    const token = localStorage.getItem("access_token");
-
-    if(!token){
-        window.location.href="../login.html";
-    }
-
-}
+function checkAuth() {
+    if (token) {
+        DOM.loginBtn.style.display = "none";
+        DOM.signupBtn.style.display = "none";
+        DOM.profileDiv.style.display = "flex";
+    } else {
+        DOM.loginBtn.style.display = "inline-block";
+        DOM.signupBtn.style.display = "inline-block";
+        DOM.profileDiv.style.display = "none";
+     }
+ }
 
 //=====================================
 // FETCH APPOINTMENTS

@@ -76,6 +76,8 @@ function loadBookingItems(){
 
     bookingData.totalAmount = total;
 
+    document.getElementById("summaryItem").textContent = source;
+    document.getElementById("summaryItems").textContent = items.map(i=>i.name).join(", ");
 }
 
 //================================
@@ -546,8 +548,8 @@ function updateTimeBadge(){
     const m = String(minutes).padStart(2,"0");
 
     bookingData.time =`${h}:${m} ${ampm}`;
-
+    
     document.querySelector(".time-badge").textContent = bookingData.time;
-     document.getElementById("summaryTime").textContent = bookingData.time;
+    document.getElementById("summaryTime").textContent = bookingData.time;
 }
 //---------------------------------------
