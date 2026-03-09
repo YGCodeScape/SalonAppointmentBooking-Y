@@ -496,15 +496,15 @@ function showTimeWarning(message){
     // Face
     ctx.beginPath();
     ctx.arc(cx, cy, R, 0, 2 * Math.PI);
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = 'rgba(20,10,16,0.9)';
     ctx.fill();
-    ctx.strokeStyle = '#ddd';
+    ctx.strokeStyle = 'rgba(201,53,107,0.3)';
     ctx.lineWidth = 2;
     ctx.stroke();
 
     // Hour numbers
     ctx.font = 'bold 10px "Plus Jakarta Sans", sans-serif';
-    ctx.fillStyle = '#1C1C1C';
+    ctx.fillStyle = '#f5f0f2';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     for (let n = 1; n <= 12; n++) {
@@ -516,16 +516,16 @@ function showTimeWarning(message){
 
     // Minute hand (thin red)
     const minAngle = (minutes / 60) * 2 * Math.PI - Math.PI / 2;
-    drawHand(minAngle, R - 18, 2, '#C0274A');
+    drawHand(minAngle, R - 18, 2, '#e8829a');
 
     // Hour hand (thick dark) — includes minute contribution
     const hrAngle = ((hours % 12 + minutes / 60) / 12) * 2 * Math.PI - Math.PI / 2;
-    drawHand(hrAngle, R - 32, 4, '#1a1a1a');
+    drawHand(hrAngle, R - 32, 4, '#f5f0f2');
 
     // Center dot
     ctx.beginPath();
     ctx.arc(cx, cy, 4, 0, 2 * Math.PI);
-    ctx.fillStyle = '#C0274A';
+    ctx.fillStyle = '#c9356b';
     ctx.fill();
   }
 
