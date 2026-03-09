@@ -90,6 +90,7 @@ function renderAppointments(appointments=[]){
 
     if(!appointments.length){
         upcomingContainer.innerHTML="<p>No appointments found</p>";
+        upcomingContainer.classList.add("no-text")
         return;
     }
 

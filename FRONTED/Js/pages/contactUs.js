@@ -70,6 +70,7 @@ function populateAppointmentSelect(appointments){
 
         const msg = document.createElement("p");
         msg.textContent = "No completed appointments to review.";
+        msg.className ="no-appointments-msg";
         container.prepend(msg);
         return;
 
@@ -79,7 +80,7 @@ function populateAppointmentSelect(appointments){
     select.className = "appointment-select";
 
     select.innerHTML = `
-        <option value="">Select Appointment</option>
+        <option value="" class="appointment-option">Select Appointment</option>
     `;
 
     appointments.forEach(appt=>{
@@ -156,8 +157,6 @@ async function submitFeedback(){
         alert("Failed to submit feedback");
     }
 }
-
-
 
 // ══════════════════════════════════════════════
 //  4.  STAR RATING
