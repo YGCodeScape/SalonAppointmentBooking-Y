@@ -123,7 +123,6 @@ function renderAppointments(appointments=[]){
                 serviceNames.push(s.service_name);
                 staffName=s.staff_name;
             });
-
         }
 
         //==================================

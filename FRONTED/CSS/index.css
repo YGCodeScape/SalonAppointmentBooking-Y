@@ -261,7 +261,7 @@
       visibility: hidden;
       transform: translateY(-8px);
       transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+      box-shadow: 0 16px 10px rgba(0,0,0,0.5);
     }
 
     .nav-profile-div.open .hover-profile-box,
@@ -1063,32 +1063,10 @@
 }
 
 @media (min-width: 769px) and (max-width: 1200px) {
-  /* .logo-text {
-    font-size: 12px;
-  }
-  .nav-link {
-    padding: 5px 10px;
-  }
-  .nav-a {
-    font-size: 12px;
-  } */
   .search-box {
     width: 160px;
     gap: var(--gutter-sm);
     overflow: scroll;
     padding-left: var(--padding-sm);
   }
-  /* .search-box input {
-    font-size: 12px;
-  }
-  .search-box::-webkit-scrollbar {
-    display: none;
-  } */
-
-  /* .nav-btns {
-    padding: var(--padding-sm);
-  }
-  .nav-btn-a {
-    font-size: 12px;
-  } */
 }
