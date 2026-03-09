@@ -23,6 +23,7 @@
   --sp-text-muted:   rgba(245,240,242,0.5);
   --sp-radius-card:  14px;
   --sp-transition:   0.3s cubic-bezier(0.22,1,0.36,1);
+   --sp-text-soft:    rgba(245,240,242,0.65);
 
   /*TEXT COLORS*/
   --text-light: #676565;

@@ -203,7 +203,7 @@ function renderAppointments(appointments=[]){
             </div>
 
             <div class="AppointmentCard-location">
-                Apex Salons, Sector 7, Airoli, Navi Mumbai
+               123 Main Street, Mumbai Maharashtra India
             </div>
 
             <div class="AppointmentCard-footer">

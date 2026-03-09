@@ -1,174 +1,342 @@
- /* PAGE CONTENT */
+/* ════════════════════════════════
+   PAGE WRAPPER
+════════════════════════════════ */
+.myAppointmentsPage {
+  padding: 2rem 3.5rem 3rem;
+  overflow-y: auto;
+  margin-top: 75px;
+  max-width: 860px;
+}
+
+/* ════════════════════════════════
+   PAGE TITLE
+════════════════════════════════ */
+.page-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  font-weight: 400;
+  letter-spacing: 3px;
+  color: var(--sp-text);
+  margin-bottom: 1.4rem;
+  position: relative;
+  padding-bottom: 0.6rem;
+}
+.page-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0; 
+  left: 0;
+  width: 45px; 
+  height: 1.5px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent2));
+  border-radius: 2px;
+}
+
+/* ════════════════════════════════
+   UPCOMING / PAST TAB TOGGLE
+════════════════════════════════ */
+.ChangeAppointment {
+  display: flex;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--sp-border);
+  border-radius: 8px;
+  padding: 4px;
+  width: fit-content;
+  margin-bottom: 1.5rem;
+  gap: 2px;
+}
+
+.UpPast-btn {
+  padding: 7px 26px;
+  border-radius: 6px;
+  border: none;
+  font-family: var(--primary-font);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  background: transparent;
+  color: var(--sp-text-muted);
+}
+
+.UpPast-btn:hover {
+  color: var(--sp-text-soft);
+  background: rgba(255,255,255,0.05);
+}
+
+.UpPast-btn.active {
+  background: linear-gradient(135deg, var(--color-accent) 0%, #8b1a43 100%);
+  color: #fff;
+  box-shadow: 0 3px 14px var(--sp-accent-glow);
+}
+
+/* ════════════════════════════════
+   CARDS CONTAINER
+════════════════════════════════ */
+.AppointmentsCards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+#past { display: none; }
+
+/* ════════════════════════════════
+   SINGLE APPOINTMENT CARD
+════════════════════════════════ */
+.AppointmentCard {
+  background: rgba(22,11,17,0.75);
+  backdrop-filter: blur(18px) saturate(1.3);
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+  border: 1px solid var(--sp-border);
+  border-radius: 14px;
+  padding: 1.1rem 1.4rem;
+  display: flex;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.35s cubic-bezier(0.22,1,0.36,1),
+    box-shadow 0.35s ease,
+    border-color 0.3s ease;
+  animation: slideUp 0.45s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+.AppointmentCard::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.AppointmentCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.45), 0 0 0 1px var(--sp-border-hover);
+  border-color: var(--sp-border-hover);
+}
+.AppointmentCard:hover::before { opacity: 0.55; }
+
+/* left accent bar */
+.AppointmentCard::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 18%; bottom: 18%;
+  width: 2.5px;
+  background: linear-gradient(to bottom, var(--color-accent), var(--color-accent2));
+  border-radius: 0 2px 2px 0;
+  opacity: 0.7;
+}
+
+/* staggered entrance */
+.AppointmentCard:nth-child(1) { animation-delay: 0.04s; }
+.AppointmentCard:nth-child(2) { animation-delay: 0.12s; }
+.AppointmentCard:nth-child(3) { animation-delay: 0.20s; }
+.AppointmentCard:nth-child(4) { animation-delay: 0.28s; }
+.AppointmentCard:nth-child(5) { animation-delay: 0.36s; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── body ── */
+.AppointmentCard-body {
+  flex: 1;
+  min-width: 0;
+  padding-left: 0.5rem;
+}
+
+/* ── header  (title + badge) ── */
+.AppointmentCard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.AppointmentCard-title {
+  font-family: var(--primary-font);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--sp-text);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  line-height: 1.3;
+}
+
+/* status badge — colors injected inline by JS, but restyled */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-family: var(--primary-font);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border: 1px solid transparent;
+  opacity: 0.95;
+}
+
+/* ── date + time ── */
+.AppointmentCard-datetime {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  color: var(--sp-text-soft);
+  font-weight: 400;
+  margin-bottom: 0.35rem;
+  letter-spacing: 0.03em;
+}
+
+.appointment-date {
+  color: var(--sp-text);
+  font-weight: 500;
+}
+
+.AppointmentCard-datetime .dot {
+  color: var(--sp-text-muted);
+  margin: 0 3px;
+  font-size: 0.9rem;
+}
+
+.appointment-time {
+  color: var(--sp-text-muted);
+}
+
+/* ── stylist row ── */
+.AppointmentCard-stylist {
+  font-size: 0.75rem;
+  color: var(--sp-text-muted);
+  margin-bottom: 0.3rem;
+  letter-spacing: 0.03em;
+  font-weight: 300;
+}
+.AppointmentCard-stylist strong {
+  color: var(--sp-text-soft);
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+
+/* ── location ── */
+.AppointmentCard-location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.7rem;
+  color: var(--sp-text-muted);
+  font-weight: 300;
+  letter-spacing: 0.03em;
+}
+.AppointmentCard-location::before {
+  content: '\eb3d';          
+  font-family: 'remixicon';
+  font-size: 0.8rem;
+  color: var(--sp-accent2);
+  opacity: 0.7;
+}
+
+/* ── footer (cancel btn) ── */
+.AppointmentCard-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.8rem;
+}
+
+.cancel-appointment-btn {
+  height: 32px;
+  padding: 0 1rem;
+  border: 1.5px solid rgba(201,53,107,0.4);
+  border-radius: 6px;
+  font-family: var(--primary-font);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--color-accent2);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease,
+              color 0.25s ease, transform 0.25s ease;
+}
+.cancel-appointment-btn:hover {
+  background: rgba(201,53,107,0.1);
+  border-color: var(--color-accent);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* ── item lists ── */
+.appointment-item-text {
+  font-family: var(--primary-font);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--color-accent2);
+  letter-spacing: 0.5px;
+}
+
+.item-lists { list-style-type: none; }
+
+/* ════════════════════════════════
+   EMPTY STATE  (optional helper)
+════════════════════════════════ */
+.appointments-empty {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--sp-text-muted);
+  font-family: var(--primary-font);
+  font-size: 0.85rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+}
+.appointments-empty i {
+  display: block;
+  font-size: 2.5rem;
+  color: rgba(201,53,107,0.3);
+  margin-bottom: 1rem;
+}
+
+/* ════════════════════════════════
+   MOBILE  ≤ 768px
+════════════════════════════════ */
+@media (max-width: 768px) {
   .myAppointmentsPage {
-    padding: 16px 60px 24px 60px;
-    overflow-y: auto;
-    margin-top: 75px;
+    margin-top: 0;
+    padding: 1rem 1rem 2rem;
+    max-width: 100%;
   }
 
   .page-title {
-    font-size: var(--font-size-xl);
-    font-family: var(--primary-font);
-    font-weight: 600;
-    margin-bottom: var(--margin-md);
-  }
-
-  /* TOGGLE */
-  .ChangeAppointment {
-    display: flex;
-    background: #ebebf0;
-    border-radius: var(--border-radius-lg);
-    padding: 4px;
-    width: fit-content;
-    margin-bottom: 20px;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
   }
 
   .UpPast-btn {
-    padding: 8px 24px;
-    border-radius: var(--border-radius-lg);
-    border: none;
-    font-family: var(--primary-font);
-    font-size: var(--font-size-md);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.25s;
-    background: transparent;
-    color: #8a8aa0;
+    padding: 7px 18px;
+    font-size: 0.75rem;
   }
-  .UpPast-btn.active {
-    background: #fff;
-    color: #1a1a2e;
-    box-shadow: var(--box-shadow);
-  }
-
-/* APPOINTMENT CARDS */
- .AppointmentsCards { 
-    display: flex;
-    flex-direction: column; 
-    gap: 14px;      
-}
 
   .AppointmentCard {
-    background: #fff;
-    border-radius: 20px;
-    padding: 14px 25px;
-    display: flex;
-    gap: 12px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-    animation: slideUp 0.4s ease both;
-  }
-  .AppointmentCard:nth-child(2) {
-     animation-delay: 0.08s; 
-  }
-  .AppointmentCard:nth-child(3) {
-     animation-delay: 0.16s; 
-    }
-
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
+    padding: 1rem 1rem 1rem 1.2rem;
+    border-radius: 12px;
   }
 
-  .AppointmentCard-body { 
-    flex: 1; 
-    min-width: 0;
-  }
-
-  .AppointmentCard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 8px;
-    margin-bottom: 6px;
-  }
-
-  .AppointmentCard-title{
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-  }
-
-  .badge {
-    display: inline-flex;
-    align-items: center; 
-    gap: 4px;
-    padding: 5px 12px;
-    border-radius: var(--border-radius-md);
-    font-size: var(--font-size-sm);
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .AppointmentCard-datetime {
-    font-size: 12.5px;
-    color:  #1a1a2e;
-    font-weight: 500;
-    margin-bottom: 4px;
-  }
-  .AppointmentCard-datetime .dot { 
-    color: #8a8aa0;
-     margin: 0 2px;
- }
-  .AppointmentCard-datetime .time {
-     color: #8a8aa0; 
-    }
-
-  .AppointmentCard-stylist {
-    font-size: 12px;
-    color: #8a8aa0;
-    margin-bottom: 4px;
-  }
-  .AppointmentCard-stylist strong { 
-    color:  #1a1a2e;
-     font-weight: 600; 
-     font-size: 13px;
-     }
-
-  .AppointmentCard-location {
-    font-size: 11px;
-    color: #8a8aa0;
-  }
-
-  .AppointmentCard-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 8px;
-  }
-.cancel-appointment-btn {
-  border: 1.5px solid var(--primary-color);
-  border-radius: var(--border-radius-md);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--primary-color);
-  background: transparent;
-  padding: 4px 8px;
-  cursor: pointer;
-}
-
-.appointment-item-text{ 
-    font-size: var(--font-size-md);
-    font-weight: 600;
-    color: var(--secondary-color);
-    position: absolute;
-    bottom: 9%;
-    right: 3%;
-}
-.item-lists {
-  list-style-type: none;
-}
-#past {
-  display: none;
-}
-/* ---------------- RESPONSIVE MEDIA QUERY ---------------- */
-/* mobile screen */
-@media (max-width:768px){ 
-   .myAppointmentsPage {
-    margin-top: 0;
-    padding: 16px;
-   }
+  .AppointmentCard-title { font-size: 0.95rem; }
+  .badge { font-size: 0.6rem; padding: 3px 9px; }
+  .AppointmentCard-datetime { font-size: 0.72rem; }
+  .AppointmentCard-stylist { font-size: 0.7rem; }
+  .AppointmentCard-location { font-size: 0.65rem; }
+  .cancel-appointment-btn { font-size: 0.68rem; height: 28px; padding: 0 0.75rem; }
 }
