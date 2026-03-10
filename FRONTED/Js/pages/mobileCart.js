@@ -1,10 +1,3 @@
- // ═══════════════════════════════════════════════
-    // MOBILE CART PAGE  –  cart-page.js (inline)
-    // Reads cart data from sessionStorage key: "mobileCart"
-    // Written by services page JS as JSON array of:
-    //   { service_id, service_name, price, duration, category }
-    // ═══════════════════════════════════════════════
-
     const CART_KEY = 'mobileCart';
 
     // ── helpers ──
@@ -91,14 +84,17 @@
       document.getElementById('summaryTotal').textContent = formatPrice(subtotal);
     }
 
-    // ── back navigation ──
-    function goBack() {
-      if (document.referrer && document.referrer.includes('services')) {
-        history.back();
-      } else {
-        window.location.href = './services.html';
-      }
-    }
+// ── back navigation ──
+function goBack() {
+  sessionStorage.removeItem(CART_KEY);
+  sessionStorage.removeItem('bookingServices');
+
+  if (document.referrer && document.referrer.includes('services')) {
+    history.back();
+  } else {
+    window.location.href = './services.html';
+  }
+}
 
     // ── proceed to booking ──
     function proceedToBooking() {
@@ -107,6 +103,7 @@
       // pass cart to booking page via sessionStorage
       sessionStorage.setItem('bookingServices', JSON.stringify(cart));
       window.location.href = './booking.html';
+      console.log(cart);
     }
 
     // init

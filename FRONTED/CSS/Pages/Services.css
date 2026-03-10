@@ -34,6 +34,15 @@
   align-items: center;
   margin-bottom: 0.5rem;
 }
+.service-cart-label i {
+  color: var(--sp-text);
+  border: 1.5px solid var(--sp-border);
+  padding: 14px;
+  border-radius: 100px;
+  font-size: var(--font-size-lg);
+    display: none;
+}
+
 
 .service-cart-label h2 {
   font-family: var(--font-display);
@@ -681,6 +690,9 @@
 ════════════════════════════════ */
 @media (max-width: 768px) {
 
+.service-cart-label i{
+  display: block;
+}
   .servicesPage-container {
     flex-direction: column;
   }
@@ -701,6 +713,9 @@
     gap: 0.75rem;
   }
 
+  .service-cart-label {
+      margin: 20px 0;
+  }
   .service-cart-label h2 {
     font-size: 1.6rem;
   }
@@ -754,10 +769,6 @@
 
   /*
     MOBILE CART BAR — activate visibility here.
-    JS sets display:flex + adds .show-mobile-cart.
-    We unlock visibility so the bar can actually appear.
-    The transform/opacity transition defined in base CSS
-    handles the slide-up animation automatically.
   */
   .mobile-cart-preview {
     visibility: visible;
@@ -766,6 +777,9 @@
 
   .mobile-cart-chip {
     max-width: 120px;
+  }
+  .mobile-menu {
+    margin-top: 73px;
   }
 
 }
