@@ -4,6 +4,12 @@
 const salonId = 1;
 const TAX_PERCENT = 5;
 
+// sessionStorage key shared with mobile-cart-page.html
+const MOBILE_CART_KEY = "mobileCart";
+
+// max service name chips shown in preview bar before "+N more"
+const MAX_CHIPS = 3;
+
 // ===============================
 // STATE
 // ===============================
@@ -28,29 +34,30 @@ function initApp() {
 // ===============================
 function cacheDOM() {
 
-    DOM.loginBtn = document.getElementById("nav-log-btn");
-    DOM.signupBtn = document.getElementById("nav-signup-btn");
-    DOM.profileDiv = document.getElementById("nav-profile-div");
+    DOM.loginBtn        = document.getElementById("nav-log-btn");
+    DOM.signupBtn       = document.getElementById("nav-signup-btn");
+    DOM.profileDiv      = document.getElementById("nav-profile-div");
 
-    DOM.searchInput = document.getElementById("service-search");
+    DOM.searchInput     = document.getElementById("service-search");
     DOM.categoryButtons = document.querySelectorAll(".services-category-btn");
 
     DOM.servicesContainer = document.getElementById("servicesContainer");
 
     DOM.cartOverlayText = document.querySelector(".cart-overlay-text");
-    DOM.selectStaffBtn = document.querySelector(".select-staffDate-btn");
+    DOM.selectStaffBtn  = document.querySelector(".select-staffDate-btn");
+    DOM.cartContainer   = document.querySelector(".desktop-cart-top");
 
-    DOM.cartContainer = document.querySelector(".desktop-cart-top");
-    DOM.mobileCartPreview = document.querySelector(".mobile-cart-preview");
-    DOM.mobileCartLeft = document.querySelector(".cart-left-sec");
-    DOM.mobileCartTotal = document.querySelector(".cart-total-amount");
+    // mobile cart preview bar
+    DOM.mobileCartPreview = document.getElementById("mobileCartPreview");
+    DOM.mobileCartNames   = document.getElementById("mobileCartNames");
 
 }
+
 /* ── Scroll: darken navbar ── */
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 20);
-  }, { passive: true });
+const navbar = document.getElementById("navbar");
+window.addEventListener("scroll", () => {
+    navbar.classList.toggle("scrolled", window.scrollY > 20);
+}, { passive: true });
 
 // ===============================
 // AUTH CHECK
@@ -60,12 +67,12 @@ function checkAuth() {
     const token = localStorage.getItem("access_token");
 
     if (token) {
-        DOM.loginBtn.style.display = "none";
-        DOM.signupBtn.style.display = "none";
+        DOM.loginBtn.style.display   = "none";
+        DOM.signupBtn.style.display  = "none";
         DOM.profileDiv.style.display = "flex";
     } else {
-        DOM.loginBtn.style.display = "inline-block";
-        DOM.signupBtn.style.display = "inline-block";
+        DOM.loginBtn.style.display   = "inline-block";
+        DOM.signupBtn.style.display  = "inline-block";
         DOM.profileDiv.style.display = "none";
     }
 
@@ -91,7 +98,6 @@ async function fetchServices() {
         renderServices(servicesData);
 
     } catch (error) {
-
         console.error("Services fetch error:", error);
     }
 }
@@ -108,19 +114,20 @@ function renderServices(services) {
             data-name="${service.service_name}"
             data-price="${service.price}"
             data-duration="${service.duration}"
-            data-category="${service.category || 'general'}"
+            data-category="${service.category || "general"}"
         >
             <h4 class="servicePage-service-name">
                 ${service.service_name}
             </h4>
-            <img src="${IMAGE_BASE}${service.image_url}" alt="${service.service_name}" />
+            <img src="${IMAGE_BASE}${service.image_url}" alt="${service.service_name}" class="servicePage-service-img" />
             <div class="service-card-content">
-                 <span class="service-disc">${service.description}</span>
-                 <small class = "service-duration"><i class="ri-time-line"></i> ${service.duration} min</small>
-                 <span class="service-price">₹${service.price}</span>
-                 <button class="service-add-btn"><i class="ri-add-fill"></i></button>
+                <span class="service-disc">${service.description}</span>
+                <small class="service-duration">
+                    <i class="ri-time-line"></i> ${service.duration} min
+                </small>
+                <span class="service-price">₹${service.price}</span>
+                <button class="service-add-btn"><i class="ri-add-fill"></i></button>
             </div>
-
         </div>
 
     `).join("");
@@ -142,13 +149,12 @@ function attachGlobalEvents() {
         btn.addEventListener("click", handleCategory);
     });
 
-    // SERVICE ADD
-    document.addEventListener("click", function(e){
-
-        if (e.target.classList.contains("service-add-btn")) {
+    // SERVICE ADD (delegated — catches clicks on icon child too)
+    document.addEventListener("click", function (e) {
+        if (e.target.classList.contains("service-add-btn") ||
+            e.target.closest(".service-add-btn")) {
             handleAddService(e);
         }
-
     });
 
 }
@@ -158,11 +164,9 @@ function attachGlobalEvents() {
 // ===============================
 function handleSearch() {
 
-    const searchValue =
-        DOM.searchInput.value.toLowerCase();
+    const searchValue = DOM.searchInput.value.toLowerCase();
 
-    const cards =
-        document.querySelectorAll(".servicePage-service-card");
+    const cards = document.querySelectorAll(".servicePage-service-card");
 
     cards.forEach(card => {
 
@@ -171,8 +175,7 @@ function handleSearch() {
             .textContent
             .toLowerCase();
 
-        card.style.display =
-            name.includes(searchValue) ? "flex" : "none";
+        card.style.display = name.includes(searchValue) ? "flex" : "none";
 
     });
 
@@ -191,18 +194,16 @@ function handleCategory(e) {
 
     e.target.classList.add("active-category");
 
-    const cards =
-        document.querySelectorAll(".servicePage-service-card");
+    const cards = document.querySelectorAll(".servicePage-service-card");
 
     cards.forEach(card => {
 
-        const category =
-            card.dataset.category;
+        const category = card.dataset.category;
 
         card.style.display =
             selected === "all" || selected === category
-            ? "flex"
-            : "none";
+                ? "flex"
+                : "none";
 
     });
 
@@ -213,28 +214,27 @@ function handleCategory(e) {
 // ===============================
 function handleAddService(e) {
 
-    const button = e.target;
-    const card = button.closest(".servicePage-service-card");
+    const button = e.target.closest(".service-add-btn");
+    const card   = button.closest(".servicePage-service-card");
 
     const serviceId = card.dataset.id;
-
-    const existing =
-        cart.findIndex(item => item.id === serviceId);
+    const existing  = cart.findIndex(item => item.id === serviceId);
 
     if (existing === -1) {
 
         cart.push({
-            id: serviceId,
-            name: card.dataset.name,
-            price: parseFloat(card.dataset.price),
-            duration: card.dataset.duration
+            id:       serviceId,
+            name:     card.dataset.name,
+            price:    parseFloat(card.dataset.price),
+            duration: card.dataset.duration,
+            category: card.dataset.category
         });
 
         button.classList.add("service-added-highLight");
 
     } else {
 
-        cart.splice(existing,1);
+        cart.splice(existing, 1);
         button.classList.remove("service-added-highLight");
 
     }
@@ -244,26 +244,27 @@ function handleAddService(e) {
 }
 
 // ===============================
-// RENDER CART
+// RENDER CART  (desktop + mobile)
 // ===============================
 function renderCart() {
 
+    // ── desktop cart ──
     DOM.cartContainer.innerHTML = "";
-    DOM.mobileCartLeft.innerHTML = "";
 
     if (cart.length === 0) {
 
         DOM.cartOverlayText.style.display = "block";
-        DOM.mobileCartPreview.classList.remove("show-mobile-cart");
-        DOM.selectStaffBtn.style.display = "none";
+        DOM.selectStaffBtn.style.display  = "none";
 
         updateTotals(0);
+        syncMobileCartStorage();
+        hideMobileCartPreview();
 
         return;
     }
 
     DOM.cartOverlayText.style.display = "none";
-    DOM.selectStaffBtn.style.display = "block";
+    DOM.selectStaffBtn.style.display  = "block";
 
     let subTotal = 0;
 
@@ -272,87 +273,186 @@ function renderCart() {
         subTotal += service.price;
 
         const mini = document.createElement("div");
-
         mini.className = "mini-serviceCard";
-
         mini.innerHTML = `
             <h4 class="mini-service-name">${service.name}</h4>
             <small class="mini-service-duration">
                 <i class="ri-time-line"></i>
                 ${service.duration} min
-            </small class="mini-service-price">
-            <span>₹${service.price}</span>
+            </small>
+            <span class="mini-service-price">₹${service.price}</span>
         `;
 
         DOM.cartContainer.appendChild(mini);
 
-        const name = document.createElement("span");
-
-        name.className = "mini-service-name";
-        name.textContent = service.name + ", ";
-
-        DOM.mobileCartLeft.appendChild(name);
-
     });
 
     updateTotals(subTotal);
+    syncMobileCartStorage();
+    showMobileCartPreview();
 
 }
 
 // ===============================
-// UPDATE TOTALS
+// UPDATE TOTALS  (desktop)
 // ===============================
-function updateTotals(subTotal){
+function updateTotals(subTotal) {
 
-    const tax = (subTotal * TAX_PERCENT) / 100;
+    const tax        = (subTotal * TAX_PERCENT) / 100;
     const finalTotal = subTotal + tax;
 
-    document.querySelector(".sub-total-amount")
-        .textContent = `₹${subTotal.toFixed(2)}`;
-
-    document.querySelector(".tax-amount")
-        .textContent = `₹${tax.toFixed(2)}`;
-
-    document.querySelector(".final-total-amount")
-        .textContent = `₹${finalTotal.toFixed(2)}`;
-
-    DOM.mobileCartTotal.textContent =
+    document.querySelector(".sub-total-amount").textContent =
         `₹${subTotal.toFixed(2)}`;
 
-    if (subTotal > 0) {
-        DOM.mobileCartPreview.classList.add("show-mobile-cart");
-    }
+    document.querySelector(".tax-amount").textContent =
+        `₹${tax.toFixed(2)}`;
+
+    document.querySelector(".final-total-amount").textContent =
+        `₹${finalTotal.toFixed(2)}`;
 
 }
 
 // ===============================
-// BOOKING BUTTON
+// SYNC SESSION STORAGE
+// Writes cart to sessionStorage so mobile-cart-page.html
+// can read it without any extra network calls.
+// Format: { service_id, service_name, price, duration, category }
 // ===============================
-document.querySelector(".select-staffDate-btn")
-?.addEventListener("click", () => {
+function syncMobileCartStorage() {
+
+    const mobileCart = cart.map(item => ({
+        service_id:   item.id,
+        service_name: item.name,
+        price:        item.price,
+        duration:     item.duration,
+        category:     item.category || "general"
+    }));
+
+    sessionStorage.setItem(MOBILE_CART_KEY, JSON.stringify(mobileCart));
+
+}
+
+// ===============================
+// MOBILE CART PREVIEW  –  SHOW
+// JS sets display:flex to make the element
+// exist in the render tree, then on the next
+// frame adds the class so the CSS transition fires.
+// CSS (not JS) controls whether it is actually
+// visible — on desktop the media query keeps it
+// hidden via visibility:hidden + pointer-events:none
+// so setting display:flex here is harmless.
+// ===============================
+function showMobileCartPreview() {
+
+    const bar   = DOM.mobileCartPreview;
+    const chips = DOM.mobileCartNames;
+
+    if (!bar || !chips) return;
+
+    chips.innerHTML = "";
+
+    // render up to MAX_CHIPS name chips, then "+N more"
+    const visible  = cart.slice(0, MAX_CHIPS);
+    const overflow = cart.length - MAX_CHIPS;
+
+    visible.forEach(service => {
+        const chip = document.createElement("span");
+        chip.className   = "mobile-cart-chip";
+        chip.textContent = service.name;
+        chips.appendChild(chip);
+    });
+
+    if (overflow > 0) {
+        const extra = document.createElement("span");
+        extra.className   = "mobile-cart-chip overflow-chip";
+        extra.textContent = `+${overflow} more`;
+        chips.appendChild(extra);
+    }
+
+    // make it exist in render tree, then trigger transition
+    bar.style.display = "flex";
+    requestAnimationFrame(() => {
+        bar.classList.add("show-mobile-cart");
+    });
+
+}
+
+// ===============================
+// MOBILE CART PREVIEW  –  HIDE
+// Remove class to play slide-down transition,
+// then set display:none after it finishes.
+// ===============================
+function hideMobileCartPreview() {
+
+    const bar = DOM.mobileCartPreview;
+
+    if (!bar) return;
+
+    bar.classList.remove("show-mobile-cart");
+
+    // wait for transition to finish before removing from flow
+    setTimeout(() => {
+        if (!bar.classList.contains("show-mobile-cart")) {
+            bar.style.display = "none";
+        }
+    }, 420);
+
+}
+
+// ===============================
+// OPEN MOBILE CART PAGE
+// Called by the "View Cart" button: onclick="openMobileCart()"
+// Cart data is already in sessionStorage.
+// ===============================
+function openMobileCart() {
 
     const token = localStorage.getItem("access_token");
 
-    if(token) {
-    if (cart.length === 0) {
-        alert("Please add at least one service.");
+    if (!token) {
+        showWarning("Please login to book an appointment");
+        setTimeout(() => {
+            window.location.href = "./login.html";
+        }, 3500);
         return;
     }
 
-    localStorage.setItem("bookingSource", "services");
-    localStorage.setItem("bookingItems", JSON.stringify(cart));
+    if (cart.length === 0) return;
 
-    window.location.href = "booking.html";
-    }
-    else {
-        showWarning("Please login to book an appointment");
-           setTimeout(()=>{
-           window.location.href = "./login.html";
-          },3500);
-         return;
-    }
-});
+    window.location.href = "./mobile-cart-page.html";
 
+}
+
+// ===============================
+// BOOKING BUTTON  (desktop)
+// ===============================
+document.querySelector(".select-staffDate-btn")
+    ?.addEventListener("click", () => {
+
+        const token = localStorage.getItem("access_token");
+
+        if (!token) {
+            showWarning("Please login to book an appointment");
+            setTimeout(() => {
+                window.location.href = "./login.html";
+            }, 3500);
+            return;
+        }
+
+        if (cart.length === 0) {
+            alert("Please add at least one service.");
+            return;
+        }
+
+        localStorage.setItem("bookingSource", "services");
+        localStorage.setItem("bookingItems", JSON.stringify(cart));
+
+        window.location.href = "booking.html";
+
+    });
+
+// ===============================
+// LOGOUT
+// ===============================
 async function logout() {
 
     const confirm = await confirmAction(
@@ -363,8 +463,7 @@ async function logout() {
 
     if (!confirm.isConfirmed) return;
 
-    const refreshToken =
-        localStorage.getItem("refresh_token");
+    const refreshToken = localStorage.getItem("refresh_token");
 
     try {
 
@@ -372,12 +471,8 @@ async function logout() {
 
         await fetch(`${API_BASE_URL}/auth/logout`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                refresh_token: refreshToken
-            })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ refresh_token: refreshToken })
         });
 
         Swal.close();
@@ -392,8 +487,7 @@ async function logout() {
     } catch (error) {
 
         Swal.close();
-
-        console.warn("Logout API failed");
+        console.warn("Logout API failed, clearing tokens locally.");
 
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
@@ -401,5 +495,7 @@ async function logout() {
         await showSuccess("Logged out");
 
         window.location.reload();
+
     }
+
 }

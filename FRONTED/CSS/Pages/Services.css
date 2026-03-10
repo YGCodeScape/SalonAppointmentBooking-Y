@@ -1,12 +1,7 @@
-#mobile-menu-full-page {
-    margin-top: 70px;
-}
-/* ════════════════════════════════
-   LAYOUT
-════════════════════════════════ */
 .servicesPage-container {
   width: 100%;
   display: flex;
+  flex-direction: row;
   min-height: 100vh;
 }
 
@@ -14,7 +9,9 @@
   width: 60%;
 }
 
-/* TOP INPUTS */
+/* ════════════════════════════════
+   TOP INPUTS
+════════════════════════════════ */
 .services-page-top-inputs {
   display: flex;
   flex-direction: column;
@@ -30,7 +27,6 @@
   gap: 1rem;
 }
 
-/* ── heading label ── */
 .service-cart-label {
   width: 100%;
   display: flex;
@@ -47,7 +43,6 @@
   text-transform: uppercase;
   color: var(--sp-text);
   line-height: 1;
-  /* subtle underline accent */
   position: relative;
   padding-bottom: 0.55rem;
 }
@@ -61,7 +56,7 @@
   border-radius: 2px;
 }
 
-/* ── search box ── */
+/* ── search ── */
 .servicesPage-search-box {
   width: 100%;
   height: 42px;
@@ -145,7 +140,7 @@
 }
 
 /* ════════════════════════════════
-   SERVICE CARDS  GRID
+   SERVICE CARDS GRID
 ════════════════════════════════ */
 .services-display-section {
   position: relative;
@@ -160,7 +155,6 @@
   row-gap: 20px;
 }
 
-/* ── card shell ── */
 .servicePage-service-card {
   width: 100%;
   height: 260px;
@@ -183,7 +177,6 @@
   border-color: var(--sp-border-hover);
 }
 
-/* ── card image ── */
 .servicePage-service-img {
   width: 100%;
   height: 165px;
@@ -196,7 +189,6 @@
   transform: scale(1.04);
 }
 
-/* ── floating service name banner ── */
 .servicePage-service-name {
   position: absolute;
   top: 0; left: 0;
@@ -215,7 +207,6 @@
   z-index: 9;
 }
 
-/* ── card content bottom ── */
 .service-card-content {
   display: flex;
   flex-direction: column;
@@ -229,12 +220,7 @@
   padding: 0.6rem 0 0.75rem 0.75rem;
   border-top: 1px solid var(--sp-border);
 }
-.service-duration {
-    font-size: var(--font-size-md);
-  font-weight: 500;
-  font-family: var(--primary-font);
-    color: var(--sp-text-muted);
-}
+
 .service-disc {
   font-size: 0.7rem;
   font-weight: 400;
@@ -242,6 +228,13 @@
   color: var(--sp-text-muted);
   letter-spacing: 0.04em;
   margin-bottom: 1px;
+}
+
+.service-duration {
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  font-family: var(--primary-font);
+  color: var(--sp-text-muted);
 }
 
 .service-price {
@@ -252,7 +245,6 @@
   letter-spacing: 1px;
 }
 
-/* ── add button ── */
 .service-add-btn {
   position: absolute;
   right: 10px;
@@ -266,7 +258,7 @@
   border-radius: 50%;
   font-size: 20px;
   cursor: pointer;
-  transition: all 0.28s cubic-bezier(0.34,1.56,0.64,1);
+  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -278,6 +270,7 @@
   border-color: var(--color-accent2);
   box-shadow: 0 0 14px var(--sp-accent-glow);
 }
+
 .service-add-btn i {
   pointer-events: none;
 }
@@ -290,7 +283,9 @@
 }
 
 /* ════════════════════════════════
-   CART PANEL  –  RIGHT SIDE
+   DESKTOP CART  –  right panel
+   Shown by default on desktop.
+   Hidden entirely in mobile media query.
 ════════════════════════════════ */
 .servicesPage-right-cart {
   position: fixed;
@@ -301,7 +296,6 @@
   padding: 1.2rem;
 }
 
-/* placeholder text */
 .cart-overlay-text {
   position: absolute;
   top: 50%;
@@ -320,7 +314,6 @@
   pointer-events: none;
 }
 
-/* ── desktop cart shell ── */
 .desktop-cart-preview {
   width: 100%;
   height: 100%;
@@ -336,7 +329,6 @@
   overflow: hidden;
 }
 
-/* subtle top accent line */
 .desktop-cart-preview::before {
   content: '';
   position: absolute;
@@ -346,7 +338,6 @@
   opacity: 0.6;
 }
 
-/* Cart header */
 .desktop-cart-preview::after {
   content: 'Your Cart';
   position: absolute;
@@ -368,13 +359,10 @@
   gap: 0.5rem;
   align-content: flex-start;
   overflow-y: auto;
-  /* custom thin scrollbar */
   scrollbar-width: thin;
   scrollbar-color: var(--sp-border) transparent;
 }
 
-
-/* mini service chips in cart */
 .mini-serviceCard {
   position: relative;
   width: auto;
@@ -389,18 +377,21 @@
   justify-content: center;
   transition: border-color 0.2s ease;
 }
+
 .mini-service-name {
   font-size: 0.75rem;
   font-family: var(--primary-font);
   color: var(--sp-text-muted);
   font-weight: 400;
 }
+
 .mini-service-duration {
-    font-size: 0.55rem;
+  font-size: 0.55rem;
   font-family: var(--primary-font);
   color: var(--sp-text-muted);
   font-weight: 400;
 }
+
 .mini-service-price {
   font-size: 0.88rem;
   font-family: var(--primary-font);
@@ -415,7 +406,6 @@
   color: var(--sp-text-muted);
 }
 
-/* ── desktop cart bottom (totals) ── */
 .desktop-cart-bottom {
   width: 88%;
   height: auto;
@@ -493,7 +483,6 @@
   letter-spacing: 0.5px;
 }
 
-/* ── CTA button ── */
 .select-staffDate-btn {
   width: calc(88%);
   height: 44px;
@@ -508,7 +497,7 @@
   text-align: center;
   margin-bottom: 1rem;
   cursor: pointer;
-  display: none;              /* shown by existing JS */
+  display: none; /* JS shows this when cart has items */
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   box-shadow: 0 4px 20px var(--sp-accent-glow);
 }
@@ -518,82 +507,20 @@
   box-shadow: 0 8px 28px rgba(201,53,107,0.45);
 }
 
-/* ── mobile cart preview ── */
-.mobile-cart-preview {
-  display: none;
-}
-
-.mobile-cart-content {
-  width: 100%;
-  position: relative;
-  padding: 0.7rem 1.1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.cart-left-sec {
-  width: 60%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  align-content: flex-start;
-}
-
-.cart-right-sec {
-  width: 40%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.6rem;
-}
-
-.added-service-count {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--sp-text-muted);
-}
-
-.cart-total-amount {
-  font-family: var(--sp-font-serif);
-  font-size: 1.15rem;
-  font-weight: 500;
-  color: var(--sp-text);
-}
-
-.view-cart-btn {
-  width: 110px;
-  height: 36px;
-  border: 1.5px solid var(--sp-accent);
-  background: transparent;
-  color: var(--sp-accent2);
-  font-family: var(--sp-font-body);
-  font-size: 0.75rem;
-  font-weight: 500;
-  border-radius: var(--sp-radius-pill);
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-.view-cart-btn:active,
-.view-cart-btn:hover {
-  background: var(--sp-accent);
-  color: #fff;
-}
-
 .select-staffDate-btnMobile {
   width: 175px;
   height: 38px;
-  background: linear-gradient(135deg, var(--sp-accent) 0%, #8b1a43 100%);
+  background: linear-gradient(135deg, var(--color-accent) 0%, #8b1a43 100%);
   border: none;
   color: #fff;
   font-family: var(--sp-font-body);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.05em;
-  border-radius: var(--sp-radius-btn);
+  border-radius: var(--border-radius-xl);
   text-align: center;
   cursor: pointer;
-  display: none;              /* shown by existing JS */
+  display: none;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -603,10 +530,156 @@
 }
 
 /* ════════════════════════════════
-   MOBILE  ≤ 768 px
+   MOBILE CART PREVIEW BAR
+   ─────────────────────────────
+   DESKTOP BEHAVIOR:
+   JS sets display:flex when cart has items and
+   display:none when empty — we cannot block this
+   with display:none in base CSS or JS would override
+   it and show the bar on desktop.
+
+   Solution: use visibility:hidden + pointer-events:none
+   in base CSS so the bar is always invisible/inert on
+   desktop regardless of what display value JS sets.
+
+   MOBILE BEHAVIOR (inside media query below):
+   visibility is reset to visible so the JS-triggered
+   slide-up transition works as intended.
+════════════════════════════════ */
+.mobile-cart-preview {
+  /* layout / position */
+  display: none; /* JS overrides to flex on mobile, harmless on desktop */
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 200;
+
+  /* visually hidden on desktop — JS cannot override visibility */
+  visibility: hidden;
+  pointer-events: none;
+
+  /* appearance */
+  background: rgba(14,7,12,0.92);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-top: 1px solid rgba(201,53,107,0.35);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.5);
+
+  /* slide-up transition — starts off-screen */
+  transform: translateY(100%);
+  opacity: 0;
+  transition:
+    transform 0.38s cubic-bezier(0.22,1,0.36,1),
+    opacity 0.3s ease;
+}
+
+/* shimmer top line */
+.mobile-cart-preview::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 20%; right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c9356b, transparent);
+  opacity: 0.7;
+}
+
+/* JS adds this class → triggers slide-up + fade-in */
+.mobile-cart-preview.show-mobile-cart {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* inner row */
+.mobile-cart-content {
+  width: 100%;
+  padding: 0.75rem 1.1rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* left: chips */
+.cart-left-sec {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-content: flex-start;
+}
+
+.mobile-cart-chip {
+  display: inline-block;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: rgba(245,240,242,0.75);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 100px;
+  padding: 3px 9px;
+}
+
+.mobile-cart-chip.overflow-chip {
+  color: #e8829a;
+  background: rgba(201,53,107,0.1);
+  border-color: rgba(201,53,107,0.3);
+}
+
+/* right: view cart btn */
+.cart-right-sec {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.view-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 38px;
+  padding: 0 1.1rem;
+  background: linear-gradient(135deg, #c9356b 0%, #8b1a43 100%);
+  border: none;
+  border-radius: 100px;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(201,53,107,0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  white-space: nowrap;
+}
+
+.view-cart-btn i {
+  font-size: 1rem;
+  transition: transform 0.25s ease;
+}
+
+.view-cart-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 22px rgba(201,53,107,0.5);
+}
+
+.view-cart-btn:hover i {
+  transform: translateX(3px);
+}
+
+.view-cart-btn:active {
+  transform: scale(0.97);
+}
+
+/* ════════════════════════════════
+   MOBILE OVERRIDES  ≤ 768px
 ════════════════════════════════ */
 @media (max-width: 768px) {
-  body { background: var(--sp-bg); }
 
   .servicesPage-container {
     flex-direction: column;
@@ -646,21 +719,19 @@
     font-size: 0.72rem;
   }
 
-  /* ── grid: 2-col on mobile ── */
+  /* bottom margin leaves space for fixed preview bar */
   .services-display-section {
     margin: 1rem 0.75rem 9rem;
     padding: 0;
   }
 
   .servicePage-service-card-row {
-    width: 100%;
     grid-template-columns: repeat(2, 1fr);
     row-gap: 14px;
     column-gap: 12px;
   }
 
   .servicePage-service-card {
-    width: 100%;
     height: 230px;
   }
 
@@ -668,17 +739,9 @@
     height: 145px;
   }
 
-  /* ── mobile cart bar ── */
+  /* hide desktop cart entirely */
   .servicesPage-right-cart {
-    width: 100%;
-    height: auto;
-    min-height: 70px;
-    top: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 0;
-    z-index: 200;
+    display: none;
   }
 
   .desktop-cart-preview {
@@ -689,27 +752,30 @@
     display: none;
   }
 
-  /* mobile cart pill — shown by JS via .show-mobile-cart */
+  /*
+    MOBILE CART BAR — activate visibility here.
+    JS sets display:flex + adds .show-mobile-cart.
+    We unlock visibility so the bar can actually appear.
+    The transform/opacity transition defined in base CSS
+    handles the slide-up animation automatically.
+  */
   .mobile-cart-preview {
-    display: none;
+    visibility: visible;
+    pointer-events: auto;
   }
 
-  .mobile-cart-preview.show-mobile-cart {
-    display: flex;
-    background: rgba(18, 9, 14, 0.96);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    width: 100%;
-    height: 100%;
-    border-top: 1px solid var(--sp-border);
-    border-radius: 0;
+  .mobile-cart-chip {
+    max-width: 120px;
   }
+
 }
 
-/* ── tiny screens ── */
+/* ════════════════════════════════
+   TINY SCREENS  ≤ 420px
+════════════════════════════════ */
 @media (max-width: 420px) {
+
   .servicePage-service-card-row {
-    grid-template-columns: repeat(2, 1fr);
     column-gap: 8px;
     row-gap: 10px;
   }
@@ -725,4 +791,10 @@
   .service-cart-label h2 {
     font-size: 1.35rem;
   }
+
+  .mobile-cart-chip {
+    max-width: 100px;
+    font-size: 0.62rem;
+  }
+
 }

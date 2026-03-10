@@ -126,24 +126,12 @@
          <!-- Services cards -->
          <section class="services-display-section">
            <div class="servicePage-service-card-row" id="servicesContainer">
-
+            <!-- services render here -->
            </div>
           </section>
      </div>
 
      <div class="servicesPage-right-cart">
-       <div class="mobile-cart-preview ">
-           <div class="mobile-cart-content">
-              <div class="cart-left-sec">
-                <!-- cart services render -->
-               </div>
-               <div class="cart-right-sec">
-                  <span class="cart-total-amount">₹0</span>
-                  <button class="select-staffDate-btnMobile">Select Staff & Date, Time <i class="ri-arrow-right-s-line"></i></button>
-               </div>
-           </div>
-       </div>
-
        <div class="desktop-cart-preview">
             <p class="cart-overlay-text">add services to cart, to book your appointment</p>
            <div class="desktop-cart-top">
@@ -168,7 +156,24 @@
            <button class="select-staffDate-btn">Select Staff & Date, Time <i class="ri-arrow-right-s-line"></i></button>
        </div>
      </div>
+     <!-- MOBILE CART PREVIEW BAR -->
+     <div class="mobile-cart-preview" id="mobileCartPreview">
+         <div class="mobile-cart-content">
+             <!-- left: stacked service name chips -->
+             <div class="cart-left-sec" id="mobileCartNames">
+                 <!-- JS renders one <span> per added service -->
+             </div>
+
+             <!-- right: view cart btn only (total removed) -->
+             <div class="cart-right-sec">
+                <button class="view-cart-btn" id="viewCartBtn" onclick="openMobileCart()">
+                  View Cart <i class="ri-arrow-right-s-line"></i>
+                </button>
+             </div>
+         </div>
+     </div>
  </div>
+
 
       <!-- Include SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
