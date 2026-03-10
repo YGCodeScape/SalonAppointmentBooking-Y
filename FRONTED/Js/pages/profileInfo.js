@@ -12,7 +12,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("access_token");
 
     if (!token) {
-        window.location.href = "./login.html";
+        showWarning("Please login to access your profile");
+        setTimeout(() => {
+           window.location.href = "./login.html";
+        }, 1500);
         return;
     }
 
@@ -76,12 +79,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         customerId = meData.data.customer_id;
 
     } catch (error) {
-
         console.error("Auth error:", error);
-        localStorage.removeItem("access_token");
-        window.location.href = "./login.html";
-        return;
-
+         localStorage.removeItem("access_token");
+         showError("Session expired. Please login again.");
+         setTimeout(()=>{
+             window.location.href = "./login.html";
+         },1500);
     }
 
     // ===============================
@@ -124,40 +127,50 @@ document.addEventListener("DOMContentLoaded", async () => {
             preferencesInput.value = user.preferences || "";
         }
 
-        if (user.gender && user.gender !== "") {
-            genderLocked = true;
-            selectedGender = user.gender;
+        // ===============================
+        // GENDER SELECT
+        // ===============================
 
-            // lock the whole wrapper using css class instead of inline styles
+        // Pre-select from backend — handle empty/null/undefined safely
+        if (user.gender && user.gender.trim() !== "") {
+            genderLocked = true;
+            selectedGender = user.gender.trim().toLowerCase();
+
             if (genderWrapper) {
                 genderWrapper.classList.add("locked");
             }
 
             genderBoxes.forEach(box => {
-                if (box.dataset.value === user.gender) {
+                // normalize both sides to lowercase for safe comparison
+                if (box.dataset.value.toLowerCase() === selectedGender) {
                     box.classList.add("active");
+                } else {
+                    box.classList.remove("active"); // clear any stale active state
                 }
             });
+
+        } else {
+            // Gender not set — allow selection, clear any stale active state
+            genderLocked = false;
+            selectedGender = null;
+            genderBoxes.forEach(b => b.classList.remove("active"));
         }
+
     } catch (error) {
-        console.error("Profile fetch error:", error);
+        showError("Unable to load profile information.");
     }
 
-    // ===============================
-    // GENDER SELECT
-    // ===============================
-
+    // Click handler
     genderBoxes.forEach(box => {
-
         box.addEventListener("click", () => {
             if (genderLocked) return;
+
             genderBoxes.forEach(b => b.classList.remove("active"));
             box.classList.add("active");
             selectedGender = box.dataset.value;
         });
     });
 
-    // recalc age when DOB changes
     if (dobInput) {
         dobInput.addEventListener("change", () => {
             if (ageInput) {
@@ -173,13 +186,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     saveBtn.addEventListener("click", async () => {
 
         const profileData = {
-
             name: nameInput.value.trim(),
             email: emailInput.value.trim(),
             address: cityInput.value.trim(),
             date_of_birth: dobInput.value || null,
             anniversary_date: anniversaryInput.value || null
-
         };
 
         if (selectedGender) {
@@ -192,46 +203,42 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         try {
-
+            showLoading("Updating profile...");
             const res = await fetch(`${API_BASE_URL}/customers/me`, {
 
                 method: "PATCH",
-
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
                 },
 
                 body: JSON.stringify(profileData)
-
             });
 
             const result = await res.json();
+            Swal.close();
 
             if (result.status === "success") {
-
-                alert("Profile updated successfully");
-
+                await showSuccess("Profile updated successfully");
                 window.location.href = "../index.html";
-
-            } else {
-
-                alert(result.message || "Update failed");
-
+            } 
+            else {
+               showError(result.message || "Profile update failed");
             }
 
         } catch (error) {
-            console.error("Update error:", error);
-            alert("Something went wrong");
+            Swal.close();
+            showError("Something went wrong while updating profile");
         }
     });
 
     document.getElementById("profileSkipBtn").addEventListener("click", () => {
-        if(token) {
+        if (token) {
             window.location.href = "../index.html";
         }
         else {
            window.location.href = "./html/login.html";
         }
-    })
+    });
+
 });
