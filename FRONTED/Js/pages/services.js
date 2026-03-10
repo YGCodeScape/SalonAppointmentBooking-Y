@@ -4,7 +4,7 @@
 const salonId = 1;
 const TAX_PERCENT = 5;
 
-// sessionStorage key shared with mobile-cart-page.html
+// sessionStorage key shared with mobileCart.html
 const MOBILE_CART_KEY = "mobileCart";
 
 // max service name chips shown in preview bar before "+N more"
@@ -314,9 +314,7 @@ function updateTotals(subTotal) {
 
 // ===============================
 // SYNC SESSION STORAGE
-// Writes cart to sessionStorage so mobile-cart-page.html
-// can read it without any extra network calls.
-// Format: { service_id, service_name, price, duration, category }
+// Writes cart to sessionStorage so mobileCart.html
 // ===============================
 function syncMobileCartStorage() {
 
@@ -334,13 +332,6 @@ function syncMobileCartStorage() {
 
 // ===============================
 // MOBILE CART PREVIEW  –  SHOW
-// JS sets display:flex to make the element
-// exist in the render tree, then on the next
-// frame adds the class so the CSS transition fires.
-// CSS (not JS) controls whether it is actually
-// visible — on desktop the media query keeps it
-// hidden via visibility:hidden + pointer-events:none
-// so setting display:flex here is harmless.
 // ===============================
 function showMobileCartPreview() {
 
@@ -379,8 +370,6 @@ function showMobileCartPreview() {
 
 // ===============================
 // MOBILE CART PREVIEW  –  HIDE
-// Remove class to play slide-down transition,
-// then set display:none after it finishes.
 // ===============================
 function hideMobileCartPreview() {
 
@@ -401,8 +390,6 @@ function hideMobileCartPreview() {
 
 // ===============================
 // OPEN MOBILE CART PAGE
-// Called by the "View Cart" button: onclick="openMobileCart()"
-// Cart data is already in sessionStorage.
 // ===============================
 function openMobileCart() {
 
@@ -418,7 +405,7 @@ function openMobileCart() {
 
     if (cart.length === 0) return;
 
-    window.location.href = "./mobile-cart-page.html";
+    window.location.href = "./mobileCart.html";
 
 }
 

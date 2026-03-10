@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poetsen+One&display=swap" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
+
+  <!-- Global CSS -->
+   <link rel="stylesheet" href="../CSS/Base/main.css"> 
+    <title>Elite Beauty Salon</title>
+</head>
+<body>
+    
+  <!-- ══ HEADER ══ -->
+  <header class="cart-page-header">
+    <button class="cart-back-btn" id="cartBackBtn" onclick="goBack()">
+      <i class="ri-arrow-left-s-line"></i>
+    </button>
+    <h1 class="cart-page-title">Your Cart</h1>
+    <span class="cart-item-count-badge" id="cartCountBadge">0 items</span>
+  </header>
+
+  <!-- ══ BODY ══ -->
+  <div class="cart-page-body">
+
+    <!-- empty state -->
+    <div class="cart-empty-state" id="cartEmptyState">
+      <i class="ri-shopping-bag-3-line"></i>
+      <p>Your cart is empty.<br>Add a service to get started.</p>
+      <a class="go-back-link" href="./services.html">
+        <i class="ri-arrow-left-line"></i> Browse Services
+      </a>
+    </div>
+
+    <!-- items label -->
+    <div class="cart-section-label" id="itemsLabel">Added Services</div>
+
+    <!-- items list -->
+    <div class="cart-items-list" id="cartItemsList">
+      <!-- rendered by JS -->
+    </div>
+
+    <!-- price summary -->
+    <div class="cart-summary-card" id="cartSummaryCard">
+      <div class="summary-line">
+        <span class="s-label">Subtotal</span>
+        <span class="s-value" id="summarySubtotal">₹0</span>
+      </div>
+      <div class="summary-line">
+        <span class="s-label">Discount</span>
+        <span class="s-value" id="summaryDiscount">—</span>
+      </div>
+      <div class="summary-line total-line">
+        <span class="s-label">Total</span>
+        <span class="s-value" id="summaryTotal">₹0</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ STICKY FOOTER ══ -->
+  <footer class="cart-page-footer">
+    <button class="cart-book-btn" id="cartBookBtn" onclick="proceedToBooking()">
+      Select Staff &amp; Time
+      <span class="btn-arrow"><i class="ri-arrow-right-s-line"></i></span>
+    </button>
+  </footer>
+
+        <!-- Include SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../Js/Core/alert.js"></script>
+ <script src="../Js/Core/config.js"></script>
+ <script src="../Js/pages/mobileCart.js"></script>
+</body>
+</html>
