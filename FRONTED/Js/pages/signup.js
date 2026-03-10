@@ -24,7 +24,7 @@ form.addEventListener("submit", async function (e) {
 
   // Validations
   if (password !== confirmPassword) {
-    alert("Passwords do not match!");
+    showError("Passwords do not match!");
     isValid = false;
   }
 
@@ -43,7 +43,7 @@ form.addEventListener("submit", async function (e) {
   }
 
   if (!emailPattern.test(email)) {
-    alert("Please enter a valid email address.");
+    showWarning("Please enter a valid email address.");
     isValid = false;
   }
 
@@ -67,6 +67,7 @@ form.addEventListener("submit", async function (e) {
 };
 
   try {
+    showLoading("Creating your account...");
     const response = await fetch(`${API_BASE_URL}/customers/register`, {
      method: "POST",
       headers: { 
@@ -78,22 +79,23 @@ form.addEventListener("submit", async function (e) {
     if (!response.ok) throw new Error("Server returned an error.");
 
     const data = await response.json();
-    console.log("Register Response:", data);
+    Swal.close();
 
     if (data.status === "success") {
 
-      alert("Registration successful! login in now");
+      await showSuccess("Registration successful! Please login now.");
 
       form.reset();
       window.location.href = "../html/login.html";
 
     } else {
-      alert(data.message || "Registration failed.");
+      showError(data.message || "Registration failed.");
     }
 
   } catch (error) {
-    console.error("Signup Error:", error);
-    alert("Something went wrong. Please try again.");
+     console.error("Signup Error:", error);
+     Swal.close();
+     showError("Something went wrong. Please try again.");
   }
 });
 
