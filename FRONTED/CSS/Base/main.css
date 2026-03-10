@@ -6,6 +6,7 @@
 /* INDEX */
 @import url('../index.css');
 @import url('../Base/common.css');
+@import url('../Base/navigations.css');
 
 /* PAGES */
 @import url('../Pages/Signup.css');
