@@ -59,22 +59,32 @@ function cacheDOM(){
 function loadBookingItems(){
 
     const source = localStorage.getItem("bookingSource");
-
     const items = JSON.parse(localStorage.getItem("bookingItems")) || [];
-    
+
     bookingData.type = source;
     bookingData.items = items;
-        
-        let total = 0;
-        
-        items.forEach(item => {
-            total += Number(item.price || 0);
-        });
-        
-        bookingData.totalAmount = total;
-        
-        document.getElementById("summaryItem").textContent = source;
-        document.getElementById("summaryItems").textContent = items.map(i=>i.name).join(", ");
+
+    let total = 0;
+
+    items.forEach(item => {
+        total += Number(item.price || 0);
+    });
+
+    bookingData.totalAmount = total;
+
+    document.getElementById("summaryItem").textContent = source;
+
+    document.getElementById("summaryItems").textContent =
+    items.map(i => getItemName(i)).join(", ");
+}
+// ===============================
+// ITEM HELPERS
+// ===============================
+function getItemName(item){
+    return item.service_name || item.package_name || item.name || "Item";
+}
+function getItemId(item){
+    return item.service_id || item.package_id || item.id;
 }
 
 //================================
@@ -299,7 +309,7 @@ async function handleBooking(){
         if(bookingData.type === "services"){
 
             services = bookingData.items.map(item => ({
-                service_id: item.id,
+                service_id: getItemId(item),
                 staff_id: bookingData.staff,
                 price: item.price
             }));
@@ -309,7 +319,7 @@ async function handleBooking(){
         if(bookingData.type === "packages"){
 
             packages = bookingData.items.map(item => ({
-                package_id: item.id,
+                package_id: getItemId(item),
                 staff_id: bookingData.staff,
                 price: item.price
             }));
@@ -356,10 +366,10 @@ async function handleBooking(){
     }
 }
 
-async function confirmBookingSummary(){
+async function confirmBookingSummary() {
 
     const servicesList = bookingData.items
-        .map(item => `<li>${item.name}</li>`)
+        .map(item => `<li>${getItemName(item)}</li>`)
         .join("");
 
     const html = `
@@ -395,6 +405,7 @@ async function confirmBookingSummary(){
 // ===============================
 
 function populateSuccessModal(){
+    CartManager.clearAll();
 
     document.getElementById("modalDate")
         .textContent = DOM.summaryDate.textContent;
@@ -415,12 +426,11 @@ function populateSuccessModal(){
         .innerHTML =
         bookingData.items
         .map(item =>
-            `<span class="model-services-span">${item.name}</span>`
+            `<span class="model-services-span">${getItemName(item)}</span>`
         ).join(",");
 
     document.getElementById("modTotalValue")
         .textContent = bookingData.totalAmount;
-
 }
 
 
@@ -445,8 +455,8 @@ function closeModal(){
 
 function handleBack(){
 
-    const source =
-        localStorage.getItem("bookingSource");
+    CartManager.clearAll();
+    const source = localStorage.getItem("bookingSource");
 
     if(source==="services"){
         window.location.href="services.html";

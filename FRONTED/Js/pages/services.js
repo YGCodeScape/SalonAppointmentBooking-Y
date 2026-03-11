@@ -23,10 +23,17 @@ let DOM = {};
 document.addEventListener("DOMContentLoaded", initApp);
 
 function initApp() {
+    if(!localStorage.getItem("bookingSource")){
+     CartManager.clearCart();
+   }
     cacheDOM();
     checkAuth();
     attachGlobalEvents();
+
+    cart = CartManager.getCart();
+
     fetchServices();
+    renderCart();
 }
 
 // ===============================
@@ -132,10 +139,24 @@ function renderServices(services) {
 
     `).join("");
 
+    restoreSelectedServices();
     DOM.servicesContainer.innerHTML = html;
-
 }
 
+function restoreSelectedServices() {
+    const cart = CartManager.getCart();
+
+    if (!cart.length) return;
+    cart.forEach(service => {
+        const card = document.querySelector(
+            `.servicePage-service-card[data-id="${service.service_id}"]`
+        );
+        if (!card) return;
+        const btn = card.querySelector(".service-add-btn");
+        btn.classList.add("service-added-highLight");
+    });
+
+}
 // ===============================
 // GLOBAL EVENTS
 // ===============================
@@ -217,30 +238,23 @@ function handleAddService(e) {
     const button = e.target.closest(".service-add-btn");
     const card   = button.closest(".servicePage-service-card");
 
-    const serviceId = card.dataset.id;
-    const existing  = cart.findIndex(item => item.id === serviceId);
+    const service = {
+        service_id: card.dataset.id,
+        service_name: card.dataset.name,
+        price: parseFloat(card.dataset.price),
+        duration: card.dataset.duration,
+        category: card.dataset.category
+    };
 
-    if (existing === -1) {
+    cart = CartManager.toggleService(service);
+    const exists = cart.find(s => String(s.service_id) === String(service.service_id));
 
-        cart.push({
-            id:       serviceId,
-            name:     card.dataset.name,
-            price:    parseFloat(card.dataset.price),
-            duration: card.dataset.duration,
-            category: card.dataset.category
-        });
-
+    if (exists) {
         button.classList.add("service-added-highLight");
-
     } else {
-
-        cart.splice(existing, 1);
         button.classList.remove("service-added-highLight");
-
     }
-
     renderCart();
-
 }
 
 // ===============================
@@ -257,7 +271,6 @@ function renderCart() {
         DOM.selectStaffBtn.style.display  = "none";
 
         updateTotals(0);
-        syncMobileCartStorage();
         hideMobileCartPreview();
 
         return;
@@ -275,7 +288,7 @@ function renderCart() {
         const mini = document.createElement("div");
         mini.className = "mini-serviceCard";
         mini.innerHTML = `
-            <h4 class="mini-service-name">${service.name}</h4>
+            <h4 class="mini-service-name">${service.service_name}</h4>
             <small class="mini-service-duration">
                 <i class="ri-time-line"></i>
                 ${service.duration} min
@@ -288,7 +301,6 @@ function renderCart() {
     });
 
     updateTotals(subTotal);
-    syncMobileCartStorage();
     showMobileCartPreview();
 
 }
@@ -313,24 +325,6 @@ function updateTotals(subTotal) {
 }
 
 // ===============================
-// SYNC SESSION STORAGE
-// Writes cart to sessionStorage so mobileCart.html
-// ===============================
-function syncMobileCartStorage() {
-
-    const mobileCart = cart.map(item => ({
-        service_id:   item.id,
-        service_name: item.name,
-        price:        item.price,
-        duration:     item.duration,
-        category:     item.category || "general"
-    }));
-
-    sessionStorage.setItem(MOBILE_CART_KEY, JSON.stringify(mobileCart));
-
-}
-
-// ===============================
 // MOBILE CART PREVIEW  –  SHOW
 // ===============================
 function showMobileCartPreview() {
@@ -349,7 +343,7 @@ function showMobileCartPreview() {
     visible.forEach(service => {
         const chip = document.createElement("span");
         chip.className   = "mobile-cart-chip";
-        chip.textContent = service.name;
+        chip.textContent = service.service_name;
         chips.appendChild(chip);
     });
 
@@ -431,10 +425,9 @@ document.querySelector(".select-staffDate-btn")
         }
 
         localStorage.setItem("bookingSource", "services");
-        localStorage.setItem("bookingItems", JSON.stringify(cart));
+        CartManager.sendToBooking();
 
         window.location.href = "booking.html";
-
     });
 
 // ===============================
