@@ -64,7 +64,7 @@ svg { display: none; }
 .login-banner-img-d {
   width: 100%;
   height: 260px;
-  background-image: url(/FRONTED/Assets/images/signup\ banner\ mobile.png);
+  background-image: url(/FRONTEND/Assets/images/signup\ banner\ mobile.png);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -198,7 +198,7 @@ svg { display: none; }
     height: 100%;
     width: calc(100% - 28px);
     margin-left: 28px;
-    background-image: url(/FRONTED/Assets/images/signupBannerDesktop.jpg);
+    background-image: url(/FRONTEND/Assets/images/signupBannerDesktop.jpg);
     background-size: cover;
     border-radius: 20px;
     clip-path: url(#leftPanelShape);
