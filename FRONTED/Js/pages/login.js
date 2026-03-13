@@ -8,6 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
+  initializeLoginPage();
+});
+
+// Function to initialize the login page elements and event listeners
+function initializeLoginPage() {
   const form = document.getElementById("loginForm");
   const mobileInput = document.getElementById("mobile");
   const emailInput = document.getElementById("email");
@@ -70,7 +75,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     try {
-
       // build payload depending on which identifier is provided
       const payload = {
         password: password,
@@ -93,7 +97,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const data = await response.json();
 
-
       if (data.status === "success") {
 
         const accessToken = data.data.access_token;
@@ -113,9 +116,18 @@ document.addEventListener("DOMContentLoaded", function () {
       showError("Server error. Please try again.");
     }
   });
-});
-  // Toggle password visibility
+}
+
+// Toggle password visibility
 function togglePassword(id) {
   const input = document.getElementById(id);
-  input.type = input.type === "password" ? "text" : "password";
+  const icon = document.querySelector('.toggle-password i');
+
+  if (input.type === "password") {
+    input.type = "text";
+    icon.className = "ri-eye-off-fill";
+  } else {
+    input.type = "password";
+    icon.className = "ri-eye-fill";
+  }
 }

@@ -4,9 +4,6 @@
 
 const form = document.getElementById("signupForm");
 const mobileInput = document.getElementById("mobile");
-const mobileError = document.getElementById("mobileError");
-const nameError = document.getElementById("nameError");
-const passwordError = document.getElementById("passwordError");
 
 const strongPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -29,16 +26,12 @@ form.addEventListener("submit", async function (e) {
   }
 
   if (!/^\d{10}$/.test(mobile)) {
-    mobileError.style.display = "block";
-    mobileError.textContent = "Mobile number must be exactly 10 digits.";
-    setTimeout(() => mobileError.style.display = "none", 3000);
+    showWarning("Mobile number must be exactly 10 digits.");
     isValid = false;
   }
 
   if (full_name.length < 3) {
-    nameError.style.display = "block";
-    nameError.textContent = "Name must be at least 3 characters.";
-    setTimeout(() => nameError.style.display = "none", 3000);
+    showWarning("Name must be at least 3 characters.");
     isValid = false;
   }
 
@@ -48,10 +41,7 @@ form.addEventListener("submit", async function (e) {
   }
 
   if (!strongPattern.test(password)) {
-    passwordError.style.display = "block";
-    passwordError.textContent =
-      "Password must be 8+ characters with uppercase, number & symbol.";
-    setTimeout(() => passwordError.style.display = "none", 3000);
+    showWarning("Password must be 8+ characters with uppercase, number & symbol.");
     isValid = false;
   }
 
@@ -106,5 +96,14 @@ mobileInput.addEventListener("input", function () {
 // Toggle password visibility
 function togglePassword(id) {
   const input = document.getElementById(id);
-  input.type = input.type === "password" ? "text" : "password";
+  const span = input.nextElementSibling;
+  const icon = span.querySelector('i');
+
+  if (input.type === "password") {
+    input.type = "text";
+    icon.className = "ri-eye-off-fill";
+  } else {
+    input.type = "password";
+    icon.className = "ri-eye-fill";
+  }
 }

@@ -73,21 +73,6 @@ svg { display: none; }
   overflow: hidden;
 }
 
-/* dark gradient overlay */
-.login-banner-img-d::after {
-  content: '';
-  position: absolute; 
-  inset: 0;
-  background: linear-gradient(
-    160deg,
-    rgba(13,8,15,0.5) 0%,
-    rgba(139,26,67,0.2) 55%,
-    rgba(13,8,15,0.65) 100%
-  );
-  border-radius: inherit;
-}
-
-
 /* ════════════════════════════════
    RIGHT  –  form panel
 ════════════════════════════════ */
@@ -221,16 +206,22 @@ svg { display: none; }
 
   .login-create-text { display: none; }
 
-  .login-alt-text-d {
+  .login-alt-text-d,
+  .signup-alt-text-d {
     position: absolute;
-    bottom: 12%; left: 8%;
-    width: 55%;
+    bottom: 3%; 
+    left: 2%;
+    width: 65%;
     z-index: 9;
   }
+  
+  .signup-alt-text,
   .login-alt-text {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-sm);
+    font-family: var(--primary-font);
     font-weight: 300;
-    line-height: 1.7;
+    line-height: 1;
+    text-align: start;
   }
 
   svg { display: block; }
