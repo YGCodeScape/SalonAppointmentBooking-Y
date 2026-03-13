@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
     initStarRating();
     resetFeedbackForm();
     fetchCompletedAppointments();
-    showAlert();
 });
 
 let selectedRating = 0;
