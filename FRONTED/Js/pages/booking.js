@@ -65,9 +65,8 @@ function loadBookingItems(){
     bookingData.items = items;
 
     let total = 0;
-
     items.forEach(item => {
-        total += Number(item.price || 0);
+        total += Number(item.price || 0) + ((Number(item.price || 0) * 5) / 100);
     });
 
     bookingData.totalAmount = total;
@@ -344,9 +343,7 @@ async function handleBooking(){
                 "Content-Type":"application/json",
                 "Authorization":`Bearer ${token}`
             },
-
             body: JSON.stringify(payload)
-
         });
 
         const data = await res.json();

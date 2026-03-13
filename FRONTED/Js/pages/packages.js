@@ -47,7 +47,6 @@ function cacheDOM() {
 // ===============================
 function checkAuth() {
 
-
     if (token) {
         DOM.loginBtn.style.display = "none";
         DOM.signupBtn.style.display = "none";
@@ -57,7 +56,6 @@ function checkAuth() {
         DOM.signupBtn.style.display = "inline-block";
         DOM.profileDiv.style.display = "none";
     }
-
 }
 
 // ===============================
@@ -181,9 +179,7 @@ function attachEvents() {
 // SEARCH PACKAGES
 // ===============================
 function handleSearch() {
-
     const value = DOM.searchInput.value.toLowerCase();
-
     const cards = document.querySelectorAll(".package-card");
 
     cards.forEach(card => {
@@ -195,9 +191,7 @@ function handleSearch() {
 
         card.style.display =
             name.includes(value) ? "flex" : "none";
-
     });
-
 }
 
 // ===============================
