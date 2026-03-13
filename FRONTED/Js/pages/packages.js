@@ -80,7 +80,7 @@ async function fetchPackages() {
         renderPackages(packagesData);
 
     } catch (error) {
-        console.error("Packages fetch error:", error);
+         showError("Failed to load packages. Please try again later.");
     }
 }
 
@@ -297,8 +297,7 @@ async function logout() {
     } catch (error) {
 
         Swal.close();
-
-        console.warn("Logout API failed");
+        showError("Failed to logout.");
 
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");

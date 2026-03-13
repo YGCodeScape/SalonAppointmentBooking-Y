@@ -71,7 +71,7 @@ async function fetchAppointments(){
 
     }
     catch(err){
-        console.error("Fetch appointment error:",err);
+        showError("Failed to load appointments.");
     }
 
 }
@@ -288,11 +288,7 @@ function attachCancelEvents() {
                 }
 
             } catch (err) {
-
                 Swal.close();
-
-                console.error("Cancel error:", err);
-
                 showError("Something went wrong while cancelling.");
             }
 
@@ -448,8 +444,7 @@ async function logout() {
     } catch (error) {
 
         Swal.close();
-
-        console.warn("Logout API failed");
+        showError("Failed to logout.");
 
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");

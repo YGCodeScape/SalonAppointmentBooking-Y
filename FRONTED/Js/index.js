@@ -130,7 +130,6 @@ async function loadLandingData() {
 
     try {
         if (!salonId) {
-            console.error("Salon not found");
             showError("Salon configuration missing.");
             return;
         }
@@ -141,7 +140,6 @@ async function loadLandingData() {
         ]);
 
     } catch (error) {
-        console.error("Landing load error:", error);
         showError("Failed to load homepage data.");
     }
 }
@@ -163,7 +161,6 @@ async function fetchServices() {
         renderServices(data.data.items.slice(0, 3));
 
     } catch (error) {
-        console.error("Services fetch error:", error);
         showError("Unable to load services right now.");
     }
 }
@@ -224,7 +221,6 @@ async function fetchPackages() {
         renderPackages(data.data.items.slice(0, 3));
 
     } catch (error) {
-        console.error("Packages fetch error:", error);
          showError("Unable to load packages right now.");
     }
 }

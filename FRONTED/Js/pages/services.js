@@ -105,7 +105,7 @@ async function fetchServices() {
         renderServices(servicesData);
 
     } catch (error) {
-        console.error("Services fetch error:", error);
+        showError("services fetch error.");
     }
 }
 
@@ -467,7 +467,7 @@ async function logout() {
     } catch (error) {
 
         Swal.close();
-        console.warn("Logout API failed, clearing tokens locally.");
+        showError("Failed to logout.");
 
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");

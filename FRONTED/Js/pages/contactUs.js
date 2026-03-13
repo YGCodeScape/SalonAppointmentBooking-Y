@@ -58,7 +58,7 @@ async function fetchCompletedAppointments(){
 
     }
     catch(err){
-        console.error("Appointment fetch error:",err);
+            showError("Failed to load appointments");
     }
 }
 
@@ -153,8 +153,7 @@ async function submitFeedback(){
         resetFeedbackForm();
     }
     catch(err){
-        console.error("Feedback error:",err);
-        alert("Failed to submit feedback");
+        showError("Failed to submit feedback");
     }
 }
 
@@ -238,8 +237,7 @@ async function logout() {
     } catch (error) {
 
         Swal.close();
-
-        console.warn("Logout API failed");
+        showError("Failed to logout.");
 
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");

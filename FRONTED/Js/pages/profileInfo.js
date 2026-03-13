@@ -5,7 +5,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
 
     if (typeof API_BASE_URL === "undefined") {
-        console.error("API_BASE_URL not found");
+        showError("API configuration error.");
         return;
     }
 
@@ -79,7 +79,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         customerId = meData.data.customer_id;
 
     } catch (error) {
-        console.error("Auth error:", error);
+        showError("Authentication faild.");
+        
          localStorage.removeItem("access_token");
          showError("Session expired. Please login again.");
          setTimeout(()=>{

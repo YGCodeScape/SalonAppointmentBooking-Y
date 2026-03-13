@@ -101,7 +101,7 @@ async function fetchStaff(){
 
     }
     catch(err) {
-        console.error("Staff fetch error:", err);
+            showError("Failed to load staff members");
     }
 }
 // ===============================
@@ -361,7 +361,6 @@ async function handleBooking(){
         DOM.successModal.classList.add("show");
     }
     catch(err){
-       console.error("Booking error:",err);
        showError("Something went wrong while booking");
     }
 }

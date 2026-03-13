@@ -4,7 +4,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 
   if (typeof API_BASE_URL === "undefined") {
-    console.error("API_BASE_URL is not defined!");
+    showError("API configuration error.");
     return;
   }
 
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       const data = await response.json();
-      console.log("Login response:", data);
+
 
       if (data.status === "success") {
 
@@ -110,7 +110,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
     } catch (error) {
-      console.error("Login error:", error);
       showError("Server error. Please try again.");
     }
   });

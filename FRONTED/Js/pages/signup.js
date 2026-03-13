@@ -93,7 +93,6 @@ form.addEventListener("submit", async function (e) {
     }
 
   } catch (error) {
-     console.error("Signup Error:", error);
      Swal.close();
      showError("Something went wrong. Please try again.");
   }
