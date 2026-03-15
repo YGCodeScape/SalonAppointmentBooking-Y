@@ -1,7 +1,27 @@
 // ===============================
-// PROFILE INFO PAGE
+// SALON INFO  (public — no token)
 // ===============================
-
+async function fetchSalonInfo() {
+    try {
+        const res  = await fetch(`${API_BASE_URL}/salon/info?salon_id=${salonId}`);
+        const data = await res.json();
+ 
+        if (data.status !== "success") return;
+ 
+        populateSalonInfo(data.data);
+ 
+    } catch (err) {
+        showError("Could not load salon info");
+    }
+}
+function populateSalonInfo(salon) {
+            /* ── Page / browser title ── */
+        if (salon.salon_name) {
+            document.title = `${salon.salon_name} | ProfileInfo`;
+        }
+}
+fetchSalonInfo();
+// ===========================
 document.addEventListener("DOMContentLoaded", async () => {
 
     if (typeof API_BASE_URL === "undefined") {

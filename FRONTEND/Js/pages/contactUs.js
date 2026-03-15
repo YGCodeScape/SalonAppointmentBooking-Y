@@ -112,7 +112,7 @@ function populateSalonInfo(salon) {
  
     /* ── Page / browser title ── */
     if (salon.salon_name) {
-        document.title = `Contact Us | ${salon.salon_name}`;
+        document.title = `${salon.salon_name} | Contact Us`;
     }
 }
 

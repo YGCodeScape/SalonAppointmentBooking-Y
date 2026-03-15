@@ -15,8 +15,6 @@ const bookingData = {
 
 let DOM = {};
 let selectedDate = null;
-const salonId = 1;
-
 // ===============================
 // INIT
 // ===============================
@@ -25,6 +23,7 @@ document.addEventListener("DOMContentLoaded", initApp);
 
 function initApp() {
     cacheDOM();
+    fetchSalonInfo();
     loadBookingItems();
     fetchStaff();
     renderDates();
@@ -44,18 +43,33 @@ function cacheDOM(){
     DOM.monthLabel = document.getElementById("monthLabel");
 
     DOM.bookBtn = document.getElementById("bookBtn");
-
     DOM.summaryDate = document.getElementById("summaryDate");
-
     DOM.successModal = document.getElementById("successModal");
-
 }
-
-
+// ===============================
+// SALON INFO  (public — no token)
+// ===============================
+async function fetchSalonInfo() {
+    try {
+        const res  = await fetch(`${API_BASE_URL}/salon/info?salon_id=${salonId}`);
+        const data = await res.json();
+ 
+        if (data.status !== "success") return;
+        populateSalonInfo(data.data);
+ 
+    } catch (err) {
+        showError("Could not load salon info");
+    }
+}
+function populateSalonInfo(salon) {
+            /* ── Page / browser title ── */
+        if (salon.salon_name) {
+            document.title = `${salon.salon_name} | Booking`;
+        }
+}
 // ===============================
 // LOAD ITEMS FROM SERVICES / PACKAGES
 // ===============================
-
 function loadBookingItems(){
 
     const source = localStorage.getItem("bookingSource");

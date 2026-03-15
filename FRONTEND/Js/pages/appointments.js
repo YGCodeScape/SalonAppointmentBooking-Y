@@ -79,6 +79,10 @@ function populateSalonInfo(salon) {
     else {
         showError("Could not load salon name");
     }
+    /* ── Page / browser title ── */
+    if (salon.salon_name) {
+        document.title = `${salon.salon_name} | Appointments`;
+    }
 }
 
 //=====================================
