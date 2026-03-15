@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", initPage);
 function initPage(){
     cacheDOM();
     checkAuth();
+    fetchSalonInfo();
     fetchAppointments();
 }
 let DOM = {};
@@ -46,6 +47,39 @@ function checkAuth() {
           },3500);
      }
  }
+// ===============================
+// SALON INFO  (public — no token)
+// ===============================
+async function fetchSalonInfo() {
+    try {
+        const res  = await fetch(`${API_BASE_URL}/salon/info?salon_id=${salonId}`);
+        const data = await res.json();
+ 
+        if (data.status !== "success") return;
+ 
+        populateSalonInfo(data.data);
+ 
+    } catch (err) {
+        showError("Could not load salon info");
+    }
+}
+function populateSalonInfo(salon) {
+    const wordMark = document.getElementById("logo-text");
+        if (wordMark) {
+        wordMark.textContent = salon.salon_name ?? wordMark.textContent;
+        const words = wordMark.textContent.split(/\s+/);
+        if (words.length > 1) {
+            const first = words[0];
+            const rest = words.slice(1).join(' ');
+            wordMark.innerHTML = `${first} <span>${rest}</span>`;
+        } else {
+            wordMark.innerHTML = wordMark.textContent;
+        }
+    }
+    else {
+        showError("Could not load salon name");
+    }
+}
 
 //=====================================
 // FETCH APPOINTMENTS

@@ -1,5 +1,3 @@
-let salonId = 1;
-
 // ===============================
 // INIT APP
 // ===============================
@@ -157,8 +155,7 @@ async function fetchSalonInfo() {
         populateSalonInfo(data.data);
  
     } catch (err) {
-        console.warn("Could not load salon info:", err);
-        // Page keeps its static fallback text if the request fails
+        showError("Could not load salon info");
     }
 }
  

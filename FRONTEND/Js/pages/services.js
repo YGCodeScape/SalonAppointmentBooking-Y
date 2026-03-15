@@ -1,9 +1,4 @@
-// ===============================
-// CONFIG
-// ===============================
-const salonId = 1;
 const TAX_PERCENT = 5;
-
 // sessionStorage key shared with mobileCart.html
 const MOBILE_CART_KEY = "mobileCart";
 
@@ -29,9 +24,8 @@ function initApp() {
     cacheDOM();
     checkAuth();
     attachGlobalEvents();
-
+    fetchSalonInfo()
     cart = CartManager.getCart();
-
     fetchServices();
     renderCart();
 }
@@ -40,7 +34,6 @@ function initApp() {
 // CACHE DOM
 // ===============================
 function cacheDOM() {
-
     DOM.loginBtn        = document.getElementById("nav-log-btn");
     DOM.signupBtn       = document.getElementById("nav-signup-btn");
     DOM.profileDiv      = document.getElementById("nav-profile-div");
@@ -57,7 +50,6 @@ function cacheDOM() {
     // mobile cart preview bar
     DOM.mobileCartPreview = document.getElementById("mobileCartPreview");
     DOM.mobileCartNames   = document.getElementById("mobileCartNames");
-
 }
 
 /* ── Scroll: darken navbar ── */
@@ -83,6 +75,40 @@ function checkAuth() {
         DOM.profileDiv.style.display = "none";
     }
 
+}
+
+// ===============================
+// SALON INFO  (public — no token)
+// ===============================
+async function fetchSalonInfo() {
+    try {
+        const res  = await fetch(`${API_BASE_URL}/salon/info?salon_id=${salonId}`);
+        const data = await res.json();
+ 
+        if (data.status !== "success") return;
+ 
+        populateSalonInfo(data.data);
+ 
+    } catch (err) {
+        showError("Could not load salon info");
+    }
+}
+function populateSalonInfo(salon) {
+    const wordMark = document.getElementById("logo-text");
+        if (wordMark) {
+        wordMark.textContent = salon.salon_name ?? wordMark.textContent;
+        const words = wordMark.textContent.split(/\s+/);
+        if (words.length > 1) {
+            const first = words[0];
+            const rest = words.slice(1).join(' ');
+            wordMark.innerHTML = `${first} <span>${rest}</span>`;
+        } else {
+            wordMark.innerHTML = wordMark.textContent;
+        }
+    }
+    else {
+        showError("Could not load salon name");
+    }
 }
 
 // ===============================
