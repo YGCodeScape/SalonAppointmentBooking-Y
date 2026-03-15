@@ -21,7 +21,7 @@
 
   <!-- LOGO -->
   <a class="logo" href="../index.html">
-    <span class="logo-text" id="logo-text">Elite <span>Beauty</span></span>
+    <span class="logo-text" id="logo-text"></span>
   </a>
 
   <!-- DESKTOP NAV LINKS -->
@@ -109,8 +109,8 @@
     <div class="address-header">
        <div class="location-mark"><i class="ri-map-pin-line"></i></div>
        <div class="address-text">
-         <h2>Our Address</h2>
-         <p>123 Main Street<br>Mumbai Maharashtra India<br></p>
+         <h2 id="salon-name">Our Address</h2>
+         <p id="salon-address"></p>
        </div>
        <div class="social-row">
            <a href="#" class="facebook"><i class="ri-facebook-circle-fill"></i></a>
@@ -138,8 +138,9 @@
         <h3>Call Us</h3>
       </div>
       <div class="contact-cart-info">
-        <p>+91 9876543220</p>
-        <a href="tel:+910887997278" class="contact-btn">Call Now</a>
+         <p id="salon-phone-display"></p>
+        <!-- id="salon-phone-link" → href updated by JS -->
+        <a href=`tel:${salon.phone}`  id="salon-phone-link" class="contact-btn">Call Now</a>
       </div>
     </div>
 
@@ -149,8 +150,9 @@
          <h3>Email Us</h3>
       </div>
       <div class="contact-cart-info">
-        <p>elite@example.com</p>
-        <a href="mailto:apexsalonsinfo@gmail.com" class="contact-btn">Send Email</a>
+        <p id="salon-email-display"></p>
+        <!-- id="salon-email-link" → href updated by JS -->
+        <a href=`mailto:${salon.email}` id="salon-email-link" class="contact-btn">Send Email</a>
       </div>
     </div>
   </div>

@@ -2,9 +2,11 @@ document.addEventListener("DOMContentLoaded", () => {
     checkAuth();
     initStarRating();
     resetFeedbackForm();
+    fetchSalonInfo(); //salon info 
     fetchCompletedAppointments();
 });
 
+let salonId = 1;
 let selectedRating = 0;
 let selectedAppointmentId = null;
 
@@ -38,6 +40,88 @@ function checkAuth() {
     }
 }
 
+// ===============================
+// SALON INFO  (public — no token)
+// ===============================
+async function fetchSalonInfo() {
+    try {
+        const res  = await fetch(`${API_BASE_URL}/salon/info?salon_id=${salonId}`);
+        const data = await res.json();
+ 
+        if (data.status !== "success") return;
+ 
+        populateSalonInfo(data.data);
+ 
+    } catch (err) {
+        console.warn("Could not load salon info:", err);
+        // Page keeps its static fallback text if the request fails
+    }
+}
+ 
+function populateSalonInfo(salon) {
+ 
+    /* ── Address card ── */
+    const wordMark = document.getElementById("logo-text");
+    const nameEl    = document.getElementById("salon-name");
+    const addressEl = document.getElementById("salon-address");
+ 
+    if (wordMark) {
+        wordMark.textContent = salon.salon_name ?? wordMark.textContent;
+        const words = wordMark.textContent.split(/\s+/);
+        if (words.length > 1) {
+            const first = words[0];
+            const rest = words.slice(1).join(' ');
+            wordMark.innerHTML = `${first} <span>${rest}</span>`;
+        } else {
+            wordMark.innerHTML = wordMark.textContent;
+        }
+    }
+
+    if (nameEl)    nameEl.textContent = salon.salon_name ?? nameEl.textContent;
+ 
+    if (addressEl) {
+        // Build a readable address from the parts returned by the API
+        const parts = [
+            salon.address,
+            salon.city,
+            salon.state,
+            salon.country
+        ].filter(Boolean);    // drop any null / empty segments
+ 
+        addressEl.innerHTML = parts.join(", ");
+    }
+ 
+    /* ── Phone card ── */
+    const phoneDisplay = document.getElementById("salon-phone-display");
+    const phoneLink    = document.getElementById("salon-phone-link");
+ 
+    if (phoneDisplay && salon.phone) {
+        phoneDisplay.textContent = `+91 ${salon.phone}`;
+    }
+    if (phoneLink && salon.phone) {
+        phoneLink.href = `tel:+91${salon.phone}`;
+    }
+ 
+    /* ── Email card ── */
+    const emailDisplay = document.getElementById("salon-email-display");
+    const emailLink    = document.getElementById("salon-email-link");
+ 
+    if (emailDisplay && salon.email) {
+        emailDisplay.textContent = salon.email;
+    }
+    if (emailLink && salon.email) {
+        emailLink.href = `mailto:${salon.email}`;
+    }
+ 
+    /* ── Page / browser title ── */
+    if (salon.salon_name) {
+        document.title = `Contact Us | ${salon.salon_name}`;
+    }
+}
+
+// ===============================
+// fetch completed appointments
+// ===============================
 async function fetchCompletedAppointments(){
     try{
 
@@ -107,11 +191,11 @@ function populateAppointmentSelect(appointments){
 
 async function submitFeedback(){
     if(!selectedAppointmentId){
-        alert("Please select an appointment");
+        showWarning("Please select an appointment");
         return;
     }
     if(selectedRating === 0){
-        alert("Please select rating");
+        showWarning("Please select rating");
         return;
     }
 
@@ -141,7 +225,7 @@ async function submitFeedback(){
         const data = await res.json();
 
         if(data.status !== "success"){
-            alert(data.message);
+            showWarning(data.message);
             return;
         }
         Swal.fire({
