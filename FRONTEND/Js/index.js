@@ -178,7 +178,7 @@ function populateSalonInfo(salon) {
         }
     }
 
-    if (nameEl)    nameEl.textContent = salon.salon_name ?? nameEl.textContent;
+    if (nameEl) nameEl.textContent = salon.salon_name ?? nameEl.textContent;
  
     if (addressEl) {
         // Build a readable address from the parts returned by the API

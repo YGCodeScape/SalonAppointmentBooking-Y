@@ -7,6 +7,7 @@ function initPage(){
     fetchAppointments();
 }
 let DOM = {};
+let salonAddressText = "Salon Address";
 const token = localStorage.getItem("access_token");
 // ===============================
 // CACHE DOM
@@ -65,7 +66,8 @@ async function fetchSalonInfo() {
 }
 function populateSalonInfo(salon) {
     const wordMark = document.getElementById("logo-text");
-        if (wordMark) {
+
+    if (wordMark) {
         wordMark.textContent = salon.salon_name ?? wordMark.textContent;
         const words = wordMark.textContent.split(/\s+/);
         if (words.length > 1) {
@@ -75,10 +77,20 @@ function populateSalonInfo(salon) {
         } else {
             wordMark.innerHTML = wordMark.textContent;
         }
-    }
-    else {
+    } else {
         showError("Could not load salon name");
     }
+
+    // Build a readable address from the parts returned by the API.
+    const parts = [
+        salon.address,
+        salon.city,
+        salon.state,
+        salon.country
+    ].filter(Boolean);
+    const fullAddress = parts.join(", ");
+    salonAddressText = fullAddress || salonAddressText;
+
     /* ── Page / browser title ── */
     if (salon.salon_name) {
         document.title = `${salon.salon_name} | Appointments`;
@@ -90,9 +102,7 @@ function populateSalonInfo(salon) {
 //=====================================
 
 async function fetchAppointments(){
-
     try{
-
         const token = localStorage.getItem("access_token");
 
         const res = await fetch(`${API_BASE_URL}/customers/me/appointments`,{
@@ -117,123 +127,107 @@ async function fetchAppointments(){
 //=====================================
 // RENDER APPOINTMENTS
 //=====================================
+function renderAppointments(appointments = []) {
 
-function renderAppointments(appointments=[]){
+    const upcomingContainer = document.getElementById("upcoming");
+    const pastContainer = document.getElementById("past");
 
-    const upcomingContainer=document.getElementById("upcoming");
-    const pastContainer=document.getElementById("past");
+    upcomingContainer.innerHTML = "";
+    pastContainer.innerHTML = "";
 
-    upcomingContainer.innerHTML="";
-    pastContainer.innerHTML="";
-
-    if(!appointments.length){
-        upcomingContainer.innerHTML="<p>No appointments found</p>";
-        upcomingContainer.classList.add("no-text")
+    if (!appointments.length) {
+        upcomingContainer.innerHTML = "<p>No appointments found</p>";
+        upcomingContainer.classList.add("no-text");
         return;
     }
 
-    const now=new Date();
+    const now = new Date();
 
-    appointments.forEach(appt=>{
+    // Split into upcoming and past
+    const upcoming = [];
+    const past = [];
 
-        //==================================
-        // DATE + TIME
-        //==================================
-
-        const apptDateTime=new Date(
-            `${appt.appointment_date}T${appt.start_time}`
-        );
-
-        const isPast=apptDateTime<now;
-
-        const formattedDate=formatDate(apptDateTime);
-        const formattedTime=formatTime(appt.start_time);
-
-        //==================================
-        // SERVICES
-        //==================================
-
-        let serviceNames=[];
-        let staffName=null;
-
-        if(appt.services && appt.services.length){
-
-            appt.services.forEach(s=>{
-                serviceNames.push(s.service_name);
-                staffName=s.staff_name;
-            });
+    appointments.forEach(appt => {
+        const apptDateTime = new Date(`${appt.appointment_date}T${appt.start_time}`);
+        if (apptDateTime >= now) {
+            upcoming.push(appt);
+        } else {
+            past.push(appt);
         }
+    });
 
-        //==================================
-        // PACKAGES
-        //==================================
+    // Upcoming: soonest first (ASC — next appointment at top)
+    upcoming.sort((a, b) =>
+        new Date(`${a.appointment_date}T${a.start_time}`) -
+        new Date(`${b.appointment_date}T${b.start_time}`)
+    );
 
-        let packageNames=[];
+    // Past: most recent first (DESC — last visited at top)
+    past.sort((a, b) =>
+        new Date(`${b.appointment_date}T${b.start_time}`) -
+        new Date(`${a.appointment_date}T${a.start_time}`)
+    );
 
-        if(appt.packages && appt.packages.length){
+    // Render upcoming
+    upcoming.forEach(appt => {
+        upcomingContainer.appendChild(buildCard(appt));
+    });
 
-            appt.packages.forEach(p=>{
-                packageNames.push(p.package_name);
-                staffName=p.staff_name;
-            });
+    // Render past
+    past.forEach(appt => {
+        pastContainer.appendChild(buildCard(appt));
+    });
 
-        }
+    attachCancelEvents();
+}
+function buildCard(appt) {
 
-        //==================================
-        // ITEMS LIST
-        //==================================
+    const now = new Date();
+    const apptDateTime = new Date(`${appt.appointment_date}T${appt.start_time}`);
+    const formattedDate = formatDate(apptDateTime);
+    const formattedTime = formatTime(appt.start_time);
 
-        const itemsList=[
-            ...serviceNames,
-            ...packageNames
-        ].join(", ");
+    let serviceNames = [];
+    let staffName = null;
 
-        //==================================
-        // STATUS CONFIG
-        //==================================
+    if (appt.services && appt.services.length) {
+        appt.services.forEach(s => {
+            serviceNames.push(s.service_name);
+            staffName = s.staff_name;
+        });
+    }
 
-        const statusConfig=getStatusConfig(appt.status);
+    if (appt.packages && appt.packages.length) {
+        appt.packages.forEach(p => {
+            serviceNames.push(p.package_name);
+            staffName = p.staff_name;
+        });
+    }
 
-        //==================================
-        // CARD
-        //==================================
+    const itemsList = serviceNames.join(", ");
+    const statusConfig = getStatusConfig(appt.status);
 
-        const card=document.createElement("div");
+    const card = document.createElement("div");
+    card.className = "AppointmentCard";
 
-        card.className="AppointmentCard";
-
-        card.innerHTML=`
-
+    card.innerHTML = `
         <div class="AppointmentCard-body">
 
             <div class="AppointmentCard-header">
-
                 <span class="AppointmentCard-title">
-                ${itemsList || "Salon Service"}
+                    ${itemsList || "Salon Service"}
                 </span>
-
                 <span class="badge"
-                style="background:${statusConfig.bg};
-                color:${statusConfig.color};">
-
-                ${statusConfig.text}
-
+                    style="background:${statusConfig.bg};
+                    color:${statusConfig.color};">
+                    ${statusConfig.text}
                 </span>
-
             </div>
 
             <div class="AppointmentCard-datetime">
-
-                <span class="appointment-date">
-                ${formattedDate}
-                </span>
-
+                <span class="appointment-date">${formattedDate}</span>
                 <span class="dot">•</span>
-
-                <span class="appointment-time">
-                ${formattedTime}
-                </span>
-
+                <span class="appointment-time">${formattedTime}</span>
             </div>
 
             <div class="AppointmentCard-stylist">
@@ -241,35 +235,19 @@ function renderAppointments(appointments=[]){
                 <strong>${staffName || "-"}</strong>
             </div>
 
-            <div class="AppointmentCard-location">
-               123 Main Street, Mumbai Maharashtra India
+            <div class="AppointmentCard-location salon-address">
+               ${salonAddressText || "Salon Address"}
             </div>
 
             <div class="AppointmentCard-footer">
-
-                <button class="cancel-appointment-btn"
-                data-id="${appt.appointment_id}">
-                Cancel Appointment
-                </button>
-
+                ${appt.status && appt.status.toLowerCase() === "cancelled" ? "" : `<button class="cancel-appointment-btn" data-id="${appt.appointment_id}">Cancel Appointment</button>`}
             </div>
 
         </div>
-        `;
+    `;
 
-        if(isPast){
-            pastContainer.appendChild(card);
-        }
-        else{
-            upcomingContainer.appendChild(card);
-        }
-
-    });
-
-    attachCancelEvents();
-
+    return card;
 }
-
 //=====================================
 // CANCEL BUTTON
 //=====================================
@@ -286,7 +264,6 @@ function attachCancelEvents() {
 
             const result = await confirmAction(
                 "Cancel Appointment?",
-                "Your slot will be released for other customers.",
                 "Yes, Cancel it"
             );
 

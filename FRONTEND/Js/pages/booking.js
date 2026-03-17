@@ -221,8 +221,6 @@ function renderDates(){
         today.getFullYear();
 
 }
-
-
 function updateSummaryDate(date){
 
     const label =
@@ -234,7 +232,6 @@ function updateSummaryDate(date){
 
     bookingData.date = date;
 }
-
 
 // ===============================
 // AM PM BUTTON
