@@ -6,7 +6,7 @@
 
 A sleek, premium, and fully dynamic web application designed to bridge the gap between clients and salon services. **StyleSync** allows users to discover local salons, browse completely dynamic service menus, and seamlessly manage their appointments with a fluid, high-end user interface.
 
-[Explore the Live Demo](#) • [Report a Bug](#) • [Request a Feature](#)
+[Explore the Live Demo](https://onlinesalonbookingsite.netlify.app/)
 
 ---
 
@@ -37,6 +37,5 @@ A sleek, premium, and fully dynamic web application designed to bridge the gap b
 * **Secure Authentication:** Secure user verification endpoints handling phone/email login and profile persistence.
 
 ---
-line link of this site:  https://onlinesalonbookingsite.netlify.app/
+
 ⭐ *If you like this project, please consider giving it a star to show your support!*
-```bash
